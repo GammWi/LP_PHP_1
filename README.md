@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Slim Framework 4 Skeleton Application
 
 Use this skeleton application to quickly setup and start working on a new Slim Framework 4 application. This application uses the latest Slim 4 with Slim PSR-7 implementation and PHP-DI container implementation. It also uses the Monolog logger.
@@ -38,3 +39,6 @@ composer test
 ```
 
 That's it! Now go build something cool.
+=======
+# LP_PHP_1
+>>>>>>> df5bbd5107dd9a9556c80d078b88eb4d4dfb38f6

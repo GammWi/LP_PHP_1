@@ -30,6 +30,9 @@
         "phpunit/phpunit": "^7.5"
     },
     "autoload": {
+	"psr-0": {
+            "": "ext/"
+	},
         "psr-4": {
             "App\\": "src/"
         }

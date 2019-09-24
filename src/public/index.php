@@ -17,12 +17,17 @@ $app->get('/test', function(Request $request, Response $response, $args){
     $response->getBody()->write("Hello world");
     return $response;
 });
-$app->run();
+
+try {
+    $app->run();
+} catch (Throwable $e) {
+    var_dump($e);
+}
 
 
-$container=array();
+//$container=array();
 
-$container["settings"]=$config;
+//$container["settings"]=$config;
 
 //$container["view"] = function($container){
 //    $view = new \Slim\Views\Twig();

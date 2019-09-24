@@ -20,9 +20,9 @@ $app->get('/test', function(Request $request, Response $response, $args){
 $app->run();
 
 
-$container=array();
+//$container=array();
 
-$container["settings"]=$config;
+//$container["settings"]=$config;
 
 //$container["view"] = function($container){
 //    $view = new \Slim\Views\Twig();

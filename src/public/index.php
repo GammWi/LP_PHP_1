@@ -18,6 +18,11 @@ $app->get('/test', function(Request $request, Response $response, $args){
     return $response;
 });
 
+$app->get('/selectChamp', function (Request $request, Response $response, $args){
+    $response->getBody()->write('Select your fighters');
+    return $response;
+});
+
 try {
     $app->run();
 } catch (Throwable $e) {

@@ -23,6 +23,8 @@ $app->get('/selectChamp', function (Request $request, Response $response, $args)
     return $response;
 });
 
+
+
 try {
     $app->run();
 } catch (Throwable $e) {

@@ -18,10 +18,10 @@ create table isStrongerElem (id_isStronger serial not null auto_increment,
 create table race(id_race serial not null auto_increment,
   name varchar(55),
   description varchar(255),
-  boostAttack double precision,
-  boostDefense double precision,
-  boostAgility double precision,
-  boostHp double precision,
+  boostAttack float,
+  boostDefense float,
+  boostAgility float,
+  boostHp float,
   primary key (id_race)
 
 );

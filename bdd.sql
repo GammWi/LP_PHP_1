@@ -16,6 +16,12 @@ create table isStrongerElem (id_isStronger serial not null auto_increment,
   foreign key (id_elem_weaker) references element(id_element));
 
 create table race(id_race serial not null auto_increment,
+  name varchar(55),
+  description varchar(255),
+  boostAttack double precision,
+  boostDefense double precision,
+  boostAgility double precision,
+  boostHp double precision,
   primary key (id_race)
 
 );

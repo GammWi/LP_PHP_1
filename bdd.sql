@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `isstrongerelem` (
 -- Structure de la table `monstre`
 --
 
-DROP TABLE IF EXISTS `monstre`;
+DROP TABLE IF EXISTS `monster`;
 CREATE TABLE IF NOT EXISTS `monstre` (
   `id_monstre` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_personnage` int(11) NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `monstre` (
 -- Structure de la table `personnage`
 --
 
-DROP TABLE IF EXISTS `personnage`;
+DROP TABLE IF EXISTS `character`;
 CREATE TABLE IF NOT EXISTS `personnage` (
   `id_personnage` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_personnage_race` int(11) NOT NULL,

@@ -24,6 +24,6 @@ $container=array();
 
 $container["settings"]=$config;
 
-$container["view"] = function($container){
-    $view = new \Slim\Views\Twig()
-}
+//$container["view"] = function($container){
+//    $view = new \Slim\Views\Twig();
+//};

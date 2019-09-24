@@ -47,11 +47,11 @@ CREATE TABLE IF NOT EXISTS `element` (
 DROP TABLE IF EXISTS `hero`;
 CREATE TABLE IF NOT EXISTS `hero` (
   `id_hero` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_personnage` int(11) NOT NULL,
+  `id_character` int(11) NOT NULL,
   `firstname` varchar(55) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id_hero`),
   UNIQUE KEY `id_hero` (`id_hero`),
-  UNIQUE KEY `id_personnage` (`id_personnage`)
+  UNIQUE KEY `id_character` (`id_character`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -74,34 +74,34 @@ CREATE TABLE IF NOT EXISTS `isstrongerelem` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `monstre`
+-- Structure de la table `monster`
 --
 
 DROP TABLE IF EXISTS `monster`;
-CREATE TABLE IF NOT EXISTS `monstre` (
-  `id_monstre` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_personnage` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `monster` (
+  `id_monster` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_character` int(11) NOT NULL,
   `firstname` varchar(55) COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`id_monstre`),
-  UNIQUE KEY `id_monstre` (`id_monstre`),
-  UNIQUE KEY `id_personnage` (`id_personnage`)
+  PRIMARY KEY (`id_monster`),
+  UNIQUE KEY `id_monster` (`id_monster`),
+  UNIQUE KEY `id_character` (`id_character`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `personnage`
+-- Structure de la table `character`
 --
 
 DROP TABLE IF EXISTS `character`;
-CREATE TABLE IF NOT EXISTS `personnage` (
-  `id_personnage` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_personnage_race` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `character` (
+  `id_character` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_character_race` int(11) NOT NULL,
   `name` varchar(55) COLLATE utf8_bin NOT NULL,
   `picture` varchar(155) COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`id_personnage`),
-  UNIQUE KEY `id_personnage` (`id_personnage`),
-  KEY `id_personnage_race` (`id_personnage_race`)
+  PRIMARY KEY (`id_character`),
+  UNIQUE KEY `id_character` (`id_character`),
+  KEY `id_character_race` (`id_character_race`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------

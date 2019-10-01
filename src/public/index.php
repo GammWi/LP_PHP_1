@@ -59,6 +59,8 @@ $app->get('/selectChamp', "\\dawa\\controllers\\champSelectController:Index");
 
 $app->get('/connection', "\\dawa\\controllers\\userController:Index");
 
+$app->get('/createCharacter', "\\dawa\\controllers\\userController:Index");
+
 
 try {
     $app->run();

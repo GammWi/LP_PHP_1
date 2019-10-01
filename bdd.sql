@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `monster` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `character`
+-- Structure de la table `characterController`
 --
 
 DROP TABLE IF EXISTS `character`;

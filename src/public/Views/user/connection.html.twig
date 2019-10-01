@@ -1,0 +1,13 @@
+{% include '/layout/header.html.twig' %}
+
+<H1> Page de connexion au pannel ADMIN </H1>
+
+<form action="/connection" method="POST">
+    <span>IDENTIFIANT</span>
+    <input type="text" name="identifiant" required="required"><br /><br />
+    <span>MOT DE PASSE</span>
+    <input type="password" name="mdp" required="required">
+    <input type="submit" value="Se connecter">
+</form>
+
+{% include '/layout/footer.html.twig' %}

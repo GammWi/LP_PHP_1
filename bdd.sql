@@ -81,7 +81,6 @@ DROP TABLE IF EXISTS `monster`;
 CREATE TABLE IF NOT EXISTS `monster` (
   `id_monster` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_character` int(11) NOT NULL,
-  `firstname` varchar(55) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id_monster`),
   UNIQUE KEY `id_monster` (`id_monster`),
   UNIQUE KEY `id_character` (`id_character`)
@@ -97,10 +96,12 @@ DROP TABLE IF EXISTS `character`;
 CREATE TABLE IF NOT EXISTS `character` (
   `id_character` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_character_race` int(11) NOT NULL,
+  `id_character_elem` int(11) NOT NULL,
   `name` varchar(55) COLLATE utf8_bin NOT NULL,
   `picture` varchar(155) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id_character`),
   UNIQUE KEY `id_character` (`id_character`),
+  UNIQUE KEY `id_character_elem` (`id_character_elem`),
   KEY `id_character_race` (`id_character_race`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 

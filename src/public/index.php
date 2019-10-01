@@ -57,13 +57,8 @@ $app->get('/selectChamp', "\\dawa\\controllers\\champSelectController:Index");
 $app->get('/connection', "\\dawa\\controllers\\userController:Index");
 
 
-
-
-
-//$container=array();
-
-//$container["settings"]=$config;
-
-//$container["view"] = function($container){
-//    $view = new \Slim\Views\Twig();
-//};
+try {
+    $app->run();
+} catch (Throwable $e) {
+    var_dump($e);
+}

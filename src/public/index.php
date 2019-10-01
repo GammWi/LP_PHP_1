@@ -13,8 +13,11 @@ $app = new \Slim\App([
         'displayErrorDetails' => true
     ]
 ]);
-$container = array();
-$container['settings'] = $config;
+
+$container = $app->getContainer();
+//$container = array();
+
+
 $container['view'] = function ($container){
     
     $view = new \Slim\Views\Twig(__DIR__.'/Views',[
@@ -28,6 +31,8 @@ $container['view'] = function ($container){
     return $view;
 };
 
+/*$container['settings'] = $config;
+
 
 
 
@@ -40,7 +45,7 @@ $capsule->bootEloquent();
 
 $container['db'] = function ($container) use ($capsule) {
     return $capsule;
-};
+};*/
 
 
 

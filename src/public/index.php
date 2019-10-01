@@ -23,6 +23,7 @@ $app->get('/selectChamp', function (Request $request, Response $response, $args)
     return $response;
 });
 
+$app->get('/connection', "\\dawa\\controllers\\userController:Index");
 
 
 try {

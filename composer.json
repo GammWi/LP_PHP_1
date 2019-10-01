@@ -34,7 +34,7 @@
             "": "ext/"
 	},
         "psr-4": {
-            "App\\": "src/"
+            "dawa\\": "src/public/"
         }
     },
     "autoload-dev": {

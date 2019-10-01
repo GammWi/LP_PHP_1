@@ -4,6 +4,9 @@ namespace dawa\controllers;
 
 class userController{
 
+    public function Index(){
+        echo 'test';
+    }
     public static function authentification($username, $password){
         $u = User::where('username', '=', $username)->first();
         if(password_verify($password, $u->password)){

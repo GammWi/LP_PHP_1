@@ -50,10 +50,9 @@ $app->get('/test', function(Request $request, Response $response, $args){
     return $response;
 });
 
-$app->get('/selectChamp', function (Request $request, Response $response, $args){
-    $response->getBody()->write('Select your fighters');
-    return $response;
-});
+$app->get('/selectChamp', "\\dawa\\controllers\\champSelectController:Index");
+
+
 
 $app->get('/connection', "\\dawa\\controllers\\userController:Index");
 

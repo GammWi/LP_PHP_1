@@ -15,6 +15,7 @@ $app = new \Slim\App([
 ]);
 
 $container = $app->getContainer();
+
 //$container = array();
 
 
@@ -31,11 +32,8 @@ $container['view'] = function ($container){
     return $view;
 };
 
-/*$container['settings'] = $config;
-
-
-
-
+$container['settings']['db'] = $config;
+//$container['settings'] = $config;
 //Eloquent
 
 $capsule = new DB();
@@ -45,7 +43,7 @@ $capsule->bootEloquent();
 
 $container['db'] = function ($container) use ($capsule) {
     return $capsule;
-};*/
+};
 
 
 

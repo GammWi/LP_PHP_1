@@ -2,9 +2,9 @@
 -- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le :  mar. 24 sep. 2019 à 09:03
--- Version du serveur :  5.7.19
+-- Hôte : 127.0.0.1
+-- Généré le :  mar. 01 oct. 2019 à 13:07
+-- Version du serveur :  10.1.26-MariaDB
 -- Version de PHP :  7.1.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -19,8 +19,23 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `lp_projet_php`
+-- Base de données :  `dawa`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `character`
+--
+
+CREATE TABLE `character` (
+  `id_character` bigint(20) UNSIGNED NOT NULL,
+  `id_character_race` int(11) NOT NULL,
+  `id_character_elem` int(11) NOT NULL,
+  `name` varchar(55) COLLATE utf8_bin NOT NULL,
+  `picture` varchar(155) COLLATE utf8_bin DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 
 -- --------------------------------------------------------
 
@@ -28,14 +43,10 @@ SET time_zone = "+00:00";
 -- Structure de la table `element`
 --
 
-DROP TABLE IF EXISTS `element`;
-CREATE TABLE IF NOT EXISTS `element` (
-  `id_element` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `element` (
+  `id_element` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(55) COLLATE utf8_bin NOT NULL,
-  `description` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`id_element`),
-  UNIQUE KEY `id_element` (`id_element`),
-  UNIQUE KEY `name` (`name`)
+  `description` varchar(255) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -44,15 +55,13 @@ CREATE TABLE IF NOT EXISTS `element` (
 -- Structure de la table `hero`
 --
 
-DROP TABLE IF EXISTS `hero`;
-CREATE TABLE IF NOT EXISTS `hero` (
-  `id_hero` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `hero` (
+  `id_hero` bigint(20) UNSIGNED NOT NULL,
   `id_character` int(11) NOT NULL,
-  `firstname` varchar(55) COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`id_hero`),
-  UNIQUE KEY `id_hero` (`id_hero`),
-  UNIQUE KEY `id_character` (`id_character`)
+  `firstname` varchar(55) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+
 
 -- --------------------------------------------------------
 
@@ -60,15 +69,10 @@ CREATE TABLE IF NOT EXISTS `hero` (
 -- Structure de la table `isstrongerelem`
 --
 
-DROP TABLE IF EXISTS `isstrongerelem`;
-CREATE TABLE IF NOT EXISTS `isstrongerelem` (
-  `id_isStronger` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `isstrongerelem` (
+  `id_isStronger` bigint(20) UNSIGNED NOT NULL,
   `id_elem_stronger` int(11) NOT NULL,
-  `id_elem_weaker` int(11) NOT NULL,
-  PRIMARY KEY (`id_isStronger`),
-  UNIQUE KEY `id_isStronger` (`id_isStronger`),
-  KEY `id_elem_stronger` (`id_elem_stronger`),
-  KEY `id_elem_weaker` (`id_elem_weaker`)
+  `id_elem_weaker` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -77,33 +81,11 @@ CREATE TABLE IF NOT EXISTS `isstrongerelem` (
 -- Structure de la table `monster`
 --
 
-DROP TABLE IF EXISTS `monster`;
-CREATE TABLE IF NOT EXISTS `monster` (
-  `id_monster` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_character` int(11) NOT NULL,
-  PRIMARY KEY (`id_monster`),
-  UNIQUE KEY `id_monster` (`id_monster`),
-  UNIQUE KEY `id_character` (`id_character`)
+CREATE TABLE `monster` (
+  `id_monster` bigint(20) UNSIGNED NOT NULL,
+  `id_character` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- --------------------------------------------------------
-
---
--- Structure de la table `characterController`
---
-
-DROP TABLE IF EXISTS `character`;
-CREATE TABLE IF NOT EXISTS `character` (
-  `id_character` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_character_race` int(11) NOT NULL,
-  `id_character_elem` int(11) NOT NULL,
-  `name` varchar(55) COLLATE utf8_bin NOT NULL,
-  `picture` varchar(155) COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`id_character`),
-  UNIQUE KEY `id_character` (`id_character`),
-  UNIQUE KEY `id_character_elem` (`id_character_elem`),
-  KEY `id_character_race` (`id_character_race`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -111,18 +93,16 @@ CREATE TABLE IF NOT EXISTS `character` (
 -- Structure de la table `race`
 --
 
-DROP TABLE IF EXISTS `race`;
-CREATE TABLE IF NOT EXISTS `race` (
-  `id_race` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `race` (
+  `id_race` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(55) COLLATE utf8_bin DEFAULT NULL,
   `description` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `boostAttack` float DEFAULT NULL,
   `boostDefense` float DEFAULT NULL,
   `boostAgility` float DEFAULT NULL,
-  `boostHp` float DEFAULT NULL,
-  PRIMARY KEY (`id_race`),
-  UNIQUE KEY `id_race` (`id_race`)
+  `boostHp` float DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 
 -- --------------------------------------------------------
 
@@ -130,18 +110,119 @@ CREATE TABLE IF NOT EXISTS `race` (
 -- Structure de la table `user`
 --
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
-  `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user` (
+  `id_user` bigint(20) UNSIGNED NOT NULL,
   `username` varchar(55) COLLATE utf8_bin DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`id_user`),
-  UNIQUE KEY `id_user` (`id_user`)
+  `password` varchar(255) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `character`
+--
+ALTER TABLE `character`
+  ADD PRIMARY KEY (`id_character`),
+  ADD UNIQUE KEY `id_character` (`id_character`),
+  ADD KEY `id_character_elem` (`id_character_elem`),
+  ADD KEY `id_character_race` (`id_character_race`);
+
+--
+-- Index pour la table `element`
+--
+ALTER TABLE `element`
+  ADD PRIMARY KEY (`id_element`),
+  ADD UNIQUE KEY `id_element` (`id_element`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Index pour la table `hero`
+--
+ALTER TABLE `hero`
+  ADD PRIMARY KEY (`id_hero`),
+  ADD UNIQUE KEY `id_hero` (`id_hero`),
+  ADD UNIQUE KEY `id_character` (`id_character`);
+
+--
+-- Index pour la table `isstrongerelem`
+--
+ALTER TABLE `isstrongerelem`
+  ADD PRIMARY KEY (`id_isStronger`),
+  ADD UNIQUE KEY `id_isStronger` (`id_isStronger`),
+  ADD KEY `id_elem_stronger` (`id_elem_stronger`),
+  ADD KEY `id_elem_weaker` (`id_elem_weaker`);
+
+--
+-- Index pour la table `monster`
+--
+ALTER TABLE `monster`
+  ADD PRIMARY KEY (`id_monster`),
+  ADD UNIQUE KEY `id_monster` (`id_monster`),
+  ADD UNIQUE KEY `id_character` (`id_character`);
+
+--
+-- Index pour la table `race`
+--
+ALTER TABLE `race`
+  ADD PRIMARY KEY (`id_race`),
+  ADD UNIQUE KEY `id_race` (`id_race`);
+
+--
+-- Index pour la table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id_user`),
+  ADD UNIQUE KEY `id_user` (`id_user`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `character`
+--
+ALTER TABLE `character`
+  MODIFY `id_character` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT pour la table `element`
+--
+ALTER TABLE `element`
+  MODIFY `id_element` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `hero`
+--
+ALTER TABLE `hero`
+  MODIFY `id_hero` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT pour la table `isstrongerelem`
+--
+ALTER TABLE `isstrongerelem`
+  MODIFY `id_isStronger` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `monster`
+--
+ALTER TABLE `monster`
+  MODIFY `id_monster` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT pour la table `race`
+--
+ALTER TABLE `race`
+  MODIFY `id_race` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT pour la table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-

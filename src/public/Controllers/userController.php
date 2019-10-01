@@ -9,7 +9,7 @@ class userController{
     }
     
     public function Index($request, $response){
-        $this->container->view->render($response, 'test.html.twig');
+        $this->container->view->render($response, 'user/connection.html.twig');
     }
 
     public static function authentification($username, $password){

@@ -4,9 +4,14 @@ namespace dawa\controllers;
 
 class userController{
 
-    public function Index(){
-        echo 'test';
+    public function __construct($container){
+        $this->container = $container;
     }
+    
+    public function Index($request, $response){
+        $this->container->view->render($response, 'test.html.twig');
+    }
+
     public static function authentification($username, $password){
         $u = User::where('username', '=', $username)->first();
         if(password_verify($password, $u->password)){

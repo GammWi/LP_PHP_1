@@ -29,6 +29,12 @@ Monster 3: Jean-Sadique
 
 
 
+{% for heros in hero %}
+    {{ loop.index }} - {{ heros.firstname }} <br/>
+{% endfor %}
+
+
+
 
 
 {% include '/layout/footer.html.twig' %}

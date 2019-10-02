@@ -1,5 +1,5 @@
 <?php
-namespace dawa\modele;
+namespace dawa\models;
 
 class Hero extends \Illuminate\Database\Eloquent\Model {
     protected $table = "hero";

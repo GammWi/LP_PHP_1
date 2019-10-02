@@ -48,11 +48,6 @@ $container['db'] = function ($container) use ($capsule) {
     return $capsule;
 };
 
-$c = new chara();
-var_dump($c);
-
-
-
 $app->get('/test', function(Request $request, Response $response, $args){
     $response->getBody()->write("Hello world");
     return $response;

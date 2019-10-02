@@ -16,7 +16,7 @@ class characterController
     }
 
     public function Index($request, $response){
-        $this->container->view->render($response, 'user/character.html.twig');
+        $this->container->view->render($response, 'character/character.html.twig');
     }
 
 

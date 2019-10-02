@@ -7,11 +7,12 @@ $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
 
 $config['db'] = [
+    'default'   => 'mysql',
     'driver'    => 'mysql',
     'host'      => "localhost",
     'database'  => "lp_projet_php",
     'username'  => "root",
     'password'  => "",
     'charset'   => 'utf8',
-    'collation' => 'utf8_unicode_ci',
+    'collation' => 'utf8_unicode_ci'
 ];

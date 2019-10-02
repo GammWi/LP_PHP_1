@@ -6,20 +6,16 @@ require_once '../config/config.inc.php';
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Illuminate\Database\Capsule\Manager as DB;
-
-$app = new \Slim\App([
-    'settings' => [
-        'debug' => true,
-        'displayErrorDetails' => true
-    ]
-]);
-
-$container = $app->getContainer();
-
-//$container = array();
+use dawa\models\Character as chara;
 
 
-$container['view'] = function ($container){
+
+//$container = $app->getContainer();
+
+$container = array();
+
+
+$container["view"] = function ($container){
     
     $view = new \Slim\Views\Twig(__DIR__.'/Views',[
         'cache' => false
@@ -32,10 +28,17 @@ $container['view'] = function ($container){
     return $view;
 };
 
-$container['settings']['db'] = $config;
+
+
+$container['settings'] = $config;
 //$container['settings'] = $config;
 //Eloquent
-
+$app = new \Slim\App($container,[
+    'settings' => [
+        'debug' => true,
+        'displayErrorDetails' => true
+    ]
+]);
 $capsule = new DB();
 $capsule->addConnection($container['settings']['db']);
 $capsule->setAsGlobal();
@@ -45,6 +48,8 @@ $container['db'] = function ($container) use ($capsule) {
     return $capsule;
 };
 
+$c = new chara();
+var_dump($c);
 
 
 
@@ -59,7 +64,12 @@ $app->get('/selectChamp', "\\dawa\\controllers\\champSelectController:Index");
 
 $app->get('/connection', "\\dawa\\controllers\\userController:Index");
 
-$app->get('/createCharacter', "\\dawa\\controllers\\userController:Index");
+$app->get('/createCharacter', "\\dawa\\controllers\\characterController:Index");
+
+$app->get('/createHero', "\\dawa\\controlles\\heroController:Index");
+
+
+
 
 
 try {

@@ -1,8 +1,8 @@
 <?php
-namespace dawa\modele;
+namespace dawa\models;
 
-class Personnage extends \Illuminate\Database\Eloquent\Model {
-    protected $table = "characterController";
+class Character extends \Illuminate\Database\Eloquent\Model {
+    protected $table = "character";
     protected $primaryKey = "id_character";
     public $timestamps = false;
 

@@ -2,11 +2,21 @@
 
 <H1> Création des Héros</H1>
 <p>Bienvenu dans l'écran de création des héros</p>
-<h2>Choissisez : </h2>
-<span class="creationHero">
-    <form action="/createHero">
-        <h3>Créer un Héro</h3>
-        <input type="submit" value="Choisir">
+<span class="validerCreationHero">
+    <form action="valCreateHero">
+        <h3>Créer un Héro :</h3>
+        <label for="name">Nom (4 à 55 caractères) : </label>
+        <input type="text" id="name" name="name" required minlength="4" maxlength="55" size="55">
+        <label for="name">Choissisez un element : </label>
+        <input type=text list="browsers">
+
+        <datalist id="browsers">
+            <option>Eau</option>
+            <option>Terre</option>
+            <option>Feu</option>
+            <option>Air</option>
+        </datalist>
+        <input type="submit" value="valider">
     </form>
 </span>
 

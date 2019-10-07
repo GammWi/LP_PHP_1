@@ -61,7 +61,7 @@ $app->get('/connection', "\\dawa\\controllers\\userController:Index");
 
 $app->get('/createCharacter', "\\dawa\\controllers\\characterController:Index");
 
-$app->get('/createHero', "\\dawa\\controlles\\heroController:Index");
+$app->get('/createHero', "\\dawa\\controllers\\heroController:Index");
 
 
 

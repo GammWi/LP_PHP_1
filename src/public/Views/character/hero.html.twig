@@ -12,7 +12,7 @@
         <div class="form-group">
         <label for="namelem">Choissisez un element : </label>
 
-        <input type="text" list="chooseElem">
+        <input type="text" list="chooseElem" name="namelem">
             <datalist id="chooseElem">
                 {% for elem in element %}
                     <option>{{ elem.name }}</option>
@@ -21,19 +21,22 @@
 
         </div>
         <div class="form-group">
-            <label for="nameRace">Choissisez la race du hero : </label>
-            <input type="text" list="chooseRace">
+            <label for="namerace">Choissisez la race du hero : </label>
+            <input type="text" list="chooseRace" name="namerace">
             <datalist id="chooseRace">
                 {% for race in listerace %}
-                    <option>{{ race.name }}</option>
+                    <option value="{{ race.name }}">{{ race.name }}</option>
                 {% endfor %}
             </datalist>
             </div>
         <div class="form-group">
-            <label for="urlImage">Choissiez une URL d'image pour votre Hero</label>
-            <input type="url">
+            <label for="urlimage">Choissiez une URL d'image pour votre Hero</label>
+            <input type="url" name="urlimage">
             <br>
             <input type="submit" value="valider">
+        </div>
+
+
     </form>
 </span>
 

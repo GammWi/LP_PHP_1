@@ -6,10 +6,9 @@
  * Time: 10:55
  */
 
-namespace dawa\Models;
-
-
-class race
-{
-
+namespace dawa\models;
+class race extends \Illuminate\Database\Eloquent\Model {
+    protected $table = "race";
+    protected $primaryKey = "id_race";
+    public $timestamps = false;
 }

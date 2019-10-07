@@ -15,6 +15,10 @@ use dawa\models\Character as chara;
 $container = array();
 
 
+$container['auth'] = function ($container){
+    return new \dawa\controllers\userController;
+};
+
 $container["view"] = function ($container){
     
     $view = new \Slim\Views\Twig(__DIR__.'/Views',[
@@ -24,7 +28,7 @@ $container["view"] = function ($container){
     $router = $container->get('router');
     $uri = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER));
     $view->addExtension(new \Slim\Views\TwigExtension($router, $uri));
-
+    
     return $view;
 };
 
@@ -53,11 +57,12 @@ $app->get('/test', function(Request $request, Response $response, $args){
     return $response;
 });
 
-$app->get('/selectChamp', "\\dawa\\controllers\\champSelectController:Index");
+$app->get('/selectChamp', "\\dawa\\controllers\\champSelectController:Index")->setName('home');
 
 
 
-$app->get('/connection', "\\dawa\\controllers\\userController:Index");
+$app->get('/auth/signin', "\\dawa\\controllers\\userController:signIn")->setName('auth.signin');
+$app->post('/auth/signin', "\\dawa\\controllers\\userController:postSignIn");
 
 $app->get('/createCharacter', "\\dawa\\controllers\\characterController:Index");
 

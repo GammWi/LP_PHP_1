@@ -1,8 +1,9 @@
-{% include '/layout/header.html.twig' %}
+{% extends '/layout/header.html.twig' %}
 
+{% block content %}
 <H1> Page de connexion au pannel ADMIN </H1>
 
-<form action="/connection" method="POST">
+<form action="{{ path_for('auth.signin')}}" method="POST">
     <div class="form-group">
         <label for="identifiant">IDENTIFIANT</label>
         <input type="text" class="form-control" name="identifiant" required="required" placeholder="Identifiant">
@@ -16,3 +17,5 @@
 </form>
 
 {% include '/layout/footer.html.twig' %}
+
+{% endblock %}

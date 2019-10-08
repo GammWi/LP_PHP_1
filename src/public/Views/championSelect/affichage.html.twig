@@ -27,16 +27,14 @@ Monster 2: Jean-Machiavélique
 Monster 3: Jean-Sadique
 <input type="submit" value="Choisir"> </br>
 
-<form action="{{ path_for('fight')}}" method="post">
-    <button type="submit"> ALLO </button>
-</form>
-
 {% for heros in hero %}
     {{ loop.index }} - {{ heros.firstname }} <br/>
 {% endfor %}
 
 
-
+<form action="{{ path_for('fight')}}" method="post">
+    <button type="submit"> fight !  </button>
+</form>
 
 
 {% include '/layout/footer.html.twig' %}

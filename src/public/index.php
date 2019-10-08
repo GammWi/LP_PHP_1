@@ -66,6 +66,10 @@ $app->get('/createCharacter', "\\dawa\\controllers\\characterController:Index");
 
 $app->get('/createHero', "\\dawa\\controllers\\heroController:CreerHero")->setName('creerHero');
 
+$app->get('/createMonster', "\\dawa\\controllers\\monstreController:CreerMonster")->setName('CreerMonster');
+
+$app->post('/valCreateMonster', "\\dawa\\controllers\\monstreController:insererMonster");
+
 $app->post('/valCreateHero', "\\dawa\\controllers\\heroController:insererHero");
 
 $app->post('/fight', "\\dawa\\controllers\\fightController:Index")->setName('fight');

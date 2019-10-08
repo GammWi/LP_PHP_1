@@ -1,12 +1,42 @@
 {% include '/layout/header.html.twig' %}
 
-<H1> Création des Héros</H1>
+<H1 xmlns="http://www.w3.org/1999/html"> Création des Héros</H1>
 <p>Bienvenu dans l'écran de création des héros</p>
-<h2>Choissisez : </h2>
-<span class="creationHero">
-    <form action="/createHero">
-        <h3>Créer un Héro</h3>
-        <input type="submit" value="Choisir">
+<h3>Créer un Héro :</h3>
+<span class="validerCreationHero">
+    <form action="valCreateHero" method="post">
+        <div class="form-group">
+            <label for="name">Nom  : </label>
+            <input type="text" id="name" name="name" required minlength="1" maxlength="55" size="55">
+        </div>
+        <div class="form-group">
+        <label for="namelem">Choissisez un element : </label>
+
+        <input type="text" list="chooseElem" name="namelem">
+            <datalist id="chooseElem">
+                {% for elem in element %}
+                    <option>{{ elem.name }}</option>
+                {% endfor %}
+            </datalist>
+
+        </div>
+        <div class="form-group">
+            <label for="namerace">Choissisez la race du hero : </label>
+            <input type="text" list="chooseRace" name="namerace">
+            <datalist id="chooseRace">
+                {% for race in listerace %}
+                    <option value="{{ race.name }}">{{ race.name }}</option>
+                {% endfor %}
+            </datalist>
+            </div>
+        <div class="form-group">
+            <label for="urlimage">Choissiez une URL d'image pour votre Hero</label>
+            <input type="url" name="urlimage">
+            <br>
+            <input type="submit" value="valider">
+        </div>
+
+
     </form>
 </span>
 

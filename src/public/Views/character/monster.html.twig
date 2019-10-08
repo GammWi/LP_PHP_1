@@ -1,0 +1,44 @@
+{% include '/layout/header.html.twig' %}
+
+<H1 xmlns="http://www.w3.org/1999/html"> Création des Héros</H1>
+<h2>Bienvenu dans l'écran de création des Monstres</h2>
+<h3>Créer un Héro :</h3>
+<span class="validerCreationMonstre">
+    <form action="valCreateMonster" method="post">
+        <div class="form-group">
+            <label for="name">Nom  : </label>
+            <input type="text" id="name" name="name" required minlength="1" maxlength="55" size="55">
+        </div>
+        <div class="form-group">
+        <label for="namelem">Choissisez un element : </label>
+
+        <input type="text" list="chooseElem" name="namelem">
+            <datalist id="chooseElem">
+                {% for elem in element %}
+                    <select>{{ elem.name }}</select>
+                {% endfor %}
+            </datalist>
+
+        </div>
+        <div class="form-group">
+            <label for="namerace">Choissisez la race du monstre: </label>
+            <input type="text" list="chooseRace" name="namerace">
+            <datalist id="chooseRace">
+                {% for race in listerace %}
+                    <select value="{{ race.name }}">{{ race.name }}</select>
+                {% endfor %}
+            </datalist>
+            </div>
+        <div class="form-group">
+            <label for="urlimage">Choissiez une URL d'image pour votre monstre</label>
+            <input type="url" name="urlimage">
+            <br>
+            <input type="submit" value="valider">
+        </div>
+
+
+    </form>
+</span>
+
+
+{% include '/layout/footer.html.twig' %}

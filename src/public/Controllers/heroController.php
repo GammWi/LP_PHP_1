@@ -2,6 +2,7 @@
 namespace dawa\controllers;
 use dawa\models\Character;
 use dawa\models\Element;
+use dawa\models\Hero;
 use dawa\models\race;
 
 class heroController{
@@ -39,8 +40,12 @@ class heroController{
 
         $character->picture  = $_POST["urlimage"];
 
-
+        $hero = new Hero();
+        $idChara = Character::where("name","=",$_POST["name"]);
+        $hero->id_character
         $character->save();
+
+
 
 
     }

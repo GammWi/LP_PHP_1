@@ -44,7 +44,10 @@
     },
     "config": {
         "process-timeout": 0,
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "7.2.19"
+        }
     },
     "scripts": {
         "start": "php -S localhost:8080 -t public",

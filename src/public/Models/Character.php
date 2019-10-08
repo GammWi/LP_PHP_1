@@ -15,5 +15,10 @@ class Character extends \Illuminate\Database\Eloquent\Model {
 
     }
 
+    public function monster() {
+        return $this->hasMany('\dawa\modele\monster', 'id_character','id_character');
+
+    }
+
 
 }

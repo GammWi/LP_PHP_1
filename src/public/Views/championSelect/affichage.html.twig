@@ -6,14 +6,9 @@
 
 <h3> Choisissez votre Héros</h3>
 
-Hero 1 : Jean-Moule
-<input type="submit" value="Choisir"> </br>
-
-Hero 2: Jean-Michel
-<input type="submit" value="Choisir"> </br>
-
-Hero 3: Jean-Jacques
-<input type="submit" value="Choisir"> </br></br>
+{% for heros in hero %}
+    {{ loop.index }} - {{ heros.firstname }} {{ heros.name }} <input type="submit" value="Choisir"> <br/>
+{% endfor %}
 
 
 <h3> Choisissez votre Monstre </h3>
@@ -27,9 +22,7 @@ Monster 2: Jean-Machiavélique
 Monster 3: Jean-Sadique
 <input type="submit" value="Choisir"> </br>
 
-{% for heros in hero %}
-    {{ loop.index }} - {{ heros.firstname }} <br/>
-{% endfor %}
+
 
 
 <form action="{{ path_for('fight')}}" method="post">

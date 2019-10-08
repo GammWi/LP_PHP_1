@@ -19,7 +19,7 @@
         <input type="text" list="chooseElem" name="namelem">
             <datalist id="chooseElem">
                 {% for elem in element %}
-                    <option>{{ elem.name }}</option>
+                    <select>{{ elem.name }}</select>
                 {% endfor %}
             </datalist>
 
@@ -29,7 +29,7 @@
             <input type="text" list="chooseRace" name="namerace">
             <datalist id="chooseRace">
                 {% for race in listerace %}
-                    <option value="{{ race.name }}">{{ race.name }}</option>
+                    <select value="{{ race.name }}">{{ race.name }}</select>
                 {% endfor %}
             </datalist>
             </div>

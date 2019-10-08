@@ -12,9 +12,12 @@ class fightController{
     }
 
     public function Index($request, $response){
-        var_dump($request->getParsedBody());
+        $hero = Hero::get();
 
-        $this->container->view->render($response, 'fight/fight.html.twig');
+        $body = $request->getParsedBody();
+        $body['heros'] = $hero;
+
+        $this->container->view->render($response, 'fight/fight.html.twig', ['heros'=>$body['heros'], 'monstres'=>$body['monstres']]);
     }
 
 }

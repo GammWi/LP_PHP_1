@@ -2,10 +2,13 @@
 
 <H1> Page de tabassage de noobs </H1>
 
-<h3> Les héros sont </h3>
+<h3> Les héros sont sélectionné</h3>
 
-Hero 1 : Jean-Moule
-<input type="submit" value="Choisir">
+<ul>
+    {% for hero in heros %}
+        <li>{{ hero.firstname }}</li>
+    {% endfor %}
+</ul>
 
 <h3> Les méchants sont </h3>
 

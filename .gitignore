@@ -5,3 +5,4 @@
 !/logs/README.md
 /var/cache/*
 config.inc.php
+/src/config/config.inc.php

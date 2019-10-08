@@ -1,17 +1,13 @@
 {% include '/layout/header.html.twig' %}
 
 <H1 xmlns="http://www.w3.org/1999/html"> Création des Héros</H1>
-<p>Bienvenu dans l'écran de création des héros</p>
+<h2>Bienvenu dans l'écran de création des Monstres</h2>
 <h3>Créer un Héro :</h3>
-<span class="validerCreationHero">
-    <form action="valCreateHero" method="post">
+<span class="validerCreationMonstre">
+    <form action="valCreateMonster" method="post">
         <div class="form-group">
             <label for="name">Nom  : </label>
             <input type="text" id="name" name="name" required minlength="1" maxlength="55" size="55">
-        </div>
-        <div class="form-group">
-            <label for="firstname">Prenom  : </label>
-            <input type="text" id="firstname" name="firstname" required minlength="1" maxlength="55" size="55">
         </div>
         <div class="form-group">
         <label for="namelem">Choissisez un element : </label>
@@ -25,7 +21,7 @@
 
         </div>
         <div class="form-group">
-            <label for="namerace">Choissisez la race du hero : </label>
+            <label for="namerace">Choissisez la race du monstre: </label>
             <input type="text" list="chooseRace" name="namerace">
             <datalist id="chooseRace">
                 {% for race in listerace %}
@@ -34,7 +30,7 @@
             </datalist>
             </div>
         <div class="form-group">
-            <label for="urlimage">Choissiez une URL d'image pour votre Hero</label>
+            <label for="urlimage">Choissiez une URL d'image pour votre monstre</label>
             <input type="url" name="urlimage">
             <br>
             <input type="submit" value="valider">

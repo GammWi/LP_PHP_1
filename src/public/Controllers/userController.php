@@ -2,10 +2,9 @@
 
 namespace dawa\controllers;
 use dawa\models\User;
-use dawa\auth\Auth;
 
 class userController{
-
+    
     public function __construct($container){
         $this->container = $container;
     }
@@ -20,9 +19,9 @@ class userController{
             $request->getParam('mdp')
         );
         if(!$auth){
+            
             return $response->withRedirect($this->container->router->pathFor('auth.signin'));
         }
-
         return $response->withRedirect($this->container->router->pathFor('home'));
     }
 
@@ -34,7 +33,7 @@ class userController{
         }
 
         if(password_verify($mdp, $user->password)){
-            $_SESSION['user'] = $user->id;
+            $_SESSION['user'] = $user->id_user;
             return true;
         }
 
@@ -43,6 +42,7 @@ class userController{
 
     public function check(){
         return isset($_SESSION['user']);
+
     }
 
     public function admin(){

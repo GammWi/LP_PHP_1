@@ -16,10 +16,6 @@ use dawa\models\Character as chara;
 $container = array();
 
 
-$container['auth'] = function ($container){
-    return new \dawa\controllers\userController;
-};
-
 $container["view"] = function ($container){
     
     $view = new \Slim\Views\Twig(__DIR__.'/Views',[
@@ -29,10 +25,9 @@ $container["view"] = function ($container){
     $router = $container->get('router');
     $uri = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER));
     $view->addExtension(new \Slim\Views\TwigExtension($router, $uri));
-    
+    $view->getEnvironment()->addGlobal('auth', new dawa\controllers\userController($container));
     return $view;
 };
-
 
 
 $container['settings'] = $config;
@@ -53,10 +48,12 @@ $container['db'] = function ($container) use ($capsule) {
     return $capsule;
 };
 
+
 $app->get('/test', function(Request $request, Response $response, $args){
     $response->getBody()->write("Hello world");
     return $response;
 });
+
 
 $app->get('/selectChamp', "\\dawa\\controllers\\champSelectController:Index")->setName('home');
 

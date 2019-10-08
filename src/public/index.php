@@ -67,7 +67,7 @@ $app->post('/auth/signin', "\\dawa\\controllers\\userController:postSignIn");
 
 $app->get('/createCharacter', "\\dawa\\controllers\\characterController:Index");
 
-$app->get('/createHero', "\\dawa\\controllers\\heroController:CreerHero");
+$app->get('/createHero', "\\dawa\\controllers\\heroController:CreerHero")->setName('creerHero');
 
 $app->post('/valCreateHero', "\\dawa\\controllers\\heroController:insererHero");
 

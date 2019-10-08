@@ -25,27 +25,31 @@ class heroController{
     }
 
     public function insererHero($request, $response) {
-
+        $listeHeroSameName = Hero::find($_POST["firstname"]);
+        var_dump($listeHeroSameName);
         $character = new Character();
+
         $character->name = $_POST["name"];
-        //$elem = $_POST["namelem"];
-        //$idElem = Element::find($elem);
-        //$character->
+
+        $elem = $_POST["namelem"];
+        $idElem = Element::where('name','=',$elem)->get();
+        $character->id_character_elem = $idElem[0]["id_element"];
 
         $race = $_POST["namerace"];
-
         $idRace = race::where('name','=',$race)->get("id_race");
-
         $character->id_character_race = $idRace[0]["id_race"];
 
         $character->picture  = $_POST["urlimage"];
-
-        $hero = new Hero();
-        $idChara = Character::where("name","=",$_POST["name"]);
-        $hero->id_character
         $character->save();
 
 
+        $hero = new Hero();
+        $hero->firstname = $_POST["firstname"];
+        $idChara = Character::where("name", "=", $_POST["name"],"and","id_race","=",$idRace[0]["id_race"])->get();
+        $hero->id_character = $idChara[0]["id_character"];
+        $hero->save();
+
+        return $response->withRedirect($this->container->router->pathFor('home'));
 
 
     }

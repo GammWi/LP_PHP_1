@@ -71,7 +71,7 @@ $app->get('/createHero', "\\dawa\\controllers\\heroController:CreerHero")->setNa
 
 $app->post('/valCreateHero', "\\dawa\\controllers\\heroController:insererHero");
 
-
+$app->post('/fight', "\\dawa\\controllers\\fightController:Index")->setName('fight');
 
 
 

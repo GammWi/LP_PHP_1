@@ -1,0 +1,18 @@
+{% include '/layout/header.html.twig' %}
+
+<H1> Page de tabassage de noobs </H1>
+
+<h3> Les héros sont sélectionné</h3>
+
+<ul>
+    {% for hero in heros %}
+        <li>{{ hero.firstname }}</li>
+    {% endfor %}
+</ul>
+
+<h3> Les méchants sont </h3>
+
+Monster 1 : Jean-Méchant
+<input type="submit" value="Choisir">
+
+{% include '/layout/footer.html.twig' %}

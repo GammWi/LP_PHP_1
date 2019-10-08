@@ -9,7 +9,7 @@ $config['db'] = [
     'host'      => "localhost",
     'database'  => "lp_projet_php",
     'username'  => "root",
-    'password'  => "",
+    'password'  => "root",
     'charset'   => 'utf8',
     'collation' => 'utf8_unicode_ci'
 ];

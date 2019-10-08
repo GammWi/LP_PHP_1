@@ -3,7 +3,7 @@
 namespace dawa\controllers;
 
 use Slim\Slim;
-use dawa\models\hero as Hero;
+use dawa\models\Hero as Hero;
 //use dawa\models\monstre as Monster;
 
 class champSelectController{
@@ -15,8 +15,6 @@ class champSelectController{
     public function Index($request, $response){
         $hero = Hero::get();
 
-        //$monster = Monster::get();
-        //var_dump($hero);
         $this->container->view->render($response, 'championSelect/affichage.html.twig',['hero'=>$hero]);
     }
 

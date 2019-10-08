@@ -3,7 +3,7 @@
 namespace dawa\controllers;
 
 use Slim\Slim;
-use dawa\models\hero as Hero;
+use dawa\models\Hero as Hero;
 //use dawa\models\monstre as Monster;
 
 class champSelectController{

@@ -6,10 +6,10 @@ $config['addContentLengthHeader'] = false;
 $config['db'] = [
     'default'   => 'mysql',
     'driver'    => 'mysql',
-    'host'      => "localhost",
-    'database'  => "dawa",
-    'username'  => "root",
-    'password'  => "root",
+    'host'      => 'localhost',
+    'database'  => 'dawa',
+    'username'  => 'root',
+    'password'  => '',
     'charset'   => 'utf8',
     'collation' => 'utf8_unicode_ci'
 ];

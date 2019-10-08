@@ -7,3 +7,4 @@
 config.inc.php
 /src/config/config.inc.php
 /config.inc.php
+*.inc.php

@@ -15,7 +15,9 @@ class fightController{
         $hero = Hero::get();
 
         $body = $request->getParsedBody();
+
         $body['heros'] = $hero;
+        $body['monstres'] = [['name'=>'Michel'], ['name'=>'Jean']];
 
         $this->container->view->render($response, 'fight/fight.html.twig', ['heros'=>$body['heros'], 'monstres'=>$body['monstres']]);
     }

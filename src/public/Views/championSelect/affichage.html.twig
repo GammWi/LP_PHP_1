@@ -5,16 +5,29 @@
 </br>
 
 <h3> Choisissez votre Héros</h3>
-<form action="{{ path_for('fight')}}" method="post">
+{#<form action="{{ path_for('fight')}}" method="post">#}
 
 {% for heros in hero %}
     {{ loop.index }} - {{ heros.firstname }} {{ heros.name }}
     {{ heros.id_character }}
+
     <input type="radio" name="select" value={{ heros.id_character }}>
-    <button name="Modifier" type="submit" value={{ heros.id_character }}>Modifier</button>
-    <button name="Supprimer" type="submit" value={{ heros.id_character }}>Supprimer</button>
+
+    <form action="{{ path_for('modifHero')}}" method="post">
+        <button name="modifier" type="submit" value={{ heros.id_character }}>Modifier</button>
+    </form>
+
+    <form action="{{ path_for('supprHero')}}" method="post">
+        <button name="supprimer" type="submit" value={{ heros.id_character }}>Supprimer</button>
+    </form>
     <br/>
+    <br/>
+
 {% endfor %}
+
+<form action="createHero">
+    <input type="submit" value="Créer un héros">
+</form>
 
 
 
@@ -30,8 +43,17 @@ Monster 3: Jean-Sadique
 <input type="submit" value="Choisir"> </br>
 
 
-    <button type="submit"> fight !  </button>
+<form action="createMonster">
+    <input type="submit" value="Créer un monstre">
 </form>
+
+<br/>
+
+{#<button type="submit"> fight !  </button></form>#}
+
+
+
+
 
 
 {% include '/layout/footer.html.twig' %}

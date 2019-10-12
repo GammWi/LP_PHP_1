@@ -80,7 +80,9 @@ $app->post('/modifMonster',"\\dawa\\controllers\\monstreController:modifierMonst
 
 $app->post('/supprMonster',"\\dawa\\controllers\\monstreController:supprimerMonster")->setName('supprMonster');
 
-
+$app->get('/TEMPLATEselectChamp', function(Request $request, Response $response, $args) {
+   $this->view->render($response, 'TEMPLATE/TEMPLATEselectChamp.html.twig');
+});
 
 
 

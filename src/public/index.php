@@ -74,6 +74,9 @@ $app->post('/valCreateHero', "\\dawa\\controllers\\heroController:insererHero");
 
 $app->post('/fight', "\\dawa\\controllers\\fightController:Index")->setName('fight');
 
+$app->get('/TEMPLATEselectChamp', function(Request $request, Response $response, $args) {
+   $this->view->render($response, 'TEMPLATE/TEMPLATEselectChamp.html.twig');
+});
 
 
 try {

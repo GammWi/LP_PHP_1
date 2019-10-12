@@ -76,6 +76,8 @@ $app->post('/fight', "\\dawa\\controllers\\fightController:Index")->setName('fig
 
 
 
+
+
 try {
     $app->run();
 } catch (Throwable $e) {

@@ -20,6 +20,12 @@ class fightController{
         $body['monstres'] = [['name'=>'Michel'], ['name'=>'Jean']];
 
         $this->container->view->render($response, 'fight/fight.html.twig', ['heros'=>$body['heros'], 'monstres'=>$body['monstres']]);
+
+        var_dump($_POST['select']);
+
     }
 
+
+
 }
+

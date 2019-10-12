@@ -22,4 +22,9 @@ class champSelectController{
         $this->container->view->render($response, 'championSelect/affichage.html.twig',['hero'=>$hero]);
     }
 
+    //public function postChamp($request, $response){
+        //return $response->withRedirect($this->container->router->pathFor('fight',['id_caract'=>$request->$_POST["select"]]));
+    //}
+
 }
+

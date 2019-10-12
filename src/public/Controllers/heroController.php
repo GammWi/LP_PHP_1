@@ -54,4 +54,12 @@ class heroController{
 
     }
 
+    public function modifierHero($request, $response){
+        var_dump($_POST['modifier']);
+    }
+
+    public function supprimerHero($request, $response){
+        var_dump($_POST['supprimer']);
+    }
+
 }

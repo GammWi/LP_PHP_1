@@ -62,8 +62,6 @@ $app->get('/selectChamp', "\\dawa\\controllers\\champSelectController:Index")->s
 $app->get('/auth/signin', "\\dawa\\controllers\\userController:signIn")->setName('auth.signin');
 $app->post('/auth/signin', "\\dawa\\controllers\\userController:postSignIn");
 
-$app->get('/createCharacter', "\\dawa\\controllers\\characterController:Index");
-
 $app->get('/createHero', "\\dawa\\controllers\\heroController:CreerHero")->setName('creerHero');
 
 $app->get('/createMonster', "\\dawa\\controllers\\monstreController:CreerMonster")->setName('CreerMonster');
@@ -74,9 +72,18 @@ $app->post('/valCreateHero', "\\dawa\\controllers\\heroController:insererHero");
 
 $app->post('/fight', "\\dawa\\controllers\\fightController:Index")->setName('fight');
 
+$app->post('/modifHero',"\\dawa\\controllers\\heroController:modifierHero")->setName('modifHero');
+
+$app->post('/supprHero',"\\dawa\\controllers\\heroController:supprimerHero")->setName('supprHero');
+
+$app->post('/modifMonster',"\\dawa\\controllers\\monstreController:modifierMonster")->setName('modifMonster');
+
+$app->post('/supprMonster',"\\dawa\\controllers\\monstreController:supprimerMonster")->setName('supprMonster');
+
 $app->get('/TEMPLATEselectChamp', function(Request $request, Response $response, $args) {
    $this->view->render($response, 'TEMPLATE/TEMPLATEselectChamp.html.twig');
 });
+
 
 
 try {

@@ -73,23 +73,11 @@ $app->get('/auth/signout', "\\dawa\\controllers\\userController:signOut")->setNa
 
 
 
-$app->get('/createHero', "\\dawa\\controllers\\heroController:CreerHero")->setName('creerHero');
 
-$app->get('/createMonster', "\\dawa\\controllers\\monstreController:CreerMonster")->setName('CreerMonster');
-
-$app->post('/valCreateMonster', "\\dawa\\controllers\\monstreController:insererMonster");
-
-$app->post('/valCreateHero', "\\dawa\\controllers\\heroController:insererHero");
 
 $app->post('/fight', "\\dawa\\controllers\\fightController:Index")->setName('fight');
 
-$app->post('/modifHero',"\\dawa\\controllers\\heroController:modifierHero")->setName('modifHero');
 
-$app->post('/supprHero',"\\dawa\\controllers\\heroController:supprimerHero")->setName('supprHero');
-
-$app->post('/modifMonster',"\\dawa\\controllers\\monstreController:modifierMonster")->setName('modifMonster');
-
-$app->post('/supprMonster',"\\dawa\\controllers\\monstreController:supprimerMonster")->setName('supprMonster');
 
 //ROUTE TEMPORAIRE CREATION DESIGN
 $app->get('/TEMPLATEselectChamp', function(Request $request, Response $response, $args) {
@@ -102,6 +90,20 @@ $app->group('', function(){
 
     $this->get('/admin/add', "\\dawa\\controllers\\userController:ajouterAdmin")->setName('admin.add');
     $this->post('/admin/add', "\\dawa\\controllers\\userController:postAjouterAdmin");
+    $this->post('/modifHero',"\\dawa\\controllers\\heroController:modifierHero")->setName('modifHero');
+
+    $this->post('/supprHero',"\\dawa\\controllers\\heroController:supprimerHero")->setName('supprHero');
+
+    $this->post('/modifMonster',"\\dawa\\controllers\\monstreController:modifierMonster")->setName('modifMonster');
+
+    $this->post('/supprMonster',"\\dawa\\controllers\\monstreController:supprimerMonster")->setName('supprMonster');
+    $this->get('/createHero', "\\dawa\\controllers\\heroController:CreerHero")->setName('creerHero');
+
+    $this->get('/createMonster', "\\dawa\\controllers\\monstreController:CreerMonster")->setName('CreerMonster');
+
+    $this->post('/valCreateMonster', "\\dawa\\controllers\\monstreController:insererMonster");
+
+    $this->post('/valCreateHero', "\\dawa\\controllers\\heroController:insererHero");
 })->add(new AuthMiddleware($app->getContainer()));
 
 try {

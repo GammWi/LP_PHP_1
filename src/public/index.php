@@ -63,6 +63,11 @@ $app->get('/auth/signin', "\\dawa\\controllers\\userController:signIn")->setName
 $app->post('/auth/signin', "\\dawa\\controllers\\userController:postSignIn");
 $app->get('/auth/signout', "\\dawa\\controllers\\userController:signOut")->setName('auth.signout');
 
+$app->get('/admin/panel', "\\dawa\\controllers\\userController:panel")->setName('admin.panel');
+
+$app->get('/admin/add', "\\dawa\\controllers\\userController:ajouterAdmin")->setName('admin.add');
+$app->post('/admin/add', "\\dawa\\controllers\\userController:postAjouterAdmin");
+
 $app->get('/createHero', "\\dawa\\controllers\\heroController:CreerHero")->setName('creerHero');
 
 $app->get('/createMonster', "\\dawa\\controllers\\monstreController:CreerMonster")->setName('CreerMonster');

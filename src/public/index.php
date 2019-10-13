@@ -15,6 +15,9 @@ use dawa\models\Character as chara;
 
 $container = array();
 
+$container['flash'] = function ($container){
+    return new \Slim\Flash\Messages;
+};
 
 $container["view"] = function ($container){
     
@@ -26,6 +29,7 @@ $container["view"] = function ($container){
     $uri = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER));
     $view->addExtension(new \Slim\Views\TwigExtension($router, $uri));
     $view->getEnvironment()->addGlobal('auth', new dawa\controllers\userController($container));
+    $view->getEnvironment()->addGlobal('flash', $container->flash);
     return $view;
 };
 

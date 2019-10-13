@@ -10,6 +10,7 @@ class userController{
     }
 
     public function signIn($request, $response){
+        
         $this->container->view->render($response, 'user/connection.html.twig');
     }
 
@@ -19,9 +20,10 @@ class userController{
             $request->getParam('mdp')
         );
         if(!$auth){
-            
+            $this->container->flash->addMessage('error', 'Le couple Username/Password n\'est pas correct !');
             return $response->withRedirect($this->container->router->pathFor('auth.signin'));
         }
+        $this->container->flash->addMessage('info', 'Vous êtes connecté !');
         return $response->withRedirect($this->container->router->pathFor('home'));
     }
 
@@ -51,6 +53,7 @@ class userController{
 
     public function signOut($request, $response){
         session_destroy();
+        $this->container->flash->addMessage('info', 'Vous venez de vous déconnecter');
         return $response->withRedirect($this->container->router->pathFor('home'));
     }
 
@@ -67,8 +70,8 @@ class userController{
             'username' => $request->getParam('identifiant'),
             'password' => password_hash($request->getParam('mdp'), PASSWORD_DEFAULT, ["cost" => 10])
         ]);
-
-        return $response->withRedirect($this->container->router->pathFor('home'));
+        $this->container->flash->addMessage('info', 'Le compte admin est crée');
+        return $response->withRedirect($this->container->router->pathFor('admin.panel'));
 
     }
 

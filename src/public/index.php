@@ -8,7 +8,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Illuminate\Database\Capsule\Manager as DB;
 use dawa\models\Character as chara;
-
+use dawa\middleware\AuthMiddleware;
 
 
 //$container = $app->getContainer();
@@ -17,6 +17,10 @@ $container = array();
 
 $container['flash'] = function ($container){
     return new \Slim\Flash\Messages;
+};
+
+$container['auth'] = function ($container){
+    return new dawa\controllers\userController($container);
 };
 
 $container["view"] = function ($container){
@@ -67,10 +71,7 @@ $app->get('/auth/signin', "\\dawa\\controllers\\userController:signIn")->setName
 $app->post('/auth/signin', "\\dawa\\controllers\\userController:postSignIn");
 $app->get('/auth/signout', "\\dawa\\controllers\\userController:signOut")->setName('auth.signout');
 
-$app->get('/admin/panel', "\\dawa\\controllers\\userController:panel")->setName('admin.panel');
 
-$app->get('/admin/add', "\\dawa\\controllers\\userController:ajouterAdmin")->setName('admin.add');
-$app->post('/admin/add', "\\dawa\\controllers\\userController:postAjouterAdmin");
 
 $app->get('/createHero', "\\dawa\\controllers\\heroController:CreerHero")->setName('creerHero');
 
@@ -95,6 +96,13 @@ $app->get('/TEMPLATEselectChamp', function(Request $request, Response $response,
    $this->view->render($response, 'TEMPLATE/TEMPLATEselectChamp.html.twig');
 });
 //ROUTE TEMPORAIRE CREATION DESIGN
+
+$app->group('', function(){
+    $this->get('/admin/panel', "\\dawa\\controllers\\userController:panel")->setName('admin.panel');
+
+    $this->get('/admin/add', "\\dawa\\controllers\\userController:ajouterAdmin")->setName('admin.add');
+    $this->post('/admin/add', "\\dawa\\controllers\\userController:postAjouterAdmin");
+})->add(new AuthMiddleware($app->getContainer()));
 
 try {
     $app->run();

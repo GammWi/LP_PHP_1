@@ -10,5 +10,5 @@ class User extends Model{
 
     protected $primaryKey = "id_user";
 
-    public $timestamps = true;
+    public $timestamps = false;
 }

@@ -1,0 +1,21 @@
+{% extends '/layout/header.html.twig' %}
+
+{% block content %}
+<H1> Page pour ajouter un compte admin </H1>
+
+<form action="{{ path_for('admin.add')}}" method="POST">
+    <div class="form-group">
+        <label for="identifiant">IDENTIFIANT</label>
+        <input type="text" class="form-control" name="identifiant" required="required" placeholder="Identifiant">
+    </div>
+    <div class="form-group">
+        <label for="password">MOT DE PASSE</label>
+        <input type="password" class="form-control" name="mdp" required="required" placeholder="Mot de passe">
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Créer le compte admin</button>
+</form>
+
+{% include '/layout/footer.html.twig' %}
+
+{% endblock %}

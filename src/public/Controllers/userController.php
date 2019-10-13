@@ -49,13 +49,39 @@ class userController{
         return User::find($_SESSION['user']);
     }
 
-    public function ajouterAdmin($username, $password){
-        $u = User::where('username', '=', $username);
-        //if($u existe pas)
-        $user = new User();
-        $user->username = $username;
-        $user->password = password_hash('test', PASSWORD_DEFAULT, ["cost" => 10]);
-        $user->save();
+    public function signOut($request, $response){
+        session_destroy();
+        return $response->withRedirect($this->container->router->pathFor('home'));
+    }
+
+    public function panel($request, $response){
+        return $this->container->view->render($response, 'user/panel.twig');
+    }
+
+    public function ajouterAdmin($request, $response){
+        $this->container->view->render($response, 'user/add.twig');
+    }
+
+    public function postAjouterAdmin($request, $response){
+        User::create([
+            'username' => $request->getParam('identifiant'),
+            'password' => password_hash($request->getParam('mdp'), PASSWORD_DEFAULT, ["cost" => 10])
+        ]);
+
+        return $response->withRedirect($this->container->router->pathFor('home'));
+
+    }
+
+    public function postSdeignIn($request, $response){
+        $auth = $this->attempt(
+            $request->getParam('identifiant'),
+            $request->getParam('mdp')
+        );
+        if(!$auth){
+            
+            return $response->withRedirect($this->container->router->pathFor('auth.signin'));
+        }
+        return $response->withRedirect($this->container->router->pathFor('home'));
     }
 
 }

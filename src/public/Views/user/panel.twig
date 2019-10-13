@@ -1,0 +1,9 @@
+{% extends '/layout/header.html.twig' %}
+
+{% block content %}
+<br><br><br>
+<h2>Bienvenu dans le panel ADMIN</h2>
+<form action="{{ path_for('admin.add')}}" method="GET">
+    <button type="submit" class="btn btn-primary">Ajouter un compte admin</button>
+</form>
+{% endblock %}

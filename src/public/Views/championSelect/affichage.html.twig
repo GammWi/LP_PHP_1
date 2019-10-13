@@ -1,59 +1,252 @@
 {% include '/layout/header.html.twig' %}
 
-<H1> Page de selection des champions </H1>
+{#<H1> Page de selection des champions </H1>#}
 
-</br>
+{#</br>#}
 
-<h3> Choisissez votre Héros</h3>
+{#<h3> Choisissez votre Héros</h3>#}
 {#<form action="{{ path_for('fight')}}" method="post">#}
 
-{% for heros in hero %}
-    {{ loop.index }} - {{ heros.firstname }} {{ heros.name }}
-    {{ heros.id_character }}
+{#{% for heros in hero %}#}
+    {#{{ loop.index }} - {{ heros.firstname }} {{ heros.name }}#}
+    {#{{ heros.id_character }}#}
 
-    <input type="radio" name="select" value={{ heros.id_character }}>
+    {#<input type="radio" name="select" value={{ heros.id_character }}>#}
 
-    <form action="{{ path_for('modifHero')}}" method="post">
-        <button name="modifier" type="submit" value={{ heros.id_character }}>Modifier</button>
-    </form>
+    {#<form action="{{ path_for('modifHero') }}" method="post">#}
+        {#<button name="modifier" type="submit" value={{ heros.id_character }}>Modifier</button>#}
+    {#</form>#}
 
-    <form action="{{ path_for('supprHero')}}" method="post">
-        <button name="supprimer" type="submit" value={{ heros.id_character }}>Supprimer</button>
-    </form>
-    <br/>
-    <br/>
+    {#<form action="{{ path_for('supprHero') }}" method="post">#}
+        {#<button name="supprimer" type="submit" value={{ heros.id_character }}>Supprimer</button>#}
+    {#</form>#}
+    {#<br/>#}
+    {#<br/>#}
 
-{% endfor %}
+{#{% endfor %}#}
 
-<form action="createHero">
-    <input type="submit" value="Créer un héros">
-</form>
-
-
-
-<h3> Choisissez votre Monstre </h3>
-
-Monster 1 : Jean-Méchant
-<input type="submit" value="Choisir"> </br>
-
-Monster 2: Jean-Machiavélique
-<input type="submit" value="Choisir"> </br>
-
-Monster 3: Jean-Sadique
-<input type="submit" value="Choisir"> </br>
+{#<form action="createHero">#}
+    {#<input type="submit" value="Créer un héros">#}
+{#</form>#}
 
 
-<form action="createMonster">
-    <input type="submit" value="Créer un monstre">
-</form>
+{#<h3> Choisissez votre Monstre </h3>#}
 
-<br/>
+{#Monster 1 : Jean-Méchant#}
+{#<input type="submit" value="Choisir"> </br>#}
+
+{#Monster 2: Jean-Machiavélique#}
+{#<input type="submit" value="Choisir"> </br>#}
+
+{#Monster 3: Jean-Sadique#}
+{#<input type="submit" value="Choisir"> </br>#}
+
+
+{#<form action="createMonster">#}
+    {#<input type="submit" value="Créer un monstre">#}
+{#</form>#}
+
+{#<br/>#}
 
 {#<button type="submit"> fight !  </button></form>#}
 
 
+<div class="container">
 
+    <h2 class="white-text center-align">Préparez-vous au combat !</h2>
 
+    {#BLOC HEROS#}
+    <div>
+        <h4 class="left-align green-text" style="font-weight: bold;"> Choisissez le(s) héro(s) que vous envoyez au
+            combat</h4>
+        <div class="card valign-wrapper">
+            <div class="card-content">
+                <div class="col s12 m7">
+                    {% for heros in hero %}
+                        {#BLOC REPETE HERO#}
+                        <div class="row valign-wrapper">
+                            {#BLOC INFO PERSO#}
+                            <div class="card horizontal" style="width: 256px">
+                                <div class="card-image center-block center">
+                                    <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
+                                         alt="Un héro">
+                                </div>
+                                <div class="card-stacked">
+                                    <div class="card-content">
+                                        <h5 class="center"> {{ heros.firstname }} {{ heros.name }} </h5>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                            tempor
+                                            incididunt
+                                            ut
+                                            labore et dolore magna aliqua.</p>
+                                    </div>
+                                    <div class="card-action">
+                                        <a class="green waves-effect waves-light btn"
+                                           style="height: 50%; line-height: 2; font-weight: bold;">Envoyer
+                                            ce héro au combat</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {#BLOC INFO PERSO#}
+
+                            {#BLOC STATS#}
+                            <div>
+                                <div class="card horizontal" style="width: 256px">
+                                    <div class="card-stacked">
+                                        <div class="card-content">
+                                            Points de vie
+                                            <div class="progress">
+                                                <div class="green determinate" style="width: 70%"></div>
+                                            </div>
+                                            Force
+                                            <div class="progress">
+                                                <div class="green determinate" style="width: 70%"></div>
+                                            </div>
+                                            Agilité
+                                            <div class="progress">
+                                                <div class="green determinate" style="width: 70%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {#BLOC STATS#}
+
+                            {#BLOC ACTIONS#}
+                            <div class="card horizontal" style="width: 256px">
+                                <div class="card-stacked">
+                                    <div class="card-content">
+                                        <h5 class="center"> Actions </h5>
+                                    </div>
+                                    <div class="card-action">
+                                        <form style="display: inline-block;" action="{{ path_for('modifHero') }}"
+                                              method="post">
+                                            <button style="height: 50%; line-height: 2; font-weight: bold;"
+                                                    class="green waves-effect waves-light btn" name="modifier"
+                                                    type="submit"
+                                                    value={{ heros.id_character }}>Modifier
+                                            </button>
+                                        </form>
+
+                                        <form style="display: inline-block;" action="{{ path_for('supprHero') }}"
+                                              method="post">
+                                            <button style="height: 50%; line-height: 2; font-weight: bold;"
+                                                    class="green waves-effect waves-light btn" name="supprimer"
+                                                    type="submit" value={{ heros.id_character }}>Supprimer
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            {#BLOC ACTIONS#}
+                        </div>
+                        {#BLOC REPETE HERO#}
+                    {% endfor %}
+                </div>
+            </div>
+            <form style="width: 100%;" action="createHero">
+                <input class="waves-effect waves-light btn green" style="width: 100%; font-weight: bold;" type="submit"
+                       value="Créer un héros">
+            </form>
+
+        </div>
+
+    </div>
+    {#FIN BLOC HEROS#}
+
+    {#BLOC MONSTRES#}
+    <div>
+        <h4 class="left-align red-text" style="font-weight: bold;"> Choisissez le(s) monstre(s) que vous envoyez au
+            combat</h4>
+        <div class="card valign-wrapper">
+            <div class="card-content">
+                <div class="col s12 m7">
+                    <div class="row valign-wrapper">
+
+                        {#BLOC INFO PERSO#}
+                        <div class="card horizontal" style="width: 256px">
+                            <div class="card-image center-block center">
+                                <img style="width: 256px" src="../../public/assets/img/characters/monstre.png"
+                                     alt="Un héro">
+                            </div>
+                            <div class="card-stacked">
+                                <div class="card-content">
+                                    <h5 class="center"> Jean-Michel </h5>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                        incididunt
+                                        ut
+                                        labore et dolore magna aliqua.</p>
+                                </div>
+                                <div class="card-action">
+                                    <a class="red waves-effect waves-light btn"
+                                       style="height: 50%; line-height: 2; font-weight: bold;">Envoyer
+                                        ce monstre au combat</a>
+                                </div>
+                            </div>
+                        </div>
+                        {#BLOC INFO PERSO#}
+
+                        {#BLOC STATS#}
+                        <div>
+                            <div class="card horizontal" style="width: 256px">
+                                <div class="card-stacked">
+                                    <div class="card-content">
+                                        Points de vie
+                                        <div class="progress">
+                                            <div class="red determinate" style="width: 70%"></div>
+                                        </div>
+                                        Force
+                                        <div class="progress">
+                                            <div class="red determinate" style="width: 70%"></div>
+                                        </div>
+                                        Agilité
+                                        <div class="progress">
+                                            <div class="red determinate" style="width: 70%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {#BLOC STATS#}
+
+                        {#BLOC ACTIONS#}
+                        <div class="card horizontal" style="width: 256px">
+                            <div class="card-stacked">
+                                <div class="card-content">
+                                    <h5 class="center"> Actions </h5>
+                                </div>
+                                <div class="card-action">
+                                    {#<form style="display: inline-block;" action="{{ path_for('modifMonstre') }}" method="post">#}
+                                    <button style="height: 50%; line-height: 2; font-weight: bold;"
+                                            class="red waves-effect waves-light btn" name="modifier" type="submit"
+                                            value={{ heros.id_character }}>Modifier
+                                    </button>
+                                    {#</form>#}
+
+                                    {#<form style="display: inline-block;" action="{{ path_for('supprMonstre') }}" method="post">#}
+                                    <button style="height: 50%; line-height: 2; font-weight: bold;"
+                                            class="red waves-effect waves-light btn" name="supprimer" type="submit"
+                                            value={{ heros.id_character }}>Supprimer
+                                    </button>
+                                    {#</form>#}
+                                </div>
+                            </div>
+                        </div>
+                        {#BLOC ACTIONS#}
+                    </div>
+                </div>
+            </div>
+            <form style="width: 100%;" action="createMonster">
+                <input class="waves-effect waves-light btn red " style="width: 100%; font-weight: bold;" type="submit"
+                       value="Créer un monstre">
+            </form>
+        </div>
+    </div>
+    {#FIN BLOC MONSTRES#}
+
+    <a class="waves-effect waves-light btn-large" style="width: 100%; font-weight: bold;">Cliquez ici pour lancer le
+        combat</a>
+</div>
 
 
 {% include '/layout/footer.html.twig' %}

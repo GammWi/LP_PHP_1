@@ -49,6 +49,11 @@ class userController{
         return User::find($_SESSION['user']);
     }
 
+    public function signOut($request, $response){
+        session_destroy();
+        return $response->withRedirect($this->container->router->pathFor('home'));
+    }
+
     public function ajouterAdmin($username, $password){
         $u = User::where('username', '=', $username);
         //if($u existe pas)

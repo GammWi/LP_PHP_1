@@ -61,17 +61,10 @@ class heroController{
 
     public function supprimerHero($request, $response){
         $idHero = $_POST['supprimer'];
-        var_dump($idHero);
-        $hero = Hero::where('id_hero', '=', $idHero)->get();
+        $hero = Hero::where('id_hero', '=', $idHero)->get()->each->delete();
+        $cha = Character::where('id_character','=', $hero[0]["id_character"])->get()->each->delete();
 
-        var_dump($hero);
-
-        //$cha = Character::find($hero["id_charactere"])->get();
-        //$hero->forceDelete();
-
-
-
-        //return $response->withRedirect($this->container->router->pathFor('home'));
+        return $response->withRedirect($this->container->router->pathFor('home'));
 
     }
 

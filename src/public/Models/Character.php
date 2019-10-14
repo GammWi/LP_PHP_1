@@ -1,7 +1,10 @@
 <?php
 namespace dawa\models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Character extends \Illuminate\Database\Eloquent\Model {
+
     protected $table = "character";
     protected $primaryKey = "id_character";
     public $timestamps = false;

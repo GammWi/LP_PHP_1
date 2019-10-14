@@ -7,16 +7,11 @@ Pour générer la BDD il faut dans l'ordre executer :
 bdd.sql
 bddDonnees.sql
 
-Pour générer un compte admin il faut faire ceci : 
+Un compte admin est générer par défault avec le combo root/root , possibilité de changer la combi dans bddDonnees.sql a la fin
 
--- REQUETE COMPTE ADMIN --
--- ID: root
---MDP: root
+la page d'acceuil est : 
 
-INSERT INTO `user` (`id_user`, `username`, `password`) VALUES (NULL, 'root', '$2y$12$4HA9hcr.5goGibfINlVUQuVSYeduIlBfSymEmJ1vuxzd70ycnz7cK');
-
-
-
+[HOTE]/src/public/index.php/selectChamp
 
 
 

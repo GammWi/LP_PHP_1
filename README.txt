@@ -11,5 +11,6 @@ Un compte admin est générer par défault avec le combo root/root , possibilité de
 
 la page d'acceuil est : 
 
-projetphp/src/public/index.php/selectChamp
+[HOTE]/src/public/index.php/selectChamp
+
 

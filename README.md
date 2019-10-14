@@ -7,7 +7,7 @@ Pour générer la BDD il faut dans l'ordre executer :
 bdd.sql
 bddDonnees.sql
 
-Un compte admin est générer par défault avec le combo root/root , possibilité de changer la combi dans bddDonnees.sql a la fin
+Un compte admin est générer par défault avec le combo root/root
 
 la page d'acceuil est : 
 

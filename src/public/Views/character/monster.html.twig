@@ -46,14 +46,14 @@
         <form class="col s12">
             <div class="row">
                 <div class="input-field col s12">
-                    <input class="green-text validate" type="text" id="name" name="name" required minlength="1" maxlength="55" size="55">
-                    <label class="green-text" for="nom">Nom</label>
+                    <input class="red-text validate" type="text" id="name" name="name" required minlength="1" maxlength="55" size="55">
+                    <label class="red-text" for="nom">Nom</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input class="green-text validate" type="text" list="chooseElem" name="namelem">
-                    <label class="green-text" for="namelem">Choisissez un element : </label>
+                    <input class="red-text validate" type="text" list="chooseElem" name="namelem">
+                    <label class="red-text" for="namelem">Choisissez un element : </label>
                     <datalist id="chooseElem">
                         {% for elem in element %}
                             <select>{{ elem.name }}</select>
@@ -64,8 +64,8 @@
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <label  class="green-text validate" for="namerace">Choissisez la race du monstre: </label>
-                    <input class="green-text" type="text" list="chooseRace" name="namerace">
+                    <label  class="red-text validate" for="namerace">Choissisez la race du monstre: </label>
+                    <input class="red-text" type="text" list="chooseRace" name="namerace">
                     <datalist id="chooseRace">
                         {% for race in listerace %}
                             <select value="{{ race.name }}">{{ race.name }}</select>
@@ -75,11 +75,11 @@
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="img" type="text" class="green-text validate">
-                    <label class="green-text" for="img">Choissiez une URL d'image pour votre héro</label>
+                    <input id="img" type="text" class="red-text validate">
+                    <label class="red-text" for="img">Choissiez une URL d'image pour votre héro</label>
                 </div>
             </div>
-            <button class="green btn waves-effect waves-light" type="submit" name="action">Valider
+            <button class="red btn waves-effect waves-light" type="submit" name="action">Valider
                 <i class="material-icons right">send</i>
             </button>
         </form>

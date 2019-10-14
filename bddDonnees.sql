@@ -39,3 +39,9 @@ INSERT INTO `race` (`id_race`, `name`, `description`, `boostAttack`, `boostDefen
 (7, 'Troll', NULL, NULL, NULL, NULL, NULL),
 (8, 'Mort-vivant', NULL, NULL, NULL, NULL, NULL),
 (9, 'Squelette', NULL, NULL, NULL, NULL, NULL);
+
+-- REQUETE COMPTE ADMIN --
+-- ID: root
+-- MDP: root
+
+INSERT INTO `user` (`id_user`, `username`, `password`) VALUES (NULL, 'root', '$2y$12$4HA9hcr.5goGibfINlVUQuVSYeduIlBfSymEmJ1vuxzd70ycnz7cK');

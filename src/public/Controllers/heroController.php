@@ -54,7 +54,7 @@ class heroController{
     }
 
     public function modifierHero($request, $response){
-        echo $_POST['modifier'];
+        echo "L'id du héros que vous voulez supprimer est : ".$_POST['modifier'];
 
 
     }

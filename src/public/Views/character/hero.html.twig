@@ -1,47 +1,47 @@
 {% include '/layout/header.html.twig' %}
 
-{#<p>Bienvenu dans l'écran de création des héros</p>#}
-{#<h3>Créer un Héro :</h3>#}
-{#<span class="validerCreationHero">#}
-    {#<form action="valCreateHero" method="post">#}
-        {#<div class="form-group">#}
-            {#<label for="name">Nom  : </label>#}
-            {#<input type="text" id="name" name="name" required minlength="1" maxlength="55" size="55">#}
-        {#</div>#}
-        {#<div class="form-group">#}
-            {#<label for="firstname">Prenom  : </label>#}
-            {#<input type="text" id="firstname" name="firstname" required minlength="1" maxlength="55" size="55">#}
-        {#</div>#}
-        {#<div class="form-group">#}
-        {#<label for="namelem">Choissisez un element : </label>#}
+<p>Bienvenu dans l'écran de création des héros</p>
+<h3>Créer un Héro :</h3>
+<span class="validerCreationHero">
+    <form action="valCreateHero" method="post">
+        <div class="form-group">
+            <label for="name">Nom  : </label>
+            <input type="text" id="name" name="name" required minlength="1" maxlength="55" size="55">
+        </div>
+        <div class="form-group">
+            <label for="firstname">Prenom  : </label>
+            <input type="text" id="firstname" name="firstname" required minlength="1" maxlength="55" size="55">
+        </div>
+        <div class="form-group">
+        <label for="namelem">Choissisez un element : </label>
 
-        {#<input type="text" list="chooseElem" name="namelem">#}
-            {#<datalist id="chooseElem">#}
-                {#{% for elem in element %}#}
-                    {#<select>{{ elem.name }}</select>#}
-                {#{% endfor %}#}
-            {#</datalist>#}
+        <input type="text" list="chooseElem" name="namelem">
+            <datalist id="chooseElem">
+                {% for elem in element %}
+                    <select>{{ elem.name }}</select>
+                {% endfor %}
+            </datalist>
 
-        {#</div>#}
-        {#<div class="form-group">#}
-            {#<label for="namerace">Choissisez la race du hero : </label>#}
-            {#<input type="text" list="chooseRace" name="namerace">#}
-            {#<datalist id="chooseRace">#}
-                {#{% for race in listerace %}#}
-                    {#<select value="{{ race.name }}">{{ race.name }}</select>#}
-                {#{% endfor %}#}
-            {#</datalist>#}
-            {#</div>#}
-        {#<div class="form-group">#}
-            {#<label for="urlimage">Choissiez une URL d'image pour votre Hero</label>#}
-            {#<input type="url" name="urlimage" value="">#}
-            {#<br>#}
-            {#<input type="submit" value="valider">#}
-        {#</div>#}
+        </div>
+        <div class="form-group">
+            <label for="namerace">Choissisez la race du hero : </label>
+            <input type="text" list="chooseRace" name="namerace">
+            <datalist id="chooseRace">
+                {% for race in listerace %}
+                    <select value="{{ race.name }}">{{ race.name }}</select>
+                {% endfor %}
+            </datalist>
+            </div>
+        <div class="form-group">
+            <label for="urlimage">Choissiez une URL d'image pour votre Hero</label>
+            <input type="url" name="urlimage" value="">
+            <br>
+            <input type="submit" value="valider">
+        </div>
 
 
-    {#</form>#}
-{#</span>#}
+    </form>
+</span>
 
 
 <div class="container" style="padding-top: 3%">
@@ -60,14 +60,25 @@
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="element" type="text" class="green-text validate">
+                    {#<input id="element" type="text" class="green-text validate">#}
                     <label class="green-text" for="element">Choisissez un élément</label>
+                    <datalist id="chooseElem">
+                        {% for elem in element %}
+                            <select>{{ elem.name }}</select>
+                        {% endfor %}
+                    </datalist>
+
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="race" type="text" class="green-text validate">
+                    {#<input id="race" type="text" class="green-text validate">#}
                     <label class="green-text" for="race">Choissisez la race du héro</label>
+                    <datalist id="chooseRace">
+                        {% for race in listerace %}
+                            <select value="{{ race.name }}">{{ race.name }}</select>
+                        {% endfor %}
+                    </datalist>
                 </div>
             </div>
             <div class="row">

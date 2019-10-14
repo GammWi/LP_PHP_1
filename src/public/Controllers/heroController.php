@@ -25,8 +25,7 @@ class heroController{
     }
 
     public function insererHero($request, $response) {
-        $listeHeroSameName = Hero::find($_POST["firstname"]);
-        var_dump($listeHeroSameName);
+
         $character = new Character();
 
         $character->name = $_POST["name"];
@@ -55,11 +54,25 @@ class heroController{
     }
 
     public function modifierHero($request, $response){
-        var_dump($_POST['modifier']);
+        echo $_POST['modifier'];
+
+
     }
 
     public function supprimerHero($request, $response){
-        var_dump($_POST['supprimer']);
+        $idHero = $_POST['supprimer'];
+        var_dump($idHero);
+        $hero = Hero::where('id_hero', '=', $idHero)->get();
+
+        var_dump($hero);
+
+        //$cha = Character::find($hero["id_charactere"])->get();
+        //$hero->forceDelete();
+
+
+
+        //return $response->withRedirect($this->container->router->pathFor('home'));
+
     }
 
 }

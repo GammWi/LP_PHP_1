@@ -18,9 +18,7 @@ class champSelectController{
             ->leftJoin('character','character.id_character', '=', 'hero.id_character')
             ->get();
         //$monster = Monster::get();
-
         $this->container->view->render($response, 'championSelect/affichage.html.twig',['hero'=>$hero]);
     }
-
 }
 

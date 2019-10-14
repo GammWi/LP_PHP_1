@@ -8,7 +8,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Illuminate\Database\Capsule\Manager as DB;
 use dawa\models\Character as chara;
-
+use dawa\middleware\AuthMiddleware;
 
 
 //$container = $app->getContainer();
@@ -17,6 +17,10 @@ $container = array();
 
 $container['flash'] = function ($container){
     return new \Slim\Flash\Messages;
+};
+
+$container['auth'] = function ($container){
+    return new dawa\controllers\userController($container);
 };
 
 $container["view"] = function ($container){
@@ -67,34 +71,40 @@ $app->get('/auth/signin', "\\dawa\\controllers\\userController:signIn")->setName
 $app->post('/auth/signin', "\\dawa\\controllers\\userController:postSignIn");
 $app->get('/auth/signout', "\\dawa\\controllers\\userController:signOut")->setName('auth.signout');
 
-$app->get('/admin/panel', "\\dawa\\controllers\\userController:panel")->setName('admin.panel');
 
-$app->get('/admin/add', "\\dawa\\controllers\\userController:ajouterAdmin")->setName('admin.add');
-$app->post('/admin/add', "\\dawa\\controllers\\userController:postAjouterAdmin");
 
-$app->get('/createHero', "\\dawa\\controllers\\heroController:CreerHero")->setName('creerHero');
 
-$app->get('/createMonster', "\\dawa\\controllers\\monstreController:CreerMonster")->setName('CreerMonster');
-
-$app->post('/valCreateMonster', "\\dawa\\controllers\\monstreController:insererMonster");
-
-$app->post('/valCreateHero', "\\dawa\\controllers\\heroController:insererHero");
 
 $app->post('/fight', "\\dawa\\controllers\\fightController:Index")->setName('fight');
 
-$app->post('/modifHero',"\\dawa\\controllers\\heroController:modifierHero")->setName('modifHero');
 
-$app->post('/supprHero',"\\dawa\\controllers\\heroController:supprimerHero")->setName('supprHero');
-
-$app->post('/modifMonster',"\\dawa\\controllers\\monstreController:modifierMonster")->setName('modifMonster');
-
-$app->post('/supprMonster',"\\dawa\\controllers\\monstreController:supprimerMonster")->setName('supprMonster');
 
 //ROUTE TEMPORAIRE CREATION DESIGN
 $app->get('/TEMPLATEselectChamp', function(Request $request, Response $response, $args) {
    $this->view->render($response, 'TEMPLATE/TEMPLATEselectChamp.html.twig');
 });
 //ROUTE TEMPORAIRE CREATION DESIGN
+
+$app->group('', function(){
+    $this->get('/admin/panel', "\\dawa\\controllers\\userController:panel")->setName('admin.panel');
+
+    $this->get('/admin/add', "\\dawa\\controllers\\userController:ajouterAdmin")->setName('admin.add');
+    $this->post('/admin/add', "\\dawa\\controllers\\userController:postAjouterAdmin");
+    $this->post('/modifHero',"\\dawa\\controllers\\heroController:modifierHero")->setName('modifHero');
+
+    $this->post('/supprHero',"\\dawa\\controllers\\heroController:supprimerHero")->setName('supprHero');
+
+    $this->post('/modifMonster',"\\dawa\\controllers\\monstreController:modifierMonster")->setName('modifMonster');
+
+    $this->post('/supprMonster',"\\dawa\\controllers\\monstreController:supprimerMonster")->setName('supprMonster');
+    $this->get('/createHero', "\\dawa\\controllers\\heroController:CreerHero")->setName('creerHero');
+
+    $this->get('/createMonster', "\\dawa\\controllers\\monstreController:CreerMonster")->setName('CreerMonster');
+
+    $this->post('/valCreateMonster', "\\dawa\\controllers\\monstreController:insererMonster");
+
+    $this->post('/valCreateHero', "\\dawa\\controllers\\heroController:insererHero");
+})->add(new AuthMiddleware($app->getContainer()));
 
 try {
     $app->run();

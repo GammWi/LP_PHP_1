@@ -25,6 +25,5 @@ class champSelectController{
         $this->container->view->render($response, 'championSelect/affichage.html.twig',['hero'=>$hero,'monster'=>$monster]);
 
     }
-
 }
 

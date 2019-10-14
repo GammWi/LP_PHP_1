@@ -129,7 +129,7 @@
                                                             class="green waves-effect waves-light btn"
                                                             name="modifier"
                                                             type="submit"
-                                                            value={{ heros.id_character }}>Modifier
+                                                            value={{ heros.id_hero }}>Modifier
                                                     </button>
                                                 </form>
 
@@ -139,7 +139,7 @@
                                                     <button style="height: 50%; line-height: 2; font-weight: bold;"
                                                             class="green waves-effect waves-light btn"
                                                             name="supprimer"
-                                                            type="submit" value={{ heros.id_character }}>Supprimer
+                                                            type="submit" value={{ heros.id_hero }}>Supprimer
                                                     </button>
                                                 </form>
                                             </div>
@@ -174,8 +174,8 @@
         <div class="card valign-wrapper">
             <div class="card-content">
                 <div class="col s6 m3">
+                    {% for monsters in monster %}
                     <div class="row valign-wrapper">
-
                         {#BLOC INFO PERSO#}
                         <div class="card horizontal" style="width: 256px">
                             <div class="card-image center-block center">
@@ -184,7 +184,7 @@
                             </div>
                             <div class="card-stacked">
                                 <div class="card-content">
-                                    <h5 class="center"> Jean-Michel </h5>
+                                    <h5 class="center"> {{ monsters.name }} </h5>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                                         tempor
                                         incididunt
@@ -236,7 +236,7 @@
                                             <button style="height: 50%; line-height: 2; font-weight: bold;"
                                                     class="red waves-effect waves-light btn" name="modifier"
                                                     type="submit"
-                                                    value={{ heros.id_character }}>Modifier
+                                                    value={{ monsters.id_monster }}>Modifier
                                             </button>
                                             {#</form>#}
 
@@ -244,7 +244,7 @@
                                             <button style="height: 50%; line-height: 2; font-weight: bold;"
                                                     class="red waves-effect waves-light btn" name="supprimer"
                                                     type="submit"
-                                                    value={{ heros.id_character }}>Supprimer
+                                                    value={{ monsters.id_monster }}>Supprimer
                                             </button>
                                             {#</form>#}
                                         </div>
@@ -255,6 +255,7 @@
 
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
             <form style="width: 100%;" action="createMonster">
@@ -270,7 +271,7 @@
     <form style="display: inline-block; width: 100%"
           action="{{ path_for('fight') }}"
           method="post">
-        <button class="waves-effect waves-light btn-large" style="width: 100%; font-weight: bold;" type="submit">Cliquez
+        <button class="waves-effect waves-light btn-large" name="select"; style="width: 100%; font-weight: bold;" type="submit"; value="{{ heros.id_hero }}">Cliquez
             ici
             pour lancer le combat
         </button>

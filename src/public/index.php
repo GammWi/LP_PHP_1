@@ -90,6 +90,7 @@ $app->group('', function(){
 
     $this->get('/admin/add', "\\dawa\\controllers\\userController:ajouterAdmin")->setName('admin.add');
     $this->post('/admin/add', "\\dawa\\controllers\\userController:postAjouterAdmin");
+    $this->post('/admin/supp', "\\dawa\\controllers\\userController:postSupprimerAdmin")->setName("admin.delete");
     $this->post('/modifHero',"\\dawa\\controllers\\heroController:modifierHero")->setName('modifHero');
 
     $this->post('/supprHero',"\\dawa\\controllers\\heroController:supprimerHero")->setName('supprHero');

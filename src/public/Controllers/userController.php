@@ -58,7 +58,8 @@ class userController{
     }
 
     public function panel($request, $response){
-        return $this->container->view->render($response, 'user/panel.twig');
+        $listeUser = User::all();
+        return $this->container->view->render($response, 'user/panel.twig', ['admins'=>$listeUser]);
     }
 
     public function ajouterAdmin($request, $response){
@@ -85,6 +86,22 @@ class userController{
             return $response->withRedirect($this->container->router->pathFor('auth.signin'));
         }
         return $response->withRedirect($this->container->router->pathFor('home'));
+    }
+
+    public function postSupprimerAdmin($request, $response){
+        $idAdmin = $_POST['suppAdmin'];
+        $admin = User::where('id_user', $idAdmin)->first();
+        if($this->container->auth->admin() == $admin){
+            $this->signOut($request, $response);
+        }else{
+            $this->container->flash->addMessage('info', 'Le compte est supprimé');
+        }
+        $admin->delete();
+        return $response->withRedirect($this->container->router->pathFor('admin.panel'));
+        
+        
+        
+
     }
 
 }

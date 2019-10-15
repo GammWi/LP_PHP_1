@@ -3,7 +3,17 @@
 {% block content %}
 <br><br><br>
 <h2>Bienvenu dans le panel ADMIN</h2>
+<h4>Liste des comptes admin:</h4>
+{% for admin in admins %}
+    {{ admin.username }} </br>
+    {% if admin.username != 'root' %}
+        <form action="{{ path_for('admin.delete')}}" method="POST">
+            <button type="submit" class="btn btn-warning btn-sm" name="suppAdmin" value={{ admin.id_user }}>Supprimer le compte</button>
+         </form>
+    {% endif %}
+{% endfor %}</br>
 <form action="{{ path_for('admin.add')}}" method="GET">
     <button type="submit" class="btn btn-primary">Ajouter un compte admin</button>
 </form>
 {% endblock %}
+

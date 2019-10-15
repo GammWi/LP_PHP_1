@@ -34,7 +34,7 @@ CREATE TABLE `character` (
   `id_character_elem` int(11) NOT NULL,
   `name` varchar(55) COLLATE utf8_bin NOT NULL,
 
-  `picture` varchar(155) COLLATE utf8_bin DEFAULT NULL
+  `id_picture` int(10) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 

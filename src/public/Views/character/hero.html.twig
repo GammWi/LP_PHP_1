@@ -47,7 +47,7 @@
 <div class="container" style="padding-top: 3%">
     <h2 class="white-text center-align"> Création des Héros</h2>
     <div class="row">
-        <form class="col s12" action="valCreateHero" method="post">
+        <form class="col s12" action="valCreateHero" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="input-field col s6">
                     <input id="name" type="text" name="name" class="green-text validate">
@@ -83,10 +83,12 @@
                     </select>
                 </div>
             </div>
+            <div class="row"><label class="green-text" for="img">Choissiez une URL d'image pour votre héro</label></div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="img" type="text" class="green-text validate">
-                    <label class="green-text" for="img">Choissiez une URL d'image pour votre héro</label>
+                    <input type="hidden" name="MAX_FILE_SIZE" value="250000">
+                    <input id="img" type="file" name="img" class="green-text validate" size="50">
+
                 </div>
             </div>
             <button class="green btn waves-effect waves-light" type="submit" name="action">Valider

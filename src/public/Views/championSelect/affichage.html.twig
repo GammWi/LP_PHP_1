@@ -1,64 +1,41 @@
 {% include '/layout/header.html.twig' %}
 
-{#<H1> Page de selection des champions </H1>#}
-
-{#</br>#}
-
-{#<h3> Choisissez votre Héros</h3>#}
-{#<form action="{{ path_for('fight')}}" method="post">#}
-
-{#{% for heros in hero %}#}
-    {#{{ loop.index }} - {{ heros.firstname }} {{ heros.name }}#}
-    {#{{ heros.id_character }}#}
-
-    {#<input type="radio" name="select" value={{ heros.id_character }}>#}
-
-    {#<form action="{{ path_for('modifHero') }}" method="post">#}
-        {#<button name="modifier" type="submit" value={{ heros.id_character }}>Modifier</button>#}
-    {#</form>#}
-
-    {#<form action="{{ path_for('supprHero') }}" method="post">#}
-        {#<button name="supprimer" type="submit" value={{ heros.id_character }}>Supprimer</button>#}
-    {#</form>#}
-    {#<br/>#}
-    {#<br/>#}
-
-{#{% endfor %}#}
-
-{#<form action="createHero">#}
-    {#<input type="submit" value="Créer un héros">#}
-{#</form>#}
+<script type="application/javascript">
+    window.onload=function() {
+        const f = document.getElementById("gofight")
+        f.addEventListener("click", function (event) {
+           let selection = document.getElementsByName("carac");
+            let i = 0;
+            let array_val = [];
+            selection.forEach(function (id) {
+                if (id.checked) {
+                    array_val[i] = id.value;
+                    i++;
+                }
+            });
+            if (i!==2){
+                alert("Veuillez sélectionner deux champions")
+            }else{
+                window.location.href="fight?id_hero="+array_val[0]+"&id_monster="+array_val[1];
+            }
 
 
-{#<h3> Choisissez votre Monstre </h3>#}
-
-{#Monster 1 : Jean-Méchant#}
-{#<input type="submit" value="Choisir"> </br>#}
-
-{#Monster 2: Jean-Machiavélique#}
-{#<input type="submit" value="Choisir"> </br>#}
-
-{#Monster 3: Jean-Sadique#}
-{#<input type="submit" value="Choisir"> </br>#}
 
 
-{#<form action="createMonster">#}
-    {#<input type="submit" value="Créer un monstre">#}
-{#</form>#}
 
-{#<br/>#}
-
-{#<button type="submit"> fight !  </button></form>#}
-
+        })
+    }
+</script>
 
 <div class="container">
 
     <h2 class="white-text center-align">Préparez-vous au combat !</h2>
 
+
     {#<div class="row valign-wrapper">#}
     {#BLOC HEROS#}
     <div class="col s6 m3">
-        <h4 class="left-align green-text" style="font-weight: bold;"> Choisissez le(s) héro(s) que vous envoyez au
+        <h4 class="left-align green-text" style="font-weight: bold;"> Choisissez le(s) héros que vous envoyez au
             combat</h4>
         <div class="card valign-wrapper">
             <div class="card-content">
@@ -70,7 +47,7 @@
                             <div class="card horizontal" style="width: 256px">
                                 <div class="card-image center-block center">
                                     <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
-                                         alt="Un héro">
+                                         alt="Un héros">
                                 </div>
                                 <div class="card-stacked">
                                     <div class="card-content">
@@ -83,9 +60,9 @@
                                     </div>
                                     <div class="card-action">
                                         <label>
-                                            <input class="checkbox-green" type="checkbox"/>
+                                            <input class="checkbox-green" type="checkbox" name = "carac" value={{heros.id_character}}/>
                                             <span>Envoyer
-                                            ce héro au combat</span>
+                                            ce héros au combat</span>
                                         </label>
                                     </div>
                                 </div>
@@ -182,7 +159,7 @@
                         <div class="card horizontal" style="width: 256px">
                             <div class="card-image center-block center">
                                 <img style="width: 256px" src="../../public/assets/img/characters/monstre.png"
-                                     alt="Un héro">
+                                     alt="Un héros">
                             </div>
                             <div class="card-stacked">
                                 <div class="card-content">
@@ -196,7 +173,7 @@
                                 <div class="card-action">
 
                                     <label>
-                                        <input class="checkbox-green" type="checkbox"/>
+                                        <input class="checkbox-green" type="checkbox" name = "carac" value={{monsters.id_character}}/>
                                         <span>Envoyer
                                             ce monstre au combat</span>
                                     </label>
@@ -273,14 +250,14 @@
     </div>
     {#FIN BLOC MONSTRES#}
 
-    <form style="display: inline-block; width: 100%"
-          action="{{ path_for('fight') }}"
-          method="post">
-        <button class="waves-effect waves-light btn-large" name="select"; style="width: 100%; font-weight: bold;" type="submit"; value="{{ heros.id_hero }}">Cliquez
+    {#<form style="display: inline-block; width: 100%">#}
+        <button id="gofight" class="waves-effect waves-light btn-large" style="width: 100%; font-weight: bold;" >Cliquez
             ici
             pour lancer le combat
         </button>
-    </form>
+    {#</form>#}
+
+
 
 </div>
 {#</div>#}

@@ -1,10 +1,29 @@
+composer install
+
+Si une page génère une erreur avec un controller non trouvé par Slim le fix est simple : composer dump-autoload -o
+
+Pour générer la BDD il faut dans l'ordre executer : 
+
+bdd.sql
+bddDonnees.sql
+
+Un compte admin est générer par défault avec le combo root/root
+
+la page d'acceuil est : 
+
+[HOTE]/src/public/index.php/selectChamp
+
+
+
+
+
 # Slim Framework 4 Skeleton Application
 
 Use this skeleton application to quickly setup and start working on a new Slim Framework 4 application. This application uses the latest Slim 4 with Slim PSR-7 implementation and PHP-DI container implementation. It also uses the Monolog logger.
 
 This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
 
-## Install the Application
+Install the Application
 
 Run this command from the directory in which you want to install your new Slim Framework application.
 

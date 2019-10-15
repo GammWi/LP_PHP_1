@@ -23,5 +23,9 @@ class Character extends \Illuminate\Database\Eloquent\Model {
 
     }
 
+    public function pictures() {
+        return $this->belongsTo('\dawa\models\character','id_picture');
+    }
+
 
 }

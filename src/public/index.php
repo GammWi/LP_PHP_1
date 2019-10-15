@@ -86,10 +86,13 @@ $app->get('/TEMPLATEselectChamp', function(Request $request, Response $response,
 //ROUTE TEMPORAIRE CREATION DESIGN
 
 $app->group('', function(){
-    $this->get('/admin/panel', "\\dawa\\controllers\\userController:panel")->setName('admin.panel');
 
+    $this->get('/reset', "\\dawa\\controllers\\userController:getResetPassword")->setName("auth.reset");
+    $this->post('/reset', "\\dawa\\controllers\\userController:postResetPassword");
+    $this->get('/admin/panel', "\\dawa\\controllers\\userController:panel")->setName('admin.panel');
     $this->get('/admin/add', "\\dawa\\controllers\\userController:ajouterAdmin")->setName('admin.add');
     $this->post('/admin/add', "\\dawa\\controllers\\userController:postAjouterAdmin");
+    $this->post('/admin/supp', "\\dawa\\controllers\\userController:postSupprimerAdmin")->setName("admin.delete");
     $this->post('/modifHero',"\\dawa\\controllers\\heroController:modifierHero")->setName('modifHero');
 
     $this->post('/supprHero',"\\dawa\\controllers\\heroController:supprimerHero")->setName('supprHero');

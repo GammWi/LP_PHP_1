@@ -102,7 +102,7 @@ $app->group('', function(){
     $this->post('/supprMonster',"\\dawa\\controllers\\monstreController:supprimerMonster")->setName('supprMonster');
     $this->get('/createHero', "\\dawa\\controllers\\heroController:CreerHero")->setName('creerHero');
 
-    $this->get('/createMonster', "\\dawa\\controllers\\monstreController:CreerMonster")->setName('CreerMonster');
+    $this->get('/createMonster', "\\dawa\\controllers\\monstreController:CreerMonster")->setName('creerMonster');
 
     $this->post('/valCreateMonster', "\\dawa\\controllers\\monstreController:insererMonster");
 

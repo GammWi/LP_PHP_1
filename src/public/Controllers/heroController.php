@@ -3,6 +3,7 @@ namespace dawa\controllers;
 use dawa\models\Character;
 use dawa\models\Element;
 use dawa\models\Hero;
+use dawa\models\Images;
 use dawa\models\race;
 
 class heroController{
@@ -37,10 +38,11 @@ class heroController{
         $race = $_POST["namerace"];
         $idRace = race::where('name','=',$race)->get("id_race");
         $character->id_character_race = $idRace[0]["id_race"];
-
-        $character->picture  = $_POST["urlimage"];
         $character->save();
-
+        $picture = $_FILES["img"];
+        var_dump($picture);
+        $cheminDest = "/pictures";
+        move_uploaded_file($picture['tmp_name'], $cheminDest.$picture["name"]);
 
         $hero = new Hero();
         $hero->firstname = $_POST["firstname"];
@@ -48,7 +50,9 @@ class heroController{
         $hero->id_character = $idChara[0]["id_character"];
         $hero->save();
 
-        return $response->withRedirect($this->container->router->pathFor('home'));
+
+
+        //return $response->withRedirect($this->container->router->pathFor('home'));
 
 
     }

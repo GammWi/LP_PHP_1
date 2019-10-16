@@ -39,10 +39,11 @@ class heroController{
         $idRace = race::where('name','=',$race)->get("id_race");
         $character->id_character_race = $idRace[0]["id_race"];
         $character->save();
-        $picture = $_FILES["img"];
-        var_dump($picture);
-        $cheminDest = "/pictures";
-        move_uploaded_file($picture['tmp_name'], $cheminDest.$picture["name"]);
+
+
+        $cheminDest = "D:/wamp64/www/LP_PHP_1/src/public/assets/img/characters/";
+        move_uploaded_file($_FILES["img"]["tmp_name"], $cheminDest.$_FILES["img"]["name"]);
+
 
         $hero = new Hero();
         $hero->firstname = $_POST["firstname"];
@@ -52,7 +53,7 @@ class heroController{
 
 
 
-        //return $response->withRedirect($this->container->router->pathFor('home'));
+        return $response->withRedirect($this->container->router->pathFor('home'));
 
 
     }

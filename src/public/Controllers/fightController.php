@@ -12,11 +12,10 @@ class fightController{
     }
 
     public function Index($request, $response){
-        $hero = Hero::get();
 
         $body = $request->getParsedBody();
 
-        $body['heros'] = $hero;
+        $body['heros'] = [['firstname' => 'Roger']];
         $body['monstres'] = [['name'=>'Michel'], ['name'=>'Jean']];
 
 

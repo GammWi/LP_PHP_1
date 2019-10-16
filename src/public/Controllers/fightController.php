@@ -12,16 +12,18 @@ class fightController{
     }
 
     public function Index($request, $response){
-        $hero = Hero::get();
 
         $body = $request->getParsedBody();
 
-        $body['heros'] = $hero;
+        $body['heros'] = [['firstname' => 'Roger']];
         $body['monstres'] = [['name'=>'Michel'], ['name'=>'Jean']];
+
+
 
         $this->container->view->render($response, 'fight/fight.html.twig', ['heros'=>$body['heros'], 'monstres'=>$body['monstres']]);
 
-       var_dump($_POST['select']);
+        var_dump($request->getParam('id_hero'));
+        var_dump($_GET['id_monster']);
 
     }
 

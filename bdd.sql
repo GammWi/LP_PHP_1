@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mar. 01 oct. 2019 à 13:07
+-- Généré le :  mer. 16 oct. 2019 à 16:46
 -- Version du serveur :  10.1.26-MariaDB
 -- Version de PHP :  7.1.9
 
@@ -33,8 +33,7 @@ CREATE TABLE `character` (
   `id_character_race` int(11) NOT NULL,
   `id_character_elem` int(11) NOT NULL,
   `name` varchar(55) COLLATE utf8_bin NOT NULL,
-
-  `id_picture` int(10) COLLATE utf8_bin DEFAULT NULL
+  `picture` varchar(155) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 
@@ -50,6 +49,19 @@ CREATE TABLE `element` (
   `description` varchar(255) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `fight`
+--
+
+CREATE TABLE `fight` (
+  `id_fight` bigint(20) UNSIGNED NOT NULL,
+  `id_hero` int(11) NOT NULL,
+  `id_monster` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 -- --------------------------------------------------------
 
 --
@@ -61,8 +73,6 @@ CREATE TABLE `hero` (
   `id_character` int(11) NOT NULL,
   `firstname` varchar(55) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
-
 
 -- --------------------------------------------------------
 
@@ -76,6 +86,7 @@ CREATE TABLE `isstrongerelem` (
   `id_elem_weaker` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+
 -- --------------------------------------------------------
 
 --
@@ -87,7 +98,6 @@ CREATE TABLE `monster` (
   `id_character` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-
 -- --------------------------------------------------------
 
 --
@@ -98,12 +108,42 @@ CREATE TABLE `race` (
   `id_race` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(55) COLLATE utf8_bin DEFAULT NULL,
   `description` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `boostAttack` float DEFAULT NULL,
-  `boostDefense` float DEFAULT NULL,
-  `boostAgility` float DEFAULT NULL,
-  `boostHp` float DEFAULT NULL
+  `attack` float DEFAULT NULL,
+  `defense` float DEFAULT NULL,
+  `agility` float DEFAULT NULL,
+  `hp` float DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `statscarac`
+--
+
+CREATE TABLE `statscarac` (
+  `id_statscarac` bigint(20) UNSIGNED NOT NULL,
+  `id_carac` bigint(20) UNSIGNED NOT NULL,
+  `type` varchar(30) COLLATE utf8_bin NOT NULL,
+  `nbWin` bigint(20) UNSIGNED DEFAULT NULL,
+  `nbLoose` bigint(20) UNSIGNED DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `statsfight`
+--
+
+CREATE TABLE `statsfight` (
+  `id_stats` bigint(20) UNSIGNED NOT NULL,
+  `id_fight` bigint(20) UNSIGNED NOT NULL,
+  `id_winner` bigint(20) UNSIGNED NOT NULL,
+  `id_looser` bigint(20) UNSIGNED NOT NULL,
+  `pvWinner` int(11) DEFAULT NULL,
+  `dmgWinner` int(11) DEFAULT NULL,
+  `dmgLooser` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -139,6 +179,15 @@ ALTER TABLE `element`
   ADD UNIQUE KEY `name` (`name`);
 
 --
+-- Index pour la table `fight`
+--
+ALTER TABLE `fight`
+  ADD PRIMARY KEY (`id_fight`),
+  ADD UNIQUE KEY `id_fight` (`id_fight`),
+  ADD KEY `id_hero` (`id_hero`),
+  ADD KEY `id_monster` (`id_monster`);
+
+--
 -- Index pour la table `hero`
 --
 ALTER TABLE `hero`
@@ -171,6 +220,14 @@ ALTER TABLE `race`
   ADD UNIQUE KEY `id_race` (`id_race`);
 
 --
+-- Index pour la table `statscarac`
+--
+ALTER TABLE `statscarac`
+  ADD PRIMARY KEY (`id_statscarac`),
+  ADD UNIQUE KEY `id_statscarac` (`id_statscarac`),
+  ADD KEY `id_carac` (`id_carac`);
+
+--
 -- Index pour la table `user`
 --
 ALTER TABLE `user`
@@ -191,7 +248,13 @@ ALTER TABLE `character`
 -- AUTO_INCREMENT pour la table `element`
 --
 ALTER TABLE `element`
-  MODIFY `id_element` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_element` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT pour la table `fight`
+--
+ALTER TABLE `fight`
+  MODIFY `id_fight` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `hero`
@@ -203,7 +266,7 @@ ALTER TABLE `hero`
 -- AUTO_INCREMENT pour la table `isstrongerelem`
 --
 ALTER TABLE `isstrongerelem`
-  MODIFY `id_isStronger` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_isStronger` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `monster`
@@ -218,10 +281,16 @@ ALTER TABLE `race`
   MODIFY `id_race` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT pour la table `statscarac`
+--
+ALTER TABLE `statscarac`
+  MODIFY `id_statscarac` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

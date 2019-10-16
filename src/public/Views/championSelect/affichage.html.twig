@@ -16,13 +16,8 @@
             if (i!==2){
                 alert("Veuillez sélectionner deux champions")
             }else{
-                window.location.href="fight?id_hero="+array_val[0]+"&id_monster="+array_val[1];
+                window.location.href=`fight?id_hero=${array_val[0]}&id_monster=${array_val[1]}`;
             }
-
-
-
-
-
         })
     }
 </script>
@@ -60,7 +55,7 @@
                                     </div>
                                     <div class="card-action">
                                         <label>
-                                            <input class="checkbox-green" type="checkbox" name = "carac" value={{heros.id_character}}/>
+                                            <input class="checkbox-green" type="checkbox" name = "carac" value={{heros.id_hero}}>
                                             <span>Envoyer
                                             ce héros au combat</span>
                                         </label>
@@ -173,7 +168,7 @@
                                 <div class="card-action">
 
                                     <label>
-                                        <input class="checkbox-green" type="checkbox" name = "carac" value={{monsters.id_character}}/>
+                                        <input class="checkbox-green" type="checkbox" name = "carac" value={{monsters.id_monster}}>
                                         <span>Envoyer
                                             ce monstre au combat</span>
                                     </label>

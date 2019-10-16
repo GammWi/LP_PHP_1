@@ -4,7 +4,7 @@ use dawa\models\Character;
 use dawa\models\Element;
 use dawa\models\Hero;
 use dawa\models\Monster;
-use dawa\models\race;
+use dawa\models\Race;
 
 class monstreController{
 
@@ -20,7 +20,7 @@ class monstreController{
     public function CreerMonster($request, $response){
 
         $listeElem = Element::all();
-        $listeRace = race::all();
+        $listeRace = Race::all();
         return $this->container->view->render($response, 'character/monster.html.twig', ['element'=>$listeElem, 'listerace'=>$listeRace]);
 
     }
@@ -35,7 +35,7 @@ class monstreController{
         $character->id_character_elem = $idElem[0]["id_element"];
 
         $race = $_POST["namerace"];
-        $idRace = race::where('name','=',$race)->get("id_race");
+        $idRace = Race::where('name','=',$race)->get("id_race");
         $character->id_character_race = $idRace[0]["id_race"];
 
         $character->picture  = $_POST["urlimage"];

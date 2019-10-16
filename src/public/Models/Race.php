@@ -7,7 +7,7 @@
  */
 
 namespace dawa\models;
-class race extends \Illuminate\Database\Eloquent\Model {
+class Race extends \Illuminate\Database\Eloquent\Model {
     protected $table = "race";
     protected $primaryKey = "id_race";
     public $timestamps = false;

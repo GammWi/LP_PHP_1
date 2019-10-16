@@ -53,9 +53,13 @@ class heroController{
 
     }
 
-    public function modifierHero($request, $response){
-        echo "L'id du héros que vous voulez supprimer est : ".$_POST['modifier'];
+    public function getModifierHero($request, $response){
+        $hero = Hero::where('id_hero', $request->getParam('modifier'))->first();
+        $charac = Character::where('id_character', $hero->id_character)->first();
+        return $this->container->view->render($response, 'character/modifierHero.twig', ['hero' => $hero, 'charact' => $charac]);
+    }
 
+    public function postModifierHero($request, $response){
 
     }
 

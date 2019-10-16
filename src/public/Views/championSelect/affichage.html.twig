@@ -125,8 +125,8 @@
                                             </div>
                                             <div class="card-action">
                                                 <form style="display: inline-block;"
-                                                      action="{{ path_for('modifHero') }}"
-                                                      method="post">
+                                                      action="{{ path_for('modif.hero') }}"
+                                                      method="get">
                                                     <button style="height: 50%; line-height: 2; font-weight: bold;"
                                                             class="green waves-effect waves-light btn"
                                                             name="modifier"
@@ -237,7 +237,7 @@
                                             <h5 class="center"> Actions </h5>
                                         </div>
                                         <div class="card-action">
-                                            <form style="display: inline-block;" action="{{ path_for('modifMonster') }}" method="post">
+                                            <form style="display: inline-block;" action="{{ path_for('modifMonster') }}" method="get">
                                             <button style="height: 50%; line-height: 2; font-weight: bold;"
                                                     class="red waves-effect waves-light btn" name="modifier"
                                                     type="submit"

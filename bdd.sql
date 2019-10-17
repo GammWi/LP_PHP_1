@@ -27,6 +27,17 @@ SET time_zone = "+00:00";
 --
 -- Structure de la table `character`
 --
+DROP TABLE IF EXISTS `character`;
+DROP TABLE IF EXISTS `element`;
+DROP TABLE IF EXISTS `fight`;
+DROP TABLE IF EXISTS `hero`;
+DROP TABLE IF EXISTS `isstrongerelem`;
+DROP TABLE IF EXISTS `monster`;
+DROP TABLE IF EXISTS `race`;
+DROP TABLE IF EXISTS `statscarac`;
+DROP TABLE IF EXISTS `statsfight`;
+DROP TABLE IF EXISTS `user`;
+
 
 CREATE TABLE `character` (
   `id_character` bigint(20) UNSIGNED NOT NULL,

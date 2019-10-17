@@ -23,6 +23,7 @@ $container['auth'] = function ($container){
     return new dawa\controllers\userController($container);
 };
 
+
 $container["view"] = function ($container){
     
     $view = new \Slim\Views\Twig(__DIR__.'/Views',[

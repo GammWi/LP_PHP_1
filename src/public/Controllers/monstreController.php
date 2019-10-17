@@ -53,7 +53,7 @@ class monstreController{
     }
 
     public function modifierMonster($request, $response){
-        echo "L'id du monstre que vous voulez supprimer est : ".$_POST['modifier'];
+        echo "L'id du monstre que vous voulez modifier est : ".$_POST['modifier'];
     }
 
     public function supprimerMonster($request, $response){

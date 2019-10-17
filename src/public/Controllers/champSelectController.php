@@ -38,9 +38,20 @@ class champSelectController{
                 ->leftJoin('character','character.id_character', '=', 'monster.id_character')
                 ->get();
 
-            $this->container->view->render($response, 'championSelect/affichage.html.twig', ['hero' => $hero, 'monster' => $monster]);
+            $rand[0]=$this->randomChampSelect($hero);
+            $rand[1]=$this->randomChampSelect($monster);
+            var_dump($rand);
+            $this->container->view->render($response, 'championSelect/affichage.html.twig', ['hero' => $hero, 'monster' => $monster, 'rand' => $rand]);
 
         }
+
+
+    }
+
+    public function randomChampSelect($carac){
+
+        return random_int(1,count($carac));
+
     }
 }
 

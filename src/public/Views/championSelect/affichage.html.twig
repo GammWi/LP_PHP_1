@@ -20,6 +20,16 @@
             }
         })
     }
+
+    window.onload=function() {
+        const f = document.getElementById("goRand")
+        f.addEventListener("click", function (event) {
+            let rdm = document.getElementById("goRand").value
+
+            window.location.href=`fight?id_hero=${rdm[1]}&id_monster=${rdm[3]}`;
+
+        })
+    }
 </script>
 
 <div class="container">
@@ -245,12 +255,18 @@
     </div>
     {#FIN BLOC MONSTRES#}
 
-    {#<form style="display: inline-block; width: 100%">#}
-        <button id="gofight" class="waves-effect waves-light btn-large" style="width: 100%; font-weight: bold;" >Cliquez
-            ici
-            pour lancer le combat
-        </button>
-    {#</form>#}
+
+    <button id="gofight" class="waves-effect waves-light btn-large" style="width: 100%; font-weight: bold;" >Cliquez
+        ici
+        pour lancer le combat
+    </button>
+
+
+    <button id="goRand" class="waves-effect waves-light btn-large" style="width: 100%; font-weight: bold;" value="{{ rand | json_encode | raw }}">Cliquez
+        ici
+        pour lancer un combat avec des champions aléatoires (à vos risques et périls!)
+    </button>
+
 
 
 

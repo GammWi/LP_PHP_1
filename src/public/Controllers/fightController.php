@@ -48,8 +48,20 @@ class fightController
             'name' => $characMonster['name']
         ];
 
-        $beforeLeHero = $leHero;
-        $beforeLeMonster = $leMonster;
+        function array_clone($array) {
+            return array_map(function($element) {
+                return ((is_array($element))
+                    ? array_clone($element)
+                    : ((is_object($element))
+                        ? clone $element
+                        : $element
+                    )
+                );
+            }, $array);
+        }
+
+        $beforeLeHero = array_clone($leHero);
+        $beforeLeMonster = array_clone($leMonster);
 
         $fin = false;
 
@@ -70,14 +82,10 @@ class fightController
         $j = ($whostart == 1) ? 0 : 1;
         while (!$fin) {
             if ($persos[0]['race']['hp'] > 0 && $persos[1]['race']['hp'] > 0) {
-//                pr('TOUR ' . $tour);
                 $hpLogBefore = $persos[$i]['name'] . ': ' . $persos[$i]['race']['hp'] . 'hp ||| ' . $persos[$j]['name'] . ': ' . $persos[$j]['race']['hp'] . 'hp';
-//                pr($hpLogBefore);
                 $dmgLog = $persos[$i]['name'] . ' attaque ' . $persos[$j]['name'] . ' pour ' . $persos[$i]['race']['attack'];
-//                pr($dmgLog);
                 $persos[$j]['race']['hp'] -= $persos[$i]['race']['attack'];
                 $hpLogAfter = $persos[$i]['name'] . ': ' . $persos[$i]['race']['hp'] . 'hp ||| ' . $persos[$j]['name'] . ': ' . $persos[$j]['race']['hp'] . 'hp';
-//                pr($hpLogAfter);
                 $log = [
                     'tour' => $tour,
                     'win' => false,
@@ -91,10 +99,8 @@ class fightController
                     $j = $tmp;
                 }
             } else {
-                $winner = $persos[$i];
-                $looser = $persos[$j];
                 $log = [
-                    'tour' => $tour,
+                    'tour' => 'FIN',
                     'win' => true,
                     'winner' => $persos[$i],
                     'looser' => $persos[$j]
@@ -107,10 +113,6 @@ class fightController
             ];
             $tour++;
         }
-
-//        pr('fin');
-//        pr('GAGNANT : ' . $winner['name']);
-//        pr('LOOSER : ' . $looser['name']);
 
         $this->container->view->render($response, 'fight/fight.html.twig', ['combat' => [
             "persos" => [$beforeLeHero, $beforeLeMonster],

@@ -19,8 +19,20 @@
                 window.location.href = `fight?id_hero=${array_val[0]}&id_monster=${array_val[1]}`;
             }
         })
-    };
-    new Glide('.glide').mount()
+
+    }
+
+    window.onload=function() {
+        const f = document.getElementById("goRand")
+        f.addEventListener("click", function (event) {
+            let rdm = document.getElementById("goRand").value
+
+            window.location.href=`fight?id_hero=${rdm[1]}&id_monster=${rdm[3]}`;
+
+        })
+    }
+
+
 </script>
 
 <div class="">
@@ -48,11 +60,7 @@
                                         <div class="card-stacked">
                                             <div class="card-content">
                                                 <h5 class="center"> {{ heros.firstname }} {{ heros.name }} </h5>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                                    tempor
-                                                    incididunt
-                                                    ut
-                                                    labore et dolore magna aliqua.</p>
+                                                <p>{{ heroo.getAllCaracHero(heros.id_hero).race.hp}}</p>
                                             </div>
                                             <div class="card-action">
                                                 <label>
@@ -72,7 +80,7 @@
                                             <div class="card horizontal" style="width: 256px">
                                                 <div class="card-stacked">
                                                     <div class="card-content">
-                                                        Points de vie
+                                                        Points de vie:
                                                         <div class="progress">
                                                             <div class="green determinate" style="width: 70%"></div>
                                                         </div>
@@ -258,12 +266,29 @@
         </div>
         {#FIN BLOC MONSTRES#}
     </div>
+
+    {#FIN BLOC MONSTRES#}
+
+
+
+
+
+    <button id="goRand" class="waves-effect waves-light btn-large green" style="width: 49.5%; font-size: 0.85em; font-weight: bold;position: fixed; bottom:0; right:0" value="{{ rand | json_encode | raw }}">Cliquez
+        ici
+        pour lancer un combat avec des champions aléatoires (à vos risques et périls!)
+    </button>
+
+
+
+
+
     {#<form style="display: inline-block; width: 100%">#}
-    <button id="gofight" class="waves-effect waves-light btn-large" style="width: 100%; font-weight: bold; position: fixed; bottom: 0">Cliquez
+    <button id="gofight" class="waves-effect waves-light btn-large red" style="width: 49.5%;font-size: 0.85em; font-weight: bold; position: fixed; bottom: 0; left:0">Cliquez
         ici
         pour lancer le combat
     </button>
     {#</form>#}
+
 </div>
 
 

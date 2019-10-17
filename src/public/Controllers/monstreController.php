@@ -41,7 +41,6 @@ class monstreController{
         $idRace = Race::where('name','=',$race)->get("id_race");
         $character->id_character_race = $idRace[0]["id_race"];
 
-        $character->save();
 
         $cheminDest = "D:/wamp64/www/LP_PHP_1/src/public/assets/img/characters/";
         move_uploaded_file($_FILES["img"]["tmp_name"], $cheminDest.$_FILES["img"]["name"]);
@@ -49,6 +48,10 @@ class monstreController{
         $p->name = $_FILES["img"]["name"];
         $p->path = $cheminDest;
         $p->save();
+
+        $id_img = Pictures::where("name","=",$_FILES["img"]["name"])->first();
+        $character->picture = $id_img["id_picture"];
+        $character->save();
 
 
         $monster = new Monster();
@@ -62,7 +65,7 @@ class monstreController{
     }
 
     public function modifierMonster($request, $response){
-        echo "L'id du monstre que vous voulez supprimer est : ".$_POST['modifier'];
+        echo "L'id du monstre que vous voulez modifier est : ".$_POST['modifier'];
     }
 
     public function supprimerMonster($request, $response){

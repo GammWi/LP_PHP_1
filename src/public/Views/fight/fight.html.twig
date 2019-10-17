@@ -1,13 +1,18 @@
-{#{% include '/layout/header.html.twig' %}#}
+{% include '/layout/header.html.twig' %}
 
 <div class="container white-text">
-        {% for hero in heros %}
-            <div>{{ hero.firstname }}</div>
-        {% endfor %}
+    {% for perso in combat.persos %}
+        <h1>{{ perso.name }}</h1>
+    {% endfor %}
 
-        {% for monstre in monstres %}
-            <div>{{ monstre.name }}</div>
-        {% endfor %}
+    {% for tour in combat.tours %}
+        <div>
+            <h2>Tour n°{{ tour.id }}</h2>
+            <p>{{ tour.log.hpLogBefore }}</p>
+            <p>{{ tour.log.dmgLog }}</p>
+            <p>{{ tour.log.hpLogAfter }}</p>
+        </div>
+    {% endfor %}
 </div>
 
-{#{% include '/layout/footer.html.twig' %}#}
+{% include '/layout/footer.html.twig' %}

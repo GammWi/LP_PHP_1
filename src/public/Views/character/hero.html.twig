@@ -81,6 +81,10 @@
                             <option value="{{ race.name }}">{{ race.name }}</option>
                         {% endfor %}
                     </select>
+
+                    {% for race in listerace %}
+                        <div><p>{{race.name}}</p><button>{{ race.id_race}}</button></div>
+                    {% endfor %}
                 </div>
             </div>
             <div class="row"><label class="green-text" for="img">Choissiez une URL d'image pour votre héro</label></div>

@@ -1,49 +1,21 @@
 {% include '/layout/header.html.twig' %}
+<script type="application/javascript">
+    window.onload=function() {
+        const f = document.getElementById("chooseRace");
 
-{#<p>Bienvenu dans l'écran de création des héros</p>#}
-{#<h3>Créer un Héro :</h3>#}
-{#<span class="validerCreationHero">#}
-{#    <form action="valCreateHero" method="post">#}
-{#        <div class="form-group">#}
-{#            <label for="name">Nom  : </label>#}
-{#            <input type="text" id="name" name="name" required minlength="1" maxlength="55" size="55">#}
-{#        </div>#}
-{#        <div class="form-group">#}
-{#            <label for="firstname">Prenom  : </label>#}
-{#            <input type="text" id="firstname" name="firstname" required minlength="1" maxlength="55" size="55">#}
-{#        </div>#}
-{#        <div class="form-group">#}
-{#        <label for="namelem">Choissisez un element : </label>#}
-
-{#        <input type="text" list="chooseElem" name="namelem">#}
-{#            <datalist id="chooseElem">#}
-{#                {% for elem in element %}#}
-{#                    <select>{{ elem.name }}</select>#}
-{#                {% endfor %}#}
-{#            </datalist>#}
-
-{#        </div>#}
-{#        <div class="form-group">#}
-{#            <label for="namerace">Choissisez la race du hero : </label>#}
-{#            <input type="text" list="chooseRace" name="namerace">#}
-{#            <datalist id="chooseRace">#}
-{#                {% for race in listerace %}#}
-{#                    <select value="{{ race.name }}">{{ race.name }}</select>#}
-{#                {% endfor %}#}
-{#            </datalist>#}
-{#            </div>#}
-{#        <div class="form-group">#}
-{#            <label for="urlimage">Choissiez une URL d'image pour votre Hero</label>#}
-{#            <input type="url" name="urlimage" value="">#}
-{#            <br>#}
-{#            <input type="submit" value="valider">#}
-{#        </div>#}
-
-
-{#    </form>#}
-{#</span>#}
-
-
+        f.addEventListener("click", function (event) {
+            console.log(f.value);
+            let cont = document.getElementById("infoRace");
+            {% for race in listerace %}
+                if("{{ race.name }}" === f.value) {
+                    let informationRace = document.getElementById("infoRace")
+                    informationRace.className = "card horizontal";
+                    informationRace.innerHTML ="<img style=\"width: 256px\" src=\"../../public/assets/img/characters/hero.png\" alt=\"Un héros\"><h3>{{ race.name }}</h3><p>{{ race.description }}</p><li>attaque : {{ race.attack }}</li><li>défense : {{ race.defense }}</li><li>agilité : {{ race.agility }}</li><li>vie : {{ race.hp }}</li>";
+                }
+            {% endfor %}
+        });
+    }
+</script>
 <div class="container" style="padding-top: 3%">
     <h2 class="white-text center-align"> Création des Héros</h2>
     <div class="row">
@@ -60,32 +32,33 @@
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <label class="green-text" for="element">Choisissez un élément</label>
-                    <input type="text" list="chooseElem" name="namelem" class="green-text validate">
-                    <select id="chooseElem">
 
+
+                    <div class="selects-container">
+                    <select id="chooseElem" name="namelem">
                         {% for elem in element %}
                             <option>{{ elem.name }}</option>
                         {% endfor %}
-
                     </select>
-
+                        <label class="green-text" for="element">Choisissez un élément</label>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="input-field col s12">
-                    <label class="green-text" for="race">Choissisez la race du héro</label>
-                    <input type="text" list="chooseRace" name="namerace" class="green-text validate">
-                    <select id="chooseRace">
+            <div class="row valign-wrapper">
+                <div class="col s12">
+                    <label class="green-text" for="element">Choisissez une race</label>
+                    <select id="chooseRace" name="namerace">
                         {% for race in listerace %}
                             <option value="{{ race.name }}">{{ race.name }}</option>
                         {% endfor %}
                     </select>
-
-                    {% for race in listerace %}
-                        <div><p>{{race.name}}</p><button>{{ race.id_race}}</button></div>
-                    {% endfor %}
                 </div>
+
+
+            </div>
+
+            <div class="card horizontal col s12" id="infoRace">
+
             </div>
             <div class="row"><label class="green-text" for="img">Choissiez une URL d'image pour votre héro</label></div>
             <div class="row">

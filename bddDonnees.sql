@@ -1,16 +1,16 @@
-INSERT INTO `character` (`id_character`, `id_character_race`, `id_character_elem`, `name`, `picture`) VALUES
-(3, 1, 1, 'Nain', NULL),
-(4, 2, 1, 'Ranger', NULL),
-(5, 2, 1, 'Voleur', NULL),
-(6, 2, 1, 'Barbare', NULL),
-(7, 3, 1, 'Elfe', NULL),
-(8, 4, 1, 'Ogre', NULL),
-(9, 5, 1, 'Orque', NULL),
-(10, 6, 1, 'Gobelin', NULL),
-(11, 7, 1, 'Troll', NULL),
-(12, 8, 1, 'Mort-vivant', NULL),
-(13, 9, 1, 'Squelette', NULL),
-(14, 2, 1, 'Sorcier', NULL);
+INSERT INTO `character` (`id_character_race`, `id_character_elem`, `name`, `picture`) VALUES
+(1, 1, 'Nain', NULL),
+(2, 1, 'Ranger', NULL),
+(2, 1, 'Voleur', NULL),
+(2, 1, 'Barbare', NULL),
+(3, 1, 'Elfe', NULL),
+(4, 1, 'Ogre', NULL),
+(5, 1, 'Orque', NULL),
+(6, 1, 'Gobelin', NULL),
+(7, 1, 'Troll', NULL),
+(8, 1, 'Mort-vivant', NULL),
+(9, 1, 'Squelette', NULL),
+(2, 1, 'Sorcier', NULL);
 
 INSERT INTO `element` (`id_element`, `name`, `description`) VALUES
 (1, 'Feu', 'Le feu ça brûle'),

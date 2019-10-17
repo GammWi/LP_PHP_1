@@ -19,11 +19,6 @@ class fightController
 
     public function Index($request, $response)
     {
-
-        $body = $request->getParsedBody();
-
-        $this->container->view->render($response, 'fight/fight.html.twig', ['heros' => $body['heros'], 'monstres' => $body['monstres']]);
-
         $idMonster = $_GET['id_monster'];
         $idHero = $_GET['id_hero'];
 
@@ -38,20 +33,23 @@ class fightController
         $elemMonster = Element::where('id_element', '=', $monster['id_character_elem'])->first();
 
         $leHero = [
-            'hero' => $hero,
-            'char' => $characHero,
+            'hero' => $hero->getAttributes(),
+            'char' => $characHero->getAttributes(),
             'race' => $raceHero,
             'elem' => $elemHero,
             'name' => $hero['firstname'] . ' ' . $characHero['name']
         ];
 
         $leMonster = [
-            'monster' => $monster,
-            'char' => $characMonster,
+            'monster' => $monster->getAttributes(),
+            'char' => $characMonster->getAttributes(),
             'race' => $raceMonster,
             'elem' => $elemMonster,
             'name' => $characMonster['name']
         ];
+
+        $beforeLeHero = $leHero;
+        $beforeLeMonster = $leMonster;
 
         $fin = false;
 
@@ -65,34 +63,60 @@ class fightController
         }
 
         $persos = [$leHero, $leMonster];
-
+        $tours = [];
         $tour = 1;
+        $log = [];
         $i = $whostart;
         $j = ($whostart == 1) ? 0 : 1;
         while (!$fin) {
-            if($persos[0]['race']['hp'] >  0 && $persos[1]['race']['hp'] > 0) {
-                pr('TOUR ' . $tour);
+            if ($persos[0]['race']['hp'] > 0 && $persos[1]['race']['hp'] > 0) {
+//                pr('TOUR ' . $tour);
                 $hpLogBefore = $persos[$i]['name'] . ': ' . $persos[$i]['race']['hp'] . 'hp ||| ' . $persos[$j]['name'] . ': ' . $persos[$j]['race']['hp'] . 'hp';
-                pr($hpLogBefore);
+//                pr($hpLogBefore);
                 $dmgLog = $persos[$i]['name'] . ' attaque ' . $persos[$j]['name'] . ' pour ' . $persos[$i]['race']['attack'];
-                pr($dmgLog);
+//                pr($dmgLog);
                 $persos[$j]['race']['hp'] -= $persos[$i]['race']['attack'];
                 $hpLogAfter = $persos[$i]['name'] . ': ' . $persos[$i]['race']['hp'] . 'hp ||| ' . $persos[$j]['name'] . ': ' . $persos[$j]['race']['hp'] . 'hp';
-                pr($hpLogAfter);
+//                pr($hpLogAfter);
+                $log = [
+                    'tour' => $tour,
+                    'win' => false,
+                    'hpLogBefore' => $hpLogBefore,
+                    'dmgLog' => $dmgLog,
+                    'hpLogAfter' => $hpLogAfter
+                ];
+                if ($persos[0]['race']['hp'] > 0 && $persos[1]['race']['hp'] > 0) {
+                    $tmp = $i;
+                    $i = $j;
+                    $j = $tmp;
+                }
             } else {
-                $winner =  $persos[$i];
-                $looser =  $persos[$j];
+                $winner = $persos[$i];
+                $looser = $persos[$j];
+                $log = [
+                    'tour' => $tour,
+                    'win' => true,
+                    'winner' => $persos[$i],
+                    'looser' => $persos[$j]
+                ];
                 $fin = true;
             }
-            $tmp = $i;
-            $i = $j;
-            $j = $tmp;
+            $tours[] = [
+                "id" => $tour,
+                "log" => $log
+            ];
             $tour++;
         }
 
-        pr('fin');
-        pr('GAGNANT : ' . $winner['name']);
-        pr('LOOSER : ' . $looser['name']);
+//        pr('fin');
+//        pr('GAGNANT : ' . $winner['name']);
+//        pr('LOOSER : ' . $looser['name']);
+
+        $this->container->view->render($response, 'fight/fight.html.twig', ['combat' => [
+            "persos" => [$beforeLeHero, $beforeLeMonster],
+            "nbTours" => $tour,
+            "tours" => $tours
+        ]]);
     }
 
 

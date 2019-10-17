@@ -86,7 +86,6 @@ class heroController{
         }
  
         $hero['hero']->update(['firstname' => $firstname]);
-        
 
         return $response->withRedirect($this->container->router->pathFor('home'));
     }

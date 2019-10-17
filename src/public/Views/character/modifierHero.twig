@@ -1,7 +1,61 @@
 {% include '/layout/header.html.twig' %}
 
 
-Modification du perso {{ hero.firstname}} {{ charact.name}}
+
+
+<div class="container" style="padding-top: 3%">
+    <h2 class="white-text center-align"> Modification du perso {{ hero.firstname}} {{ charact.name}} </h2>
+    <div class="row">
+        <form class="col s12" action="{{ path_for('modif.hero')}}" method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="name" type="text" name="name" class="green-text validate" value= {{charact.name}}> 
+                    <label class="green-text" for="name">Nom</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="firstname" type="text" name="firstname" class="green-text validate" value= {{ hero.firstname}}>
+                    <label class="green-text" for="firstname">Prénom</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <label class="green-text" for="element">Choisissez un élément</label>
+                    <input type="text" list="chooseElem" name="namelem" class="green-text validate">
+                    <select id="chooseElem">
+
+                        {% for elem in element %}
+                            <option>{{ elem.name }}</option>
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <label class="green-text" for="race">Choissisez la race du héro</label>
+                    <input type="text" list="chooseRace" name="namerace" class="green-text validate">
+                    <select id="chooseRace">
+                        {% for race in listerace %}
+                            <option value="{{ race.name }}">{{ race.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="row"><label class="green-text" for="img">Choissiez une URL d'image pour votre héro</label></div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input type="hidden" name="MAX_FILE_SIZE" value="250000">
+                    <input id="img" type="file" name="img" class="green-text validate" size="50">
+
+                </div>
+            </div>
+            <button class="green btn waves-effect waves-light" type="submit" name="action">Valider
+                <i class="material-icons right">send</i>
+            </button>
+        </form>
+    </div>
+</div>
 
 
 {% include '/layout/footer.html.twig' %}

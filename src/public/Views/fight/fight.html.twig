@@ -2,8 +2,24 @@
 
 <div class="container white-text">
     <h2 class="white-text center-align">Puisse le sort vous être favorable !</h2>
+
     {% for perso in combat.persos %}
-        <h1>{{ perso.name }}</h1>
+        <div class="card horizontal" style="width: 256px">
+            <div class="card-image center-block center">
+                <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
+                     alt="Un héros">
+            </div>
+            <div class="card-stacked">
+                <div class="card-content">
+                    <h5 class="center"> {{ hero.name }} {{ heros.name }} </h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                        tempor
+                        incididunt
+                        ut
+                        labore et dolore magna aliqua.</p>
+                </div>
+            </div>
+        </div>
     {% endfor %}
 
     {% for tour in combat.tours %}

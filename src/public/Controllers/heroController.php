@@ -4,7 +4,7 @@ use dawa\models\Character;
 use dawa\models\Element;
 use dawa\models\Hero;
 use dawa\models\Images;
-use dawa\models\race;
+use dawa\models\Race;
 
 class heroController{
 
@@ -20,7 +20,7 @@ class heroController{
     public function CreerHero($request, $response){
 
         $listeElem = Element::all();
-        $listeRace = race::all();
+        $listeRace = Race::all();
         return $this->container->view->render($response, 'character/hero.html.twig', ['element'=>$listeElem, 'listerace'=>$listeRace]);
 
     }
@@ -29,20 +29,24 @@ class heroController{
 
         $character = new Character();
 
-        $character->name = $_POST["name"];
+
 
         $elem = $_POST["namelem"];
         $idElem = Element::where('name','=',$elem)->get();
         $character->id_character_elem = $idElem[0]["id_element"];
 
         $race = $_POST["namerace"];
+
         $idRace = race::where('name','=',$race)->get("id_race");
+        $character->name = $_POST["name"];
+
         $character->id_character_race = $idRace[0]["id_race"];
         $character->save();
-        $picture = $_FILES["img"];
-        var_dump($picture);
-        $cheminDest = "/pictures";
-        move_uploaded_file($picture['tmp_name'], $cheminDest.$picture["name"]);
+
+
+        $cheminDest = "D:/wamp64/www/LP_PHP_1/src/public/assets/img/characters/";
+        move_uploaded_file($_FILES["img"]["tmp_name"], $cheminDest.$_FILES["img"]["name"]);
+
 
         $hero = new Hero();
         $hero->firstname = $_POST["firstname"];
@@ -52,7 +56,7 @@ class heroController{
 
 
 
-        //return $response->withRedirect($this->container->router->pathFor('home'));
+        return $response->withRedirect($this->container->router->pathFor('home'));
 
 
     }

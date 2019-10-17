@@ -2,32 +2,98 @@
 
 namespace dawa\controllers;
 
-use Slim\Slim;
+use dawa\models\Character;
+use dawa\models\Element;
 use dawa\models\Hero as Hero;
+use dawa\models\Monster;
+use dawa\models\Race;
+use Slim\Slim;
 
-class fightController{
+class fightController
+{
 
-    public function __construct($container){
+    public function __construct($container)
+    {
         $this->container = $container;
     }
 
-    public function Index($request, $response){
-        $hero = Hero::get();
+    public function Index($request, $response)
+    {
 
         $body = $request->getParsedBody();
 
-        $body['heros'] = $hero;
-        $body['monstres'] = [['name'=>'Michel'], ['name'=>'Jean']];
+        $this->container->view->render($response, 'fight/fight.html.twig', ['heros' => $body['heros'], 'monstres' => $body['monstres']]);
 
+        $idMonster = $_GET['id_monster'];
+        $idHero = $_GET['id_hero'];
 
+        $hero = Hero::where('id_hero', '=', $idHero)->first();
+        $characHero = Character::where('id_character', '=', $hero['id_character'])->first();
+        $raceHero = Race::where('id_race', '=', $characHero['id_character_race'])->first();
+        $elemHero = Element::where('id_element', '=', $hero['id_character_elem'])->first();
 
-        $this->container->view->render($response, 'fight/fight.html.twig', ['heros'=>$body['heros'], 'monstres'=>$body['monstres']]);
+        $monster = Monster::where('id_monster', '=', $idMonster)->first();
+        $characMonster = Character::where('id_character', '=', $monster['id_character'])->first();
+        $raceMonster = Race::where('id_race', '=', $characMonster['id_character_race'])->first();
+        $elemMonster = Element::where('id_element', '=', $monster['id_character_elem'])->first();
 
-        var_dump($request->getParam('id_hero'));
-        var_dump($_GET['id_monster']);
+        $leHero = [
+            'hero' => $hero,
+            'char' => $characHero,
+            'race' => $raceHero,
+            'elem' => $elemHero,
+            'name' => $hero['firstname'] . ' ' . $characHero['name']
+        ];
 
+        $leMonster = [
+            'monster' => $monster,
+            'char' => $characMonster,
+            'race' => $raceMonster,
+            'elem' => $elemMonster,
+            'name' => $characMonster['name']
+        ];
+
+        $fin = false;
+
+        $whostart = rand(0, 1);
+
+        function pr($data)
+        {
+            echo "<pre>";
+            echo($data);
+            echo "</pre>";
+        }
+
+        $persos = [$leHero, $leMonster];
+
+        $tour = 1;
+        $i = $whostart;
+        $j = ($whostart == 1) ? 0 : 1;
+        while (!$fin) {
+            if($persos[0]['race']['hp'] >  0 && $persos[1]['race']['hp'] > 0) {
+                pr('TOUR ' . $tour);
+                $hpLogBefore = $persos[$i]['name'] . ': ' . $persos[$i]['race']['hp'] . 'hp ||| ' . $persos[$j]['name'] . ': ' . $persos[$j]['race']['hp'] . 'hp';
+                pr($hpLogBefore);
+                $dmgLog = $persos[$i]['name'] . ' attaque ' . $persos[$j]['name'] . ' pour ' . $persos[$i]['race']['attack'];
+                pr($dmgLog);
+                $persos[$j]['race']['hp'] -= $persos[$i]['race']['attack'];
+                $hpLogAfter = $persos[$i]['name'] . ': ' . $persos[$i]['race']['hp'] . 'hp ||| ' . $persos[$j]['name'] . ': ' . $persos[$j]['race']['hp'] . 'hp';
+                pr($hpLogAfter);
+            } else {
+                $winner =  $persos[$i];
+                $looser =  $persos[$j];
+                $fin = true;
+            }
+            $tmp = $i;
+            $i = $j;
+            $j = $tmp;
+            $tour++;
+        }
+
+        pr('fin');
+        pr('GAGNANT : ' . $winner['name']);
+        pr('LOOSER : ' . $looser['name']);
     }
-
 
 
 }

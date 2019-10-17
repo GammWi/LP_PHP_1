@@ -75,8 +75,8 @@
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="img" type="text" class="red-text validate">
-                    <label class="red-text" for="img">Choissiez une URL d'image pour votre héro</label>
+                    <input type="hidden" name="MAX_FILE_SIZE" value="250000">
+                    <input id="img" type="file" name="img" class="green-text validate" size="50">
                 </div>
             </div>
             <button class="red btn waves-effect waves-light" type="submit" name="action">Valider

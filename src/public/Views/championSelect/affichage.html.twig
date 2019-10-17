@@ -60,11 +60,7 @@
                                         <div class="card-stacked">
                                             <div class="card-content">
                                                 <h5 class="center"> {{ heros.firstname }} {{ heros.name }} </h5>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                                    tempor
-                                                    incididunt
-                                                    ut
-                                                    labore et dolore magna aliqua.</p>
+                                                <p>{{ heroo.getAllCaracHero(heros.id_hero).race.hp}}</p>
                                             </div>
                                             <div class="card-action">
                                                 <label>
@@ -84,7 +80,7 @@
                                             <div class="card horizontal" style="width: 256px">
                                                 <div class="card-stacked">
                                                     <div class="card-content">
-                                                        Points de vie
+                                                        Points de vie:
                                                         <div class="progress">
                                                             <div class="green determinate" style="width: 70%"></div>
                                                         </div>

@@ -22,6 +22,16 @@ SET time_zone = "+00:00";
 -- Base de données :  `dawa`
 --
 
+DROP TABLE IF EXISTS `pictures`;
+CREATE TABLE IF NOT EXISTS `pictures` (
+  `id_picture` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(55) COLLATE utf8_bin NOT NULL,
+  `path` varchar(255) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id_picture`),
+  UNIQUE KEY `id_picture` (`id_picture`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+
 -- --------------------------------------------------------
 
 --
@@ -115,15 +125,19 @@ CREATE TABLE `monster` (
 -- Structure de la table `race`
 --
 
-CREATE TABLE `race` (
-  `id_race` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `race`;
+CREATE TABLE IF NOT EXISTS `race` (
+  `id_race` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(55) COLLATE utf8_bin DEFAULT NULL,
   `description` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `attack` float DEFAULT NULL,
   `defense` float DEFAULT NULL,
   `agility` float DEFAULT NULL,
-  `hp` float DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `hp` float DEFAULT NULL,
+  `id_picture` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_race`),
+  UNIQUE KEY `id_race` (`id_race`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 
 -- --------------------------------------------------------
@@ -223,12 +237,6 @@ ALTER TABLE `monster`
   ADD UNIQUE KEY `id_monster` (`id_monster`),
   ADD UNIQUE KEY `id_character` (`id_character`);
 
---
--- Index pour la table `race`
---
-ALTER TABLE `race`
-  ADD PRIMARY KEY (`id_race`),
-  ADD UNIQUE KEY `id_race` (`id_race`);
 
 --
 -- Index pour la table `statscarac`
@@ -285,11 +293,7 @@ ALTER TABLE `isstrongerelem`
 ALTER TABLE `monster`
   MODIFY `id_monster` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
---
--- AUTO_INCREMENT pour la table `race`
---
-ALTER TABLE `race`
-  MODIFY `id_race` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
 
 --
 -- AUTO_INCREMENT pour la table `statscarac`

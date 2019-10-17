@@ -29,7 +29,7 @@ class heroController{
 
         $character = new Character();
 
-        $character->name = $_POST["name"];
+
 
         $elem = $_POST["namelem"];
         $idElem = Element::where('name','=',$elem)->get();
@@ -37,6 +37,7 @@ class heroController{
 
         $race = $_POST["namerace"];
         $idRace = race::where('name','=',$race)->get("id_race");
+        $character->name = $_POST["name"];
         $character->id_character_race = $idRace[0]["id_race"];
         $character->save();
 

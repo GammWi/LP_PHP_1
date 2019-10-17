@@ -4,6 +4,7 @@ use dawa\models\Character;
 use dawa\models\Element;
 use dawa\models\Hero;
 use dawa\models\Monster;
+use dawa\models\Pictures;
 use dawa\models\race;
 
 class monstreController{
@@ -38,8 +39,14 @@ class monstreController{
         $idRace = race::where('name','=',$race)->get("id_race");
         $character->id_character_race = $idRace[0]["id_race"];
 
-        $character->picture  = $_POST["urlimage"];
         $character->save();
+
+        $cheminDest = "D:/wamp64/www/LP_PHP_1/src/public/assets/img/characters/";
+        move_uploaded_file($_FILES["img"]["tmp_name"], $cheminDest.$_FILES["img"]["name"]);
+        $p = new Pictures();
+        $p->name = $_FILES["img"]["name"];
+        $p->path = $cheminDest;
+        $p->save();
 
 
         $monster = new Monster();
@@ -57,7 +64,11 @@ class monstreController{
     }
 
     public function supprimerMonster($request, $response){
-        echo "L'id du monstre que vous voulez supprimer est : ".$_POST['supprimer'];
+        $idMonstre = $_POST['supprimer'];
+        $monstre = Monster::where('id_monster', '=', $idMonstre)->get()->each->delete();
+        $cha = Character::where('id_character','=', $monstre[0]["id_character"])->get()->each->delete();
+
+        return $response->withRedirect($this->container->router->pathFor('home'));
     }
 
 

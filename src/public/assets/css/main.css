@@ -8097,4 +8097,9 @@ body {
   background-color: #352e2e;
 }
 
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 /*# sourceMappingURL=main.css.map */

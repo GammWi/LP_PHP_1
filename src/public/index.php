@@ -23,6 +23,7 @@ $container['auth'] = function ($container){
     return new dawa\controllers\userController($container);
 };
 
+
 $container["view"] = function ($container){
     
     $view = new \Slim\Views\Twig(__DIR__.'/Views',[
@@ -93,8 +94,9 @@ $app->group('', function(){
     $this->get('/admin/add', "\\dawa\\controllers\\userController:ajouterAdmin")->setName('admin.add');
     $this->post('/admin/add', "\\dawa\\controllers\\userController:postAjouterAdmin");
     $this->post('/admin/supp', "\\dawa\\controllers\\userController:postSupprimerAdmin")->setName("admin.delete");
-    $this->post('/modifHero',"\\dawa\\controllers\\heroController:modifierHero")->setName('modifHero');
-
+   
+    $this->get('/modifHero',"\\dawa\\controllers\\heroController:getModifierHero")->setName('modif.hero');
+    $this->post('/modifHero',"\\dawa\\controllers\\heroController:postModifierHero"); 
     $this->post('/supprHero',"\\dawa\\controllers\\heroController:supprimerHero")->setName('supprHero');
 
     $this->post('/modifMonster',"\\dawa\\controllers\\monstreController:modifierMonster")->setName('modifMonster');
@@ -102,7 +104,7 @@ $app->group('', function(){
     $this->post('/supprMonster',"\\dawa\\controllers\\monstreController:supprimerMonster")->setName('supprMonster');
     $this->get('/createHero', "\\dawa\\controllers\\heroController:CreerHero")->setName('creerHero');
 
-    $this->get('/createMonster', "\\dawa\\controllers\\monstreController:CreerMonster")->setName('CreerMonster');
+    $this->get('/createMonster', "\\dawa\\controllers\\monstreController:CreerMonster")->setName('creerMonster');
 
     $this->post('/valCreateMonster', "\\dawa\\controllers\\monstreController:insererMonster");
 

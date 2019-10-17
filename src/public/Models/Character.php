@@ -8,6 +8,7 @@ class Character extends \Illuminate\Database\Eloquent\Model {
     protected $table = "character";
     protected $primaryKey = "id_character";
     public $timestamps = false;
+    protected $fillable = ['id_character_race', 'id_character_elem', 'name'];
 
     public function race() {
         return $this->belongsTo('\dawa\modele\race','id_character_race');

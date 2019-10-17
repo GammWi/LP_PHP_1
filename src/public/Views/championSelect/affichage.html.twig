@@ -1,7 +1,7 @@
 {% include '/layout/header.html.twig' %}
 
 <script type="application/javascript">
-    window.onload = function () {
+    window.onload = function selection() {
         const f = document.getElementById("gofight")
         f.addEventListener("click", function (event) {
             let selection = document.getElementsByName("carac");
@@ -20,20 +20,17 @@
             }
         })
 
-    }
-
-    window.onload=function() {
-        const f = document.getElementById("goRand")
-        f.addEventListener("click", function (event) {
+        const f2 = document.getElementById("goRand")
+        f2.addEventListener("click", function (event) {
             let rdm = document.getElementById("goRand").value
 
             window.location.href=`fight?id_hero=${rdm[1]}&id_monster=${rdm[3]}`;
 
         })
+
     }
-
-
 </script>
+
 
 <div class="">
 

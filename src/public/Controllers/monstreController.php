@@ -98,7 +98,7 @@ class monstreController{
         $idMonstre = $_POST['supprimer'];
         $monstre = Monster::where('id_monster', '=', $idMonstre)->get()->each->delete();
         $cha = Character::where('id_character','=', $monstre[0]["id_character"])->get()->each->delete();
-
+        $this->container->flash->addMessage('success', 'Le monstre a bien été supprimé');
         return $response->withRedirect($this->container->router->pathFor('home'));
     }
     

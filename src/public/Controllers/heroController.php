@@ -107,7 +107,7 @@ class heroController{
         $idHero = $_POST['supprimer'];
         $hero = Hero::where('id_hero', '=', $idHero)->get()->each->delete();
         $cha = Character::where('id_character','=', $hero[0]["id_character"])->get()->each->delete();
-        
+        $this->container->flash->addMessage('success', 'Le hero a bien été supprimé');
         return $response->withRedirect($this->container->router->pathFor('home'));
     }
 

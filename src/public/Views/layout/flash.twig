@@ -9,3 +9,9 @@
     {{ flash.getMessage('error') | first }}
 </div>
 {% endif %}
+
+{% if flash.getMessage('success') %}
+<div class="alert alert-success">
+    {{ flash.getMessage('error') | first }}
+</div>
+{% endif %}

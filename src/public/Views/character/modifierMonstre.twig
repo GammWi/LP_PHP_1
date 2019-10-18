@@ -1,0 +1,53 @@
+{% include '/layout/header.html.twig' %}
+
+
+
+
+<div class="container" style="padding-top: 3%">
+    <h2 class="white-text center-align"> Modification du perso {{ monstre.charac.name }} </h2>
+    <div class="row">
+        <form class="col s12" action="{{ path_for('modif.monstre')}}" method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="name" type="text" name="name" class="green-text validate" value= {{monstre.charac.name}}>
+                    <input id="name" type="hidden" name="id_monstre" class="green-text validate" value= {{monstre.monstre.id_monster}}> 
+                    <label class="green-text" for="name">Nom</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <div class="selects-container">
+                        <label class="green-text" for="elem">L'élement du Monstre</label>
+                        <select id="name" name="elem" >
+                            <option selected="selected">{{monstre.elem.name}}</option>
+                            {% for elem in listeElem %}
+                                <option>{{ elem.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="input-field col s6">
+                    <div class="selects-container">
+                        <label class="green-text" for="elem">Race du Monstre</label>
+                        <select id="firstname" name="race" >
+                            <option selected="selected">{{monstre.race.name}}</option>
+                            {% for race in listeRace %}
+                                <option>{{ race.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            </div>
+            
+
+            <button class="green btn waves-effect waves-light" type="submit">Valider
+                <i class="material-icons right">send</i>
+            </button>
+        </form>
+    </div>
+</div>
+
+
+{% include '/layout/footer.html.twig' %}

@@ -104,9 +104,10 @@ $app->group('', function(){
     $this->post('/modifHero',"\\dawa\\controllers\\heroController:postModifierHero"); 
     $this->post('/supprHero',"\\dawa\\controllers\\heroController:supprimerHero")->setName('supprHero');
 
-    $this->post('/modifMonster',"\\dawa\\controllers\\monstreController:modifierMonster")->setName('modifMonster');
-
+    $this->get('/modifMonster',"\\dawa\\controllers\\monstreController:getModifierMonster")->setName('modif.monstre');
+    $this->post('/modifMonster',"\\dawa\\controllers\\monstreController:postModifierMonster");
     $this->post('/supprMonster',"\\dawa\\controllers\\monstreController:supprimerMonster")->setName('supprMonster');
+
     $this->get('/createHero', "\\dawa\\controllers\\heroController:CreerHero")->setName('creerHero');
 
     $this->get('/createMonster', "\\dawa\\controllers\\monstreController:CreerMonster")->setName('creerMonster');

@@ -64,8 +64,34 @@ class monstreController{
 
     }
 
-    public function modifierMonster($request, $response){
-        echo "L'id du monstre que vous voulez modifier est : ".$_POST['modifier'];
+    public function getModifierMonster($request, $response){
+        $monstre = $this->getAllCaracMonstre($request->getParam('modifier'));
+        $listeElem = Element::where('id_element', '!=', $monstre['charac']->id_character_elem)->get();
+        $listeRace = Race::where('id_race', '!=', $monstre['charac']->id_character_race)->get();
+        
+        return $this->container->view->render($response, 'character/modifierMonstre.twig', ['monstre' => $monstre, 'listeElem' => $listeElem, 'listeRace' => $listeRace]);
+    }
+
+    public function postModifierMonster($request, $response){
+        $monstre = $this->getAllCaracMonstre($request->getParam('id_monstre'));
+        $newRace = $request->getParam('race');
+        $newElem = $request->getParam('elem');
+        $name = $request->getParam('name');
+
+        if($newRace !== $monstre['race']->name){
+            $idRace = Race::where('name','=',$newRace)->first();
+            $monstre['charac']->update(['id_character_race' => $idRace['id_race']]);
+        }if($newElem !== $monstre['elem']->name){
+            $idElem = Element::where('name','=',$newElem)->first();
+            $monstre['charac']
+                ->update(['id_character_elem' => $idElem['id_element'], 
+                          'name' => $name]);
+        }else{
+            $monstre['charac']->update(['name' => $name]);
+        }
+        
+        $this->container->flash->addMessage('info', 'Le monstre '.$name.' a bien été modifié');
+        return $response->withRedirect($this->container->router->pathFor('home'));
     }
 
     public function supprimerMonster($request, $response){
@@ -75,6 +101,16 @@ class monstreController{
 
         return $response->withRedirect($this->container->router->pathFor('home'));
     }
+    
 
+    public function getAllCaracMonstre($id){
+        $monstre = Monster::where('id_monster', $id)->first();
+        $charac = Character::where('id_character', $monstre->id_character)->first();
+        $elem_monstre = Element::where('id_element', $charac->id_character_elem)->first();
+        $race_monstre = Race::where('id_race', $charac->id_character_race)->first();
+
+        $liste = array('monstre' => $monstre, 'charac' => $charac, 'elem' => $elem_monstre, 'race' => $race_monstre);
+        return $liste;
+    }
 
 }

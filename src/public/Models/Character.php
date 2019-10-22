@@ -11,21 +11,21 @@ class Character extends \Illuminate\Database\Eloquent\Model {
     protected $fillable = ['id_character_race', 'id_character_elem', 'name'];
 
     public function race() {
-        return $this->belongsTo('\dawa\modele\race','id_character_race');
+        return $this->belongsTo(Race::class,'id_character_race');
     }
 
     public function hero() {
-        return $this->hasMany('\dawa\modele\hero', 'id_character','id_character');
+        return $this->hasMany('\dawa\modele\Hero', 'id_character','id_character');
 
     }
 
     public function monster() {
-        return $this->hasMany('\dawa\modele\monster', 'id_character','id_character');
+        return $this->hasMany('\dawa\modele\Monster', 'id_character','id_character');
 
     }
 
     public function pictures() {
-        return $this->belongsTo('\dawa\models\character','id_picture');
+        return $this->belongsTo('\dawa\models\Character','id_picture');
     }
 
 

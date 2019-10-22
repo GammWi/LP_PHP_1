@@ -17,10 +17,7 @@ class fightController
         $this->container = $container;
     }
 
-    public function Index($request, $response)
-    {
-        $idMonster = $_GET['id_monster'];
-        $idHero = $_GET['id_hero'];
+    public function fight($idHero, $idMonster) {
 
         $hero = Hero::where('id_hero', '=', $idHero)->first();
         $characHero = Character::where('id_character', '=', $hero['id_character'])->first();
@@ -61,52 +58,6 @@ class fightController
             }, $array);
         }
 
-        function attaque($attaque, $victime)
-        {
-            $hpLogBefore = $attaque['name'] . ': ' . $attaque['race']['hp'] . 'hp ||| ' . $victime['name'] . ': ' . $victime['race']['hp'] . 'hp';
-
-            $crit = ($attaque['race']['agility'] >= 2 * $victime['race']['agility']);
-            $dmg = ($crit) ? $attaque['race']['attack'] * 2 : $attaque['race']['attack'];
-
-            $def = rand(0, 100 - $victime['race']['defense']);
-            $dmgDef = 0;
-            $tfPercent = 100 - $victime['race']['defense'] * 0.25;
-            $fiftyPercent = 100 - $victime['race']['defense'] * 0.50;
-            $sfPercent = 100 - $victime['race']['defense'] * 0.75;
-            $hundredDef = 100 - $victime['race']['defense'];
-            $fullDef = false;
-            if (0 < $def && $def <= $tfPercent) {
-                $dmgDef = $dmg * 0.90;
-            } else {
-                if ($tfPercent < $def && $def <= $fiftyPercent) {
-                    $dmgDef = $dmg * 0.80;
-                } else if ($fiftyPercent < $def && $def <= $sfPercent) {
-                    $dmgDef = $dmg * 0.70;
-                } else if ($sfPercent < $def && $def < $hundredDef) {
-                    $dmgDef = $dmg * 0.60;
-                } else if ($def === $hundredDef) {
-                    $fullDef = true;
-                    $dmgDef = $dmg;
-                }
-            }
-
-            $dmgLog = $attaque['name'] . ' attaque ' . $victime['name'] . ' pour ' . $dmg;
-            $dmgLog .= ($crit) ? ' COUP CRITIQUE !' : '';
-            $defLog = $victime['name'] . ' se défend pour ' . $dmgDef;
-            $defLog .= ($fullDef) ? ' DEFENSE PARFAITE ' : '';
-
-            $victime['race']['hp'] -= ($dmg - $dmgDef);
-
-            $hpLogAfter = $attaque['name'] . ': ' . $attaque['race']['hp'] . 'hp ||| ' . $victime['name'] . ': ' . $victime['race']['hp'] . 'hp';
-
-            $log = [
-                "hpLogBeforeV" => $hpLogBefore,
-                "dmgLogV" => $dmgLog,
-                "defLogV" => $defLog,
-                "hpLogAfterV" => $hpLogAfter
-            ];
-            return $log;
-        }
 
         $beforeLeHero = array_clone($leHero);
         $beforeLeMonster = array_clone($leMonster);
@@ -133,7 +84,7 @@ class fightController
 //        $j = ($whostart == 1) ? 0 : 1;
         while (!$fin) {
             if ($attaque['race']['hp'] > 0 && $victime['race']['hp'] > 0) {
-                $logAttaque = attaque($attaque, $victime);
+                $logAttaque = $this->attaque($attaque, $victime);
                 $log = [
                     'tour' => $tour,
                     'win' => false,
@@ -162,13 +113,67 @@ class fightController
             ];
             $tour++;
         }
-
-        $this->container->view->render($response, 'fight/fight.html.twig', ['combat' => [
+        return ['combat' => [
             "persos" => [$beforeLeHero, $beforeLeMonster],
             "nbTours" => $tour,
             "tours" => $tours,
             "winner" => $attaque
-        ]]);
+        ]];
+    }
+
+    function attaque($attaque, $victime)
+    {
+        $hpLogBefore = $attaque['name'] . ': ' . $attaque['race']['hp'] . 'hp ||| ' . $victime['name'] . ': ' . $victime['race']['hp'] . 'hp';
+
+        $crit = ($attaque['race']['agility'] >= 2 * $victime['race']['agility']);
+        $dmg = ($crit) ? $attaque['race']['attack'] * 2 : $attaque['race']['attack'];
+
+        $def = rand(0, 100 - $victime['race']['defense']);
+        $dmgDef = 0;
+        $tfPercent = 100 - $victime['race']['defense'] * 0.25;
+        $fiftyPercent = 100 - $victime['race']['defense'] * 0.50;
+        $sfPercent = 100 - $victime['race']['defense'] * 0.75;
+        $hundredDef = 100 - $victime['race']['defense'];
+        $fullDef = false;
+        if (0 < $def && $def <= $tfPercent) {
+            $dmgDef = $dmg * 0.90;
+        } else {
+            if ($tfPercent < $def && $def <= $fiftyPercent) {
+                $dmgDef = $dmg * 0.80;
+            } else if ($fiftyPercent < $def && $def <= $sfPercent) {
+                $dmgDef = $dmg * 0.70;
+            } else if ($sfPercent < $def && $def < $hundredDef) {
+                $dmgDef = $dmg * 0.60;
+            } else if ($def === $hundredDef) {
+                $fullDef = true;
+                $dmgDef = $dmg;
+            }
+        }
+
+        $dmgLog = $attaque['name'] . ' attaque ' . $victime['name'] . ' pour ' . $dmg;
+        $dmgLog .= ($crit) ? ' COUP CRITIQUE !' : '';
+        $defLog = $victime['name'] . ' se défend pour ' . $dmgDef;
+        $defLog .= ($fullDef) ? ' DEFENSE PARFAITE ' : '';
+
+        $victime['race']['hp'] -= ($dmg - $dmgDef);
+
+        $hpLogAfter = $attaque['name'] . ': ' . $attaque['race']['hp'] . 'hp ||| ' . $victime['name'] . ': ' . $victime['race']['hp'] . 'hp';
+
+        $log = [
+            "hpLogBeforeV" => $hpLogBefore,
+            "dmgLogV" => $dmgLog,
+            "defLogV" => $defLog,
+            "hpLogAfterV" => $hpLogAfter
+        ];
+        return $log;
+    }
+
+    public function Index($request, $response)
+    {
+        $idMonster = $_GET['id_monster'];
+        $idHero = $_GET['id_hero'];
+        $fight = $this->fight($idHero, $idMonster);
+        return $this->container->view->render($response, 'fight/fight.html.twig', $fight);
     }
 
 

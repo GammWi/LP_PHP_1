@@ -17,7 +17,8 @@ class fightController
         $this->container = $container;
     }
 
-    public function fight($idHero, $idMonster) {
+    public function fight($idHero, $idMonster)
+    {
 
         $hero = Hero::where('id_hero', '=', $idHero)->first();
         $characHero = Character::where('id_character', '=', $hero['id_character'])->first();
@@ -34,7 +35,9 @@ class fightController
             'char' => $characHero->getAttributes(),
             'race' => $raceHero,
             'elem' => $elemHero,
-            'name' => $hero['firstname'] . ' ' . $characHero['name']
+            'name' => $hero['firstname'] . ' ' . $characHero['name'],
+            'totalDmg' => 0.0,
+            'type' => 'hero'
         ];
 
         $leMonster = [
@@ -42,7 +45,9 @@ class fightController
             'char' => $characMonster->getAttributes(),
             'race' => $raceMonster,
             'elem' => $elemMonster,
-            'name' => $characMonster['name']
+            'name' => $characMonster['name'],
+            'totalDmg' => 0.0,
+            'type' => 'monster'
         ];
 
         
@@ -69,6 +74,7 @@ class fightController
         while (!$fin) {
             if ($attaque['race']['hp'] > 0 && $victime['race']['hp'] > 0) {
                 $logAttaque = $this->attaque($attaque, $victime);
+                $attaque['totalDmg'] += $logAttaque['dmgDealt'];
                 $log = [
                     'tour' => $tour,
                     'win' => false,
@@ -101,7 +107,8 @@ class fightController
             "persos" => [$beforeLeHero, $beforeLeMonster],
             "nbTours" => $tour,
             "tours" => $tours,
-            "winner" => $attaque
+            "winner" => $attaque,
+            "looser" => $victime
         ]];
     }
 
@@ -160,7 +167,8 @@ class fightController
             "hpLogBeforeV" => $hpLogBefore,
             "dmgLogV" => $dmgLog,
             "defLogV" => $defLog,
-            "hpLogAfterV" => $hpLogAfter
+            "hpLogAfterV" => $hpLogAfter,
+            "dmgDealt" => $dmg - $dmgDef
         ];
         return $log;
     }
@@ -170,9 +178,18 @@ class fightController
         $idMonster = $_GET['id_monster'];
         $idHero = $_GET['id_hero'];
         $fight = $this->fight($idHero, $idMonster);
+        $this->saveLog($fight);
         return $this->container->view->render($response, 'fight/fight.html.twig', $fight);
     }
 
+    public function saveLog($logs)
+    {
+//         winner, looser, nbPvWinner, nbDmgWinner, nbDmgLooser
+        $winner = $logs['combat']['winner'];
+        $looser = $logs['combat']['looser'];
+        $winnerDmg = $logs['combat']['winner']['totalDmg'];
+        $looserDmg = $logs['combat']['looser']['totalDmg'];
 
+    }
 }
 

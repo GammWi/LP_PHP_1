@@ -18,13 +18,13 @@ INSERT INTO `element` (`id_element`, `name`, `description`) VALUES
 (3, 'Air', 'L\'air ça vente'),
 (4, 'Terre', 'La terre s\'atterre');
 
-INSERT INTO `hero` (`id_hero`, `id_character`, `firstname`) VALUES
-(1, 3, 'Nano Le'),
-(2, 4, 'Roger Le'),
-(3, 5, 'Val Le '),
-(4, 6, 'Borbert Le '),
-(5, 7, 'Elfora L\''),
-(6, 8, 'Augro L\'');
+INSERT INTO `hero` (`id_character`, `firstname`) VALUES
+(3, 'Nano Le'),
+(4, 'Roger Le'),
+(5, 'Val Le '),
+(6, 'Borbert Le '),
+(7, 'Elfora L\''),
+(8, 'Augro L\'');
 
 INSERT INTO `isstrongerelem` (`id_isStronger`, `id_elem_stronger`, `id_elem_weaker`) VALUES
 (1, 2, 1),
@@ -32,13 +32,13 @@ INSERT INTO `isstrongerelem` (`id_isStronger`, `id_elem_stronger`, `id_elem_weak
 (3, 4, 3),
 (4, 3, 2);
 
-INSERT INTO `monster` (`id_monster`, `id_character`) VALUES
-(1, 9),
-(2, 10),
-(3, 11),
-(4, 12),
-(5, 13),
-(6, 14);
+INSERT INTO `monster` (`id_character`) VALUES
+(9),
+(10),
+(11),
+(12),
+(13),
+(14);
 
 INSERT INTO `race` (`id_race`, `name`, `description`, `attack`, `defense`, `agility`, `hp`) VALUES
 (1, 'Nain', 'Les nains sont des créatures robustes de petite taille, qui se distinguent par leurs talents de forgerons, de mineurs et de bâtisseurs. Ils adorent la bière et détestent les elfes', 20, 25, 5, 70),

@@ -57,7 +57,7 @@ class heroController{
             move_uploaded_file($_FILES["img"]["tmp_name"], $cheminDest.$newNamePicture);
             $p = new Pictures();
             $p->name = $_POST["name"];
-            $p->path = "../../public/assets/img/characters/";
+            $p->path = "../../public/assets/img/characters/".$newNamePicture;
             $p->save();
             $id_img = Pictures::where("name","=",$newNamePicture)->first();
             $character->picture = $id_img["id_picture"];

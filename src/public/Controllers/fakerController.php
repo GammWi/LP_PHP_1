@@ -6,25 +6,22 @@ use Faker\Factory as FakeFactory;
 use dawa\models\StatsFight;
 use dawa\models\Hero;
 use dawa\models\Monster;
+use dawa\controllers\fightController;
 
 class fakerController{
 
+    public function __construct($container)
+    {
+        $this->container = $container;
+    }
+
     public function generationCombats(){
-
-        try {
-            $faker = FakeFactory::create();
-            for($i = 0; $i<250; $i++){
-                $fight = new StatsFight();
-                $monstre = Monster::all()->random();
-                $hero = Hero::all()->random();
-                $comnbattants = [$monstre, $hero];
-                $winner = array_rand($comnbattants);
-                var_dump($winner);
-                
-
-            }
-        } catch (\Throwable $th) {
-            
+        
+        for($i = 0; $i<250; $i++){
+            $monstre = Monster::all()->random();
+            $hero = Hero::all()->random();
+            $fight = new FightController($this->container);
+            var_dump($fight->fight($hero->id_hero, $monstre->id_monster));
         }
     }
 }

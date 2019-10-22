@@ -45,33 +45,17 @@ class fightController
             'name' => $characMonster['name']
         ];
 
-        function array_clone($array)
-        {
-            return array_map(function ($element) {
-                return ((is_array($element))
-                    ? array_clone($element)
-                    : ((is_object($element))
-                        ? clone $element
-                        : $element
-                    )
-                );
-            }, $array);
-        }
+        
 
 
-        $beforeLeHero = array_clone($leHero);
-        $beforeLeMonster = array_clone($leMonster);
+        $beforeLeHero = $this->array_clone_liste($leHero);
+        $beforeLeMonster = $this->array_clone_liste($leMonster);
 
         $fin = false;
 
         $whostart = rand(0, 1);
 
-        function pr($data)
-        {
-            echo "<pre>";
-            echo($data);
-            echo "</pre>";
-        }
+        
 
         $attaque = ($leHero['race']['agility'] > $leMonster['race']['agility']) ? $leHero : $leMonster;
         $victime = ($leHero['race']['agility'] > $leMonster['race']['agility']) ? $leMonster : $leHero;
@@ -120,6 +104,19 @@ class fightController
             "winner" => $attaque
         ]];
     }
+
+    function array_clone_liste($array)
+        {
+            return array_map(function ($element) {
+                return ((is_array($element))
+                    ? $this->array_clone_liste($element)
+                    : ((is_object($element))
+                        ? clone $element
+                        : $element
+                    )
+                );
+            }, $array);
+        }
 
     function attaque($attaque, $victime)
     {

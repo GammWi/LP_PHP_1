@@ -50,7 +50,7 @@ class userController{
             $this->container->flash->addMessage('error', 'Le couple Username/Password n\'est pas correct !');
             return $response->withRedirect($this->container->router->pathFor('auth.signin'));
         }
-        $this->container->flash->addMessage('info', 'Vous êtes connecté !');
+        $this->container->flash->addMessage('success', 'Vous êtes connecté !');
         return $response->withRedirect($this->container->router->pathFor('home'));
     }
 
@@ -90,7 +90,7 @@ class userController{
             'username' => $request->getParam('identifiant'),
             'password' => password_hash($request->getParam('mdp'), PASSWORD_DEFAULT, ["cost" => 10])
         ]);
-        $this->container->flash->addMessage('info', 'Le compte admin est crée');
+        $this->container->flash->addMessage('success', 'Le compte admin est crée');
         return $response->withRedirect($this->container->router->pathFor('admin.panel'));
 
     }
@@ -102,7 +102,7 @@ class userController{
         if($this->container->auth->admin() == $admin){
             $this->signOut($request, $response);
         }else{
-            $this->container->flash->addMessage('info', 'Le compte est supprimé');
+            $this->container->flash->addMessage('success', 'Le compte est supprimé');
         }
         $admin->delete();
         return $response->withRedirect($this->container->router->pathFor('admin.panel'));
@@ -141,7 +141,7 @@ class userController{
         }
         $user = $this->container->auth->admin();
         $user->update(['password' => password_hash($request->getParam('passwordNew1'), PASSWORD_DEFAULT, ["cost" => 10])]);
-        $this->container->flash->addMessage('info', 'Votre mot de passe à bien été changé ! Il sera effectif à votre prochaine connexion');
+        $this->container->flash->addMessage('success', 'Votre mot de passe à bien été changé ! Il sera effectif à votre prochaine connexion');
         return $response->withRedirect($this->container->router->pathFor('admin.panel'));
     }
 

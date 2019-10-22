@@ -1,7 +1,7 @@
 {% include '/layout/header.html.twig' %}
 
 <script type="application/javascript">
-    window.onload = function () {
+    window.onload = function selection() {
         const f = document.getElementById("gofight")
         f.addEventListener("click", function (event) {
             let selection = document.getElementsByName("carac");
@@ -20,21 +20,17 @@
             }
         })
 
-    }
-
-    window.onload=function() {
-        const f = document.getElementById("goRand")
-        f.addEventListener("click", function (event) {
+        const f2 = document.getElementById("goRand")
+        f2.addEventListener("click", function (event) {
             let rdm = document.getElementById("goRand").value
 
             window.location.href=`fight?id_hero=${rdm[1]}&id_monster=${rdm[3]}`;
 
         })
+
     }
-
-    };
-
 </script>
+
 
 <div class="">
 
@@ -61,11 +57,7 @@
                                         <div class="card-stacked">
                                             <div class="card-content">
                                                 <h5 class="center"> {{ heros.firstname }} {{ heros.name }} </h5>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                                    tempor
-                                                    incididunt
-                                                    ut
-                                                    labore et dolore magna aliqua.</p>
+                                                <p>{{ heroo.getAllCaracHero(heros.id_hero).race.hp}}</p>
                                             </div>
                                             <div class="card-action">
                                                 <label>
@@ -85,13 +77,17 @@
                                             <div class="card horizontal" style="width: 256px">
                                                 <div class="card-stacked">
                                                     <div class="card-content">
-                                                        Points de vie
+                                                        Points de vie:
                                                         <div class="progress">
                                                             <div class="green determinate" style="width: 70%"></div>
                                                         </div>
-                                                        Force
+                                                        Attaque
                                                         <div class="progress">
                                                             <div class="green determinate" style="width: 70%"></div>
+                                                        </div>
+                                                        Défense
+                                                        <div class="progress">
+                                                            <div class="red determinate" style="width: 70%"></div>
                                                         </div>
                                                         Agilité
                                                         <div class="progress">
@@ -202,7 +198,11 @@
                                                     <div class="progress">
                                                         <div class="red determinate" style="width: 70%"></div>
                                                     </div>
-                                                    Force
+                                                    Attaque
+                                                    <div class="progress">
+                                                        <div class="red determinate" style="width: 70%"></div>
+                                                    </div>
+                                                    Défense
                                                     <div class="progress">
                                                         <div class="red determinate" style="width: 70%"></div>
                                                     </div>
@@ -225,7 +225,7 @@
                                                 </div>
                                                 <div class="card-action">
                                                     <form style="display: inline-block;"
-                                                          action="{{ path_for('modifMonster') }}" method="post">
+                                                          action="{{ path_for('modif.monstre') }}" method="get">
                                                         <button style="height: 50%; line-height: 2; font-weight: bold;"
                                                                 class="red waves-effect waves-light btn" name="modifier"
                                                                 type="submit"
@@ -270,7 +270,7 @@
 
 
 
-    <button id="goRand" class="waves-effect waves-light btn-large" style="width: 100%; font-weight: bold;" value="{{ rand | json_encode | raw }}">Cliquez
+    <button id="goRand" class="waves-effect waves-light btn-large green" style="width: 49.5%; font-size: 0.85em; font-weight: bold;position: fixed; bottom:0; right:0" value="{{ rand | json_encode | raw }}">Cliquez
         ici
         pour lancer un combat avec des champions aléatoires (à vos risques et périls!)
     </button>
@@ -280,7 +280,7 @@
 
 
     {#<form style="display: inline-block; width: 100%">#}
-    <button id="gofight" class="waves-effect waves-light btn-large" style="width: 100%; font-weight: bold; position: fixed; bottom: 0">Cliquez
+    <button id="gofight" class="waves-effect waves-light btn-large red" style="width: 49.5%;font-size: 0.85em; font-weight: bold; position: fixed; bottom: 0; left:0">Cliquez
         ici
         pour lancer le combat
     </button>

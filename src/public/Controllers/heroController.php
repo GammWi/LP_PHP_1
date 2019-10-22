@@ -72,7 +72,9 @@ class heroController{
 
     public function getModifierHero($request, $response){
         $hero = $this->getAllCaracHero($request->getParam('modifier'));
-        return $this->container->view->render($response, 'character/modifierHero.twig', $hero);
+        $listeElem = Element::where('id_element', '!=', $hero['charac']->id_character_elem)->get();
+        $listeRace = Race::where('id_race', '!=', $hero['charac']->id_character_race)->get();
+        return $this->container->view->render($response, 'character/modifierHero.twig', ['hero' => $hero, 'listeElem' => $listeElem, 'listeRace' => $listeRace]);
     }
 
 
@@ -97,6 +99,7 @@ class heroController{
  
         $hero['hero']->update(['firstname' => $firstname]);
 
+        $this->container->flash->addMessage('info', 'Le Héro '.$firstname.' '.$name.' a bien été modifié');
         return $response->withRedirect($this->container->router->pathFor('home'));
     }
 
@@ -104,9 +107,8 @@ class heroController{
         $idHero = $_POST['supprimer'];
         $hero = Hero::where('id_hero', '=', $idHero)->get()->each->delete();
         $cha = Character::where('id_character','=', $hero[0]["id_character"])->get()->each->delete();
-
-        
-
+        $this->container->flash->addMessage('success', 'Le hero a bien été supprimé');
+        return $response->withRedirect($this->container->router->pathFor('home'));
     }
 
     public function getAllCaracHero($id){
@@ -118,5 +120,7 @@ class heroController{
         $liste = array('hero' => $hero, 'charac' => $charac, 'elem' => $elem_hero, 'race' => $race_hero);
         return $liste;
     }
+
+    
 
 }

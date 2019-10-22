@@ -166,7 +166,8 @@ class fightController
         $this->container->view->render($response, 'fight/fight.html.twig', ['combat' => [
             "persos" => [$beforeLeHero, $beforeLeMonster],
             "nbTours" => $tour,
-            "tours" => $tours
+            "tours" => $tours,
+            "winner" => $attaque
         ]]);
     }
 

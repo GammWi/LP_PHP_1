@@ -99,6 +99,7 @@ $app->group('', function(){
     $this->get('/admin/add', "\\dawa\\controllers\\userController:ajouterAdmin")->setName('admin.add');
     $this->post('/admin/add', "\\dawa\\controllers\\userController:postAjouterAdmin");
     $this->post('/admin/supp', "\\dawa\\controllers\\userController:postSupprimerAdmin")->setName("admin.delete");
+    $this->get('/admin/generationCombat', "\\dawa\\controllers\\fakerController:generationCombats")->setName('admin.generate');
    
     $this->get('/modifHero',"\\dawa\\controllers\\heroController:getModifierHero")->setName('modif.hero');
     $this->post('/modifHero',"\\dawa\\controllers\\heroController:postModifierHero"); 
@@ -115,6 +116,8 @@ $app->group('', function(){
     $this->post('/valCreateMonster', "\\dawa\\controllers\\monstreController:insererMonster");
 
     $this->post('/valCreateHero', "\\dawa\\controllers\\heroController:insererHero");
+
+    
 })->add(new AuthMiddleware($app->getContainer()));
 
 try {

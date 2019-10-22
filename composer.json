@@ -19,6 +19,7 @@
     "require": {
         "php": ">=7.1",
         "ext-json": "*",
+        "fzaninotto/faker": "^1.8",
         "illuminate/database": "~5.1",
         "monolog/monolog": "^1.24",
         "php-di/php-di": "^6.0",

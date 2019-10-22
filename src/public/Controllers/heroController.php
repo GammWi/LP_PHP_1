@@ -29,9 +29,6 @@ class heroController{
     public function insererHero($request, $response) {
 
         $character = new Character();
-
-
-
         $elem = $_POST["namelem"];
         $idElem = Element::where('name','=',$elem)->get();
         $character->id_character_elem = $idElem[0]["id_element"];
@@ -39,33 +36,53 @@ class heroController{
         $race = $_POST["namerace"];
 
         $idRace = race::where('name','=',$race)->get("id_race");
-        $character->name = $_POST["name"];
+
+        $nameSame = Character::where('name', '=', $_POST["name"])->first();
+        if($nameSame == NULL) {
+            $character->name = $_POST["name"];
+        }else {
+            return $response->withRedirect($this->container->router->pathFor('creerHero'));
+        }
+
 
         $character->id_character_race = $idRace[0]["id_race"];
-
-
 
         $cheminDest = __DIR__;
         $cheminDest = str_replace( "\\","/", $cheminDest);
         $cheminDest = str_replace("Controllers", "assets/img/characters/", $cheminDest);
 
+        $typePicture = str_replace("image/","",$_FILES["img"]["type"]);
+        if($typePicture == 'png' || $typePicture == 'gif' || $typePicture == 'jpg' || $typePicture == 'jpeg') {
+            $newNamePicture = $_POST["name"].".".$typePicture;
+            move_uploaded_file($_FILES["img"]["tmp_name"], $cheminDest.$newNamePicture);
+            $p = new Pictures();
+            $p->name = $_POST["name"];
+            $p->path = "../../public/assets/img/characters/";
+            $p->save();
+            $id_img = Pictures::where("name","=",$newNamePicture)->first();
+            $character->picture = $id_img["id_picture"];
+            $character->save();
 
+            $hero = new Hero();
+            $hero->firstname = $_POST["firstname"];
+            $idChara = Character::where("name", "=", $_POST["name"],"and","id_race","=",$idRace[0]["id_race"])->get();
+            $hero->id_character = $idChara[0]["id_character"];
+            $hero->save();
+        }else {
+            $p = new Pictures();
+            $p->name = "Erreur";
+            $p->path = "/";
+            $p->save();
+            $id_img = Pictures::where("name","=","Erreur")->first();
+            $character->picture = $id_img["id_picture"];
+            $character->save();
 
-        move_uploaded_file($_FILES["img"]["tmp_name"], $cheminDest.$_FILES["img"]["name"]);
-
-        $p = new Pictures();
-        $p->name = $_FILES["img"]["name"];
-        $p->path = "../../public/assets/img/characters/";
-        $p->save();
-        $id_img = Pictures::where("name","=",$_FILES["img"]["name"])->first();
-        $character->picture = $id_img["id_picture"];
-        $character->save();
-
-        $hero = new Hero();
-        $hero->firstname = $_POST["firstname"];
-        $idChara = Character::where("name", "=", $_POST["name"],"and","id_race","=",$idRace[0]["id_race"])->get();
-        $hero->id_character = $idChara[0]["id_character"];
-        $hero->save();
+            $hero = new Hero();
+            $hero->firstname = $_POST["firstname"];
+            $idChara = Character::where("name", "=", $_POST["name"],"and","id_race","=",$idRace[0]["id_race"])->get();
+            $hero->id_character = $idChara[0]["id_character"];
+            $hero->save();
+        }
 
         return $response->withRedirect($this->container->router->pathFor('home'));
 

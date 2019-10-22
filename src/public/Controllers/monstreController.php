@@ -42,12 +42,15 @@ class monstreController{
         $character->id_character_race = $idRace[0]["id_race"];
 
 
-        $cheminDest = "../../public/assets/img/characters/";
+        $cheminDest = __DIR__;
+        $cheminDest = str_replace( "\\","/", $cheminDest);
+        $cheminDest = str_replace("Controllers", "assets/img/characters/", $cheminDest);
 
         move_uploaded_file($_FILES["img"]["tmp_name"], $cheminDest.$_FILES["img"]["name"]);
+
         $p = new Pictures();
         $p->name = $_FILES["img"]["name"];
-        $p->path = $cheminDest;
+        $p->path = "../../public/assets/img/characters/";
         $p->save();
 
         $id_img = Pictures::where("name","=",$_FILES["img"]["name"])->first();

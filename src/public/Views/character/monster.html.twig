@@ -1,82 +1,48 @@
 {% include '/layout/header.html.twig' %}
-
-{#<H1 xmlns="http://www.w3.org/1999/html"> Création des Héros</H1>#}
-{#<h2>Bienvenu dans l'écran de création des Monstres</h2>#}
-{#<h3>Créer un Héro :</h3>#}
-{#<span class="validerCreationMonstre">#}
-    {#<form action="valCreateMonster" method="post">#}
-        {#<div class="form-group">#}
-            {#<label for="name">Nom  : </label>#}
-            {#<input type="text" id="name" name="name" required minlength="1" maxlength="55" size="55">#}
-        {#</div>#}
-        {#<div class="form-group">#}
-        {#<label for="namelem">Choissisez un element : </label>#}
-
-        {#<input type="text" list="chooseElem" name="namelem">#}
-            {#<datalist id="chooseElem">#}
-                {#{% for elem in element %}#}
-                    {#<select>{{ elem.name }}</select>#}
-                {#{% endfor %}#}
-            {#</datalist>#}
-
-        {#</div>#}
-        {#<div class="form-group">#}
-            {#<label for="namerace">Choissisez la race du monstre: </label>#}
-            {#<input type="text" list="chooseRace" name="namerace">#}
-            {#<datalist id="chooseRace">#}
-                {#{% for race in listerace %}#}
-                    {#<select value="{{ race.name }}">{{ race.name }}</select>#}
-                {#{% endfor %}#}
-            {#</datalist>#}
-            {#</div>#}
-        {#<div class="form-group">#}
-            {#<label for="urlimage">Choissiez une URL d'image pour votre monstre</label>#}
-            {#<input type="url" name="urlimage">#}
-            {#<br>#}
-            {#<input type="submit" value="valider">#}
-        {#</div>#}
-
-
-    {#</form>#}
-{#</span>#}
-
 <div class="container" style="padding-top: 3%">
     <h2 class="white-text center-align"> Création des Monstres</h2>
     <div class="row ">
         <form class="col s12" action="valCreateMonster" method="post">
             <div class="row">
-                <div class="input-field col s12">
-                    <input class="red-text validate" type="text" id="name" name="name" required minlength="1" maxlength="55" size="55">
-                    <label class="red-text" for="nom">Nom</label>
+                <div class="input-field col s6">
+                    <input id="name" type="text" name="name" class="red-text validate">
+                    <label class="red-text" for="name">Nom</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input class="red-text validate" type="text" list="chooseElem" name="namelem">
-                    <label class="red-text" for="namelem">Choisissez un element : </label>
-                    <datalist id="chooseElem">
-                        {% for elem in element %}
-                            <select>{{ elem.name }}</select>
-                        {% endfor %}
-                    </datalist>
-
+                    <div class="selects-container">
+                        <select id="chooseElem" name="namelem">
+                            {% for elem in element %}
+                                <option>{{ elem.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label class="red-text" for="element">Choisissez un élément</label>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="input-field col s12">
-                    <label  class="red-text validate" for="namerace">Choissisez la race du monstre: </label>
-                    <input class="red-text" type="text" list="chooseRace" name="namerace">
-                    <datalist id="chooseRace">
+            <div class="row valign-wrapper">
+                <div class="col s12">
+                    <label class="red-text" for="element">Choisissez une race</label>
+                    <select id="chooseRace" name="namerace">
                         {% for race in listerace %}
-                            <select value="{{ race.name }}">{{ race.name }}</select>
+                            <option value="{{ race.name }}">{{ race.name }}</option>
                         {% endfor %}
-                    </datalist>
+                    </select>
                 </div>
+
+
             </div>
+
+            <div class="card horizontal col s12" id="infoRace">
+
+            </div>
+            <div class="row"><label class="red-text" for="img">Choissiez une URL d'image pour votre héro</label></div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input type="hidden" name="MAX_FILE_SIZE" value="250000">
-                    <input id="img" type="file" name="img" class="green-text validate" size="50">
+                    <input type="hidden" name="MAX_FILE_SIZE" value="2500000">
+                    <input id="img" type="file" name="img" class="red-text validate" size="50">
+
                 </div>
             </div>
             <button class="red btn waves-effect waves-light" type="submit" name="action">Valider

@@ -116,7 +116,7 @@ $app->group('', function(){
 
     $this->post('/valCreateHero', "\\dawa\\controllers\\heroController:insererHero");
 
-    $this->get('/getImage/:id/',"\\dawa\\controllers\\picturesController:getImage");
+    $this->get('/getImage/:id',"\\dawa\\controllers\\picturesController:getImage");
 })->add(new AuthMiddleware($app->getContainer()));
 
 try {

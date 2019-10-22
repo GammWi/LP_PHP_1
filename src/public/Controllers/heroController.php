@@ -45,11 +45,17 @@ class heroController{
 
 
 
-        $cheminDest = "D:/wamp64/www/LP_PHP_1/src/public/assets/img/characters/";
+        $cheminDest = __DIR__;
+        $cheminDest = str_replace( "\\","/", $cheminDest);
+        $cheminDest = str_replace("Controllers", "assets/img/characters/", $cheminDest);
+
+
+
         move_uploaded_file($_FILES["img"]["tmp_name"], $cheminDest.$_FILES["img"]["name"]);
+
         $p = new Pictures();
         $p->name = $_FILES["img"]["name"];
-        $p->path = $cheminDest;
+        $p->path = "../../public/assets/img/characters/";
         $p->save();
         $id_img = Pictures::where("name","=",$_FILES["img"]["name"])->first();
         $character->picture = $id_img["id_picture"];
@@ -60,8 +66,6 @@ class heroController{
         $idChara = Character::where("name", "=", $_POST["name"],"and","id_race","=",$idRace[0]["id_race"])->get();
         $hero->id_character = $idChara[0]["id_character"];
         $hero->save();
-
-
 
         return $response->withRedirect($this->container->router->pathFor('home'));
 

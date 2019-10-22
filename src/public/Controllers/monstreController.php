@@ -42,7 +42,8 @@ class monstreController{
         $character->id_character_race = $idRace[0]["id_race"];
 
 
-        $cheminDest = "D:/wamp64/www/LP_PHP_1/src/public/assets/img/characters/";
+        $cheminDest = "../../public/assets/img/characters/";
+
         move_uploaded_file($_FILES["img"]["tmp_name"], $cheminDest.$_FILES["img"]["name"]);
         $p = new Pictures();
         $p->name = $_FILES["img"]["name"];

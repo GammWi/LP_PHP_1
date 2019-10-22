@@ -15,8 +15,8 @@ class picturesController
         $this->container = $container;
     }
 
-    public function getImage($request, $response, $id) {
-        var_dump($id);
+    public function getImage($request, $response) {
+        echo "salut";
     }
 }
 

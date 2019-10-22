@@ -261,7 +261,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `character`
 --
 ALTER TABLE `character`
-  MODIFY `id_character` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_character` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT pour la table `element`
@@ -273,13 +273,13 @@ ALTER TABLE `element`
 -- AUTO_INCREMENT pour la table `fight`
 --
 ALTER TABLE `fight`
-  MODIFY `id_fight` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_fight` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT pour la table `hero`
 --
 ALTER TABLE `hero`
-  MODIFY `id_hero` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_hero` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT pour la table `isstrongerelem`
@@ -291,7 +291,7 @@ ALTER TABLE `isstrongerelem`
 -- AUTO_INCREMENT pour la table `monster`
 --
 ALTER TABLE `monster`
-  MODIFY `id_monster` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_monster` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 
 
@@ -305,7 +305,7 @@ ALTER TABLE `statscarac`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

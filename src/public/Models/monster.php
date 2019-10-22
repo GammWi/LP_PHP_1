@@ -8,8 +8,4 @@ class Monster extends \Illuminate\Database\Eloquent\Model {
     public function character() {
         return $this->belongsTo(Character::class,'id_character');
     }
-
-    public function subirDmg($dmg) {
-        $this->character()->first()->race()->first()['hp'] -= $dmg;
-    }
 }

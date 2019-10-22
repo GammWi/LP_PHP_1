@@ -17,10 +17,8 @@ class fightController
         $this->container = $container;
     }
 
-    public function Index($request, $response)
+    public function fight($idHero, $idMonster)
     {
-        $idMonster = $_GET['id_monster'];
-        $idHero = $_GET['id_hero'];
 
         $hero = Hero::where('id_hero', '=', $idHero)->first();
         $characHero = Character::where('id_character', '=', $hero['id_character'])->first();
@@ -37,7 +35,9 @@ class fightController
             'char' => $characHero->getAttributes(),
             'race' => $raceHero,
             'elem' => $elemHero,
-            'name' => $hero['firstname'] . ' ' . $characHero['name']
+            'name' => $hero['firstname'] . ' ' . $characHero['name'],
+            'totalDmg' => 0.0,
+            'type' => 'hero'
         ];
 
         $leMonster = [
@@ -45,11 +45,14 @@ class fightController
             'char' => $characMonster->getAttributes(),
             'race' => $raceMonster,
             'elem' => $elemMonster,
-            'name' => $characMonster['name']
+            'name' => $characMonster['name'],
+            'totalDmg' => 0.0,
+            'type' => 'monster'
         ];
 
-        function array_clone($array) {
-            return array_map(function($element) {
+        function array_clone($array)
+        {
+            return array_map(function ($element) {
                 return ((is_array($element))
                     ? array_clone($element)
                     : ((is_object($element))
@@ -59,6 +62,7 @@ class fightController
                 );
             }, $array);
         }
+
 
         $beforeLeHero = array_clone($leHero);
         $beforeLeMonster = array_clone($leMonster);
@@ -74,36 +78,38 @@ class fightController
             echo "</pre>";
         }
 
-        $persos = [$leHero, $leMonster];
+        $attaque = ($leHero['race']['agility'] > $leMonster['race']['agility']) ? $leHero : $leMonster;
+        $victime = ($leHero['race']['agility'] > $leMonster['race']['agility']) ? $leMonster : $leHero;
+
+//        $persos = [$leHero, $leMonster];
         $tours = [];
         $tour = 1;
         $log = [];
-        $i = $whostart;
-        $j = ($whostart == 1) ? 0 : 1;
+//        $i = $whostart;
+//        $j = ($whostart == 1) ? 0 : 1;
         while (!$fin) {
-            if ($persos[0]['race']['hp'] > 0 && $persos[1]['race']['hp'] > 0) {
-                $hpLogBefore = $persos[$i]['name'] . ': ' . $persos[$i]['race']['hp'] . 'hp ||| ' . $persos[$j]['name'] . ': ' . $persos[$j]['race']['hp'] . 'hp';
-                $dmgLog = $persos[$i]['name'] . ' attaque ' . $persos[$j]['name'] . ' pour ' . $persos[$i]['race']['attack'];
-                $persos[$j]['race']['hp'] -= $persos[$i]['race']['attack'];
-                $hpLogAfter = $persos[$i]['name'] . ': ' . $persos[$i]['race']['hp'] . 'hp ||| ' . $persos[$j]['name'] . ': ' . $persos[$j]['race']['hp'] . 'hp';
+            if ($attaque['race']['hp'] > 0 && $victime['race']['hp'] > 0) {
+                $logAttaque = $this->attaque($attaque, $victime);
+                $attaque['totalDmg'] += $logAttaque['dmgDealt'];
                 $log = [
                     'tour' => $tour,
                     'win' => false,
-                    'hpLogBefore' => $hpLogBefore,
-                    'dmgLog' => $dmgLog,
-                    'hpLogAfter' => $hpLogAfter
+                    'hpLogBefore' => $logAttaque['hpLogBeforeV'],
+                    'dmgLog' => $logAttaque['dmgLogV'],
+                    'defLog' => $logAttaque['defLogV'],
+                    'hpLogAfter' => $logAttaque['hpLogAfterV']
                 ];
-                if ($persos[0]['race']['hp'] > 0 && $persos[1]['race']['hp'] > 0) {
-                    $tmp = $i;
-                    $i = $j;
-                    $j = $tmp;
+                if ($attaque['race']['hp'] > 0 && $victime['race']['hp'] > 0) {
+                    $tmp = $attaque;
+                    $attaque = $victime;
+                    $victime = $tmp;
                 }
             } else {
                 $log = [
                     'tour' => 'FIN',
                     'win' => true,
-                    'winner' => $persos[$i],
-                    'looser' => $persos[$j]
+                    'winner' => $attaque,
+                    'looser' => $victime
                 ];
                 $fin = true;
             }
@@ -113,14 +119,80 @@ class fightController
             ];
             $tour++;
         }
-
-        $this->container->view->render($response, 'fight/fight.html.twig', ['combat' => [
+        return ['combat' => [
             "persos" => [$beforeLeHero, $beforeLeMonster],
             "nbTours" => $tour,
-            "tours" => $tours
-        ]]);
+            "tours" => $tours,
+            "winner" => $attaque,
+            "looser" => $victime
+        ]];
     }
 
+    function attaque($attaque, $victime)
+    {
+        $hpLogBefore = $attaque['name'] . ': ' . $attaque['race']['hp'] . 'hp ||| ' . $victime['name'] . ': ' . $victime['race']['hp'] . 'hp';
 
+        $crit = ($attaque['race']['agility'] >= 2 * $victime['race']['agility']);
+        $dmg = ($crit) ? $attaque['race']['attack'] * 2 : $attaque['race']['attack'];
+
+        $def = rand(0, 100 - $victime['race']['defense']);
+        $dmgDef = 0;
+        $tfPercent = 100 - $victime['race']['defense'] * 0.25;
+        $fiftyPercent = 100 - $victime['race']['defense'] * 0.50;
+        $sfPercent = 100 - $victime['race']['defense'] * 0.75;
+        $hundredDef = 100 - $victime['race']['defense'];
+        $fullDef = false;
+        if (0 < $def && $def <= $tfPercent) {
+            $dmgDef = $dmg * 0.90;
+        } else {
+            if ($tfPercent < $def && $def <= $fiftyPercent) {
+                $dmgDef = $dmg * 0.80;
+            } else if ($fiftyPercent < $def && $def <= $sfPercent) {
+                $dmgDef = $dmg * 0.70;
+            } else if ($sfPercent < $def && $def < $hundredDef) {
+                $dmgDef = $dmg * 0.60;
+            } else if ($def === $hundredDef) {
+                $fullDef = true;
+                $dmgDef = $dmg;
+            }
+        }
+
+        $dmgLog = $attaque['name'] . ' attaque ' . $victime['name'] . ' pour ' . $dmg;
+        $dmgLog .= ($crit) ? ' COUP CRITIQUE !' : '';
+        $defLog = $victime['name'] . ' se défend pour ' . $dmgDef;
+        $defLog .= ($fullDef) ? ' DEFENSE PARFAITE ' : '';
+
+        $victime['race']['hp'] -= ($dmg - $dmgDef);
+
+        $hpLogAfter = $attaque['name'] . ': ' . $attaque['race']['hp'] . 'hp ||| ' . $victime['name'] . ': ' . $victime['race']['hp'] . 'hp';
+
+        $log = [
+            "hpLogBeforeV" => $hpLogBefore,
+            "dmgLogV" => $dmgLog,
+            "defLogV" => $defLog,
+            "hpLogAfterV" => $hpLogAfter,
+            "dmgDealt" => $dmg - $dmgDef
+        ];
+        return $log;
+    }
+
+    public function Index($request, $response)
+    {
+        $idMonster = $_GET['id_monster'];
+        $idHero = $_GET['id_hero'];
+        $fight = $this->fight($idHero, $idMonster);
+        $this->saveLog($fight);
+        return $this->container->view->render($response, 'fight/fight.html.twig', $fight);
+    }
+
+    public function saveLog($logs)
+    {
+//         winner, looser, nbPvWinner, nbDmgWinner, nbDmgLooser
+        $winner = $logs['combat']['winner'];
+        $looser = $logs['combat']['looser'];
+        $winnerDmg = $logs['combat']['winner']['totalDmg'];
+        $looserDmg = $logs['combat']['looser']['totalDmg'];
+
+    }
 }
 

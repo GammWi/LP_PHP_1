@@ -215,8 +215,8 @@
                     <p>{{ tour.log.hpLogAfter }}</p>
                 {% endif %}{% if tour.log.win == true %}
                     <h2>FIN</h2>
-                    <p>WINNER : {{ tour.log.winner.name }}</p>
-                    <p>LOOSER : {{ tour.log.looser.name }}</p>
+                    <p>WINNER : {{ combat.winner.name }} - {{ combat.winner.totalDmg  }}</p>
+                    <p>LOOSER : {{ combat.looser.name }} - {{ combat.looser.totalDmg }}</p>
                 {% endif %}
             </div>
         {% endfor %}

@@ -164,11 +164,13 @@ class fightController
         $hpLogAfter = $attaque['name'] . ': ' . $attaque['race']['hp'] . 'hp ||| ' . $victime['name'] . ': ' . $victime['race']['hp'] . 'hp';
 
         $log = [
+            "attaque" => $attaque,
             "hpLogBeforeV" => $hpLogBefore,
             "dmgLogV" => $dmgLog,
             "defLogV" => $defLog,
             "hpLogAfterV" => $hpLogAfter,
-            "dmgDealt" => $dmg - $dmgDef
+            "dmgDealt" => $dmg - $dmgDef,
+            "victime" => $victime
         ];
         return $log;
     }

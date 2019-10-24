@@ -6,7 +6,10 @@ use dawa\models\Character;
 use dawa\models\Element;
 use dawa\models\Hero as Hero;
 use dawa\models\Monster;
+use dawa\models\Fight;
 use dawa\models\Race;
+use dawa\models\StatsFight;
+use dawa\models\StatsCharac;
 use Slim\Slim;
 
 class fightController
@@ -31,7 +34,7 @@ class fightController
         $elemMonster = Element::where('id_element', '=', $monster['id_character_elem'])->first();
 
         $leHero = [
-            'hero' => $hero->getAttributes(),
+            'perso' => $hero->getAttributes(),
             'char' => $characHero->getAttributes(),
             'race' => $raceHero,
             'elem' => $elemHero,
@@ -41,7 +44,7 @@ class fightController
         ];
 
         $leMonster = [
-            'monster' => $monster->getAttributes(),
+            'perso' => $monster->getAttributes(),
             'char' => $characMonster->getAttributes(),
             'race' => $raceMonster,
             'elem' => $elemMonster,
@@ -180,18 +183,79 @@ class fightController
         $idMonster = $_GET['id_monster'];
         $idHero = $_GET['id_hero'];
         $fight = $this->fight($idHero, $idMonster);
-        $this->saveLog($fight);
+        $this->saveFight($idHero, $idMonster, $fight);
+        
         return $this->container->view->render($response, 'fight/fight.html.twig', $fight);
     }
 
-    public function saveLog($logs)
-    {
-//         winner, looser, nbPvWinner, nbDmgWinner, nbDmgLooser
-        $winner = $logs['combat']['winner'];
-        $looser = $logs['combat']['looser'];
-        $winnerDmg = $logs['combat']['winner']['totalDmg'];
-        $looserDmg = $logs['combat']['looser']['totalDmg'];
+    public function lancerCombat($idHero, $idMonster){
+        $fight = $this->fight($idHero, $idMonster);
+        $this->saveFight($idHero, $idMonster, $fight);
+    }
 
+    public function saveFight($id_hero, $id_monster, $fight){
+        Fight::create([
+            'id_hero' => $id_hero,
+            'id_monster' => $id_monster
+        ]);
+        $id_combat = Fight::latest()->first()->id_fight;
+        $this->saveLogs($fight, $id_combat);
+    }
+
+    public function saveLogs($fight, $id_combat)
+    {
+        
+//         winner, looser, nbPvWinner, nbDmgWinner, nbDmgLooser
+        $winner = $fight['combat']['winner'];
+        $looser = $fight['combat']['looser'];
+        $winnerDmg = $fight['combat']['winner']['totalDmg'];
+        $looserDmg = $fight['combat']['looser']['totalDmg'];
+
+        StatsFight::create([
+            'id_fight' => $id_combat,
+            'id_character' => $winner['perso']['id_character'],
+            'isWinner' => 1,
+            'dmgInfliges' => $winnerDmg,
+            'dmgRecus' => 0
+        ]);
+
+        StatsFight::create([
+            'id_fight' => $id_combat,
+            'id_character' => $looser['perso']['id_character'],
+            'isWinner' => 0,
+            'dmgInfliges' => $looserDmg,
+            'dmgRecus' => 0
+        ]);
+
+    }
+
+    public function statsCharac(){
+        $lCharac = Character::all();
+        foreach($lCharac as $charac){
+            $nbWin = StatsFight::where([
+                ['id_character', '=', $charac->id_character],
+                ['isWinner', '=', 1]
+
+            ])->count();
+            $nbLose = StatsFight::where([
+                ['id_character', '=', $charac->id_character],
+                ['isWinner', '=', 0]
+
+            ])->count();
+
+            $nbTotal = $nbWin + $nbLose;
+            
+            StatsCharac::create([
+                'id_charac' => $charac->id_character,
+                'type' => '1vs1',
+                'nbWin' => $nbWin,
+                'nbLoose' => $nbLose,
+                'nbTotal' => $nbTotal
+            ]);
+    
+            
+        }
+        
     }
 }
 

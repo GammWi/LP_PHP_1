@@ -21,7 +21,10 @@ class fakerController{
             $monstre = Monster::all()->random();
             $hero = Hero::all()->random();
             $fight = new FightController($this->container);
-            var_dump($fight->fight($hero->id_hero, $monstre->id_monster));
+            $fight->lancerCombat($hero->id_hero, $monstre->id_monster);
         }
+        $test = new FightController($this->container);
+        $test->statsCharac();
+        
     }
 }

@@ -50,7 +50,8 @@ INSERT INTO `pictures` (`name`, `path`) values
 ("gobelin","../../public/assets/img/characters/gobelin.jpg"),
 ("troll","../../public/assets/img/characters/troll.png"),
 ("mort","../../public/assets/img/characters/mort.jpg"),
-("squelette","../../public/assets/img/characters/squelette.jpg");
+("squelette","../../public/assets/img/characters/squelette.jpg"),
+("cerf","../../public/assets/img/characters/cerf.png");
 
 INSERT INTO `race` (`id_race`, `name`, `description`, `attack`, `defense`, `agility`, `hp`, `id_picture`) VALUES
 (1, 'Nain', 'Les nains sont des créatures robustes de petite taille, qui se distinguent par leurs talents de forgerons, de mineurs et de bâtisseurs. Ils adorent la bière et détestent les elfes', 20, 25, 5, 70,1),
@@ -61,7 +62,8 @@ INSERT INTO `race` (`id_race`, `name`, `description`, `attack`, `defense`, `agil
 (6, 'Gobelin', 'Les gobelins sont une race petite et espiègle, qui peuvent parraître inoffensifs à première vue, mais faites attention à ne jamais sous-estimer une bande de gobelins enragés!', 15, 5, 30, 30, 6),
 (7, 'Troll', 'Les trolls ressemblent beaucoup aux ogres de part leur silhouette imposante, mais contrairement à leurs cousins pacifistes, ils ne vivent que pour la guerre', 25, 5, 5, 100, 7),
 (8, 'Mort-vivant', 'Les Mort-vivants sont des cadavres ramenés à la vie par des sorciers nécromanciens. Ils ont la vitesse et l\'intelligence d\'un escargot alcoolisé mais il ne faut pas sous-estimer le danger qu\'ils représentent quand ils sont nombreux', 15, 20, 5, 70, 8),
-(9, 'Squelette', 'Plus intelligents et plus que les morts-vivants, les squelettes sont nimbés de mystères: comment se nourissent-ils? Comment font-ils en cas de fracture? Prennent-ils des bains de lait pour fortifier leurs os?', 20, 5, 20, 40, 9);
+(9, 'Squelette', 'Plus intelligents et plus que les morts-vivants, les squelettes sont nimbés de mystères: comment se nourissent-ils? Comment font-ils en cas de fracture? Prennent-ils des bains de lait pour fortifier leurs os?', 20, 5, 20, 40, 9),
+(10,'Cerf', 'Un cerf',50,50,50,100,10);
 
 -- REQUETE COMPTE ADMIN --
 -- ID: root

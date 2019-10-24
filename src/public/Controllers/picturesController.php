@@ -9,14 +9,14 @@
 namespace dawa\Controllers;
 
 
+use dawa\models\Pictures;
+
 class picturesController
 {
-    public function __construct($container){
-        $this->container = $container;
-    }
 
-    public function getImage($request, $response) {
-        echo "salut";
+    public function getImageUrl($id) {
+        $picture = Pictures::where("id_picture", "=", $id)->get();
+        return $picture;
     }
 }
 

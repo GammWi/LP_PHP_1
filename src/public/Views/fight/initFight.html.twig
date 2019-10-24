@@ -168,7 +168,7 @@
     <h2 class="white-text center-align">Puisse le sort vous être favorable !</h2>
 
     <div class="row valign-wrapper flex" style="justify-content: center">
-        {% for perso in combat.persos %}
+        {% for perso in combat.persos.initial %}
             <div class="black-text blue-grey bounce-top card horizontal" style="width: 256px">
                 <div class="card-image center-block center">
                     <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
@@ -202,70 +202,18 @@
             {% endif %}
         {% endfor %}
     </div>
-    <div class="container center" style="max-height: 400px; overflow: auto; border: 2px solid red">
-        {% for tour in combat.tours %}
-            <div>
-                {% if tour.log.win == false %}
-                    <h2>Tour n°{{ tour.id }}</h2>
-                    <p>{{ tour.log.hpLogBefore }}</p>
-                    <p>{{ tour.log.dmgLog }}</p>
-                    <p>{{ tour.log.defLog }}</p>
-                    <div>
-                        <img style="width: 50px" src=""><img
-                                src="http://pixeljoint.com/files/icons/full/uther_lord.gif"> <img style="width: 50px"
-                                                                                                  src="../../public/assets/img/characters/hero.png">
-                    </div>
-                    <p>{{ tour.log.hpLogAfter }}</p>
-                {% endif %}{% if tour.log.win == true %}
-                    <h2>FIN</h2>
-                    <p>WINNER : {{ combat.winner.name }} - {{ combat.winner.totalDmg }}</p>
-                    <p>LOOSER : {{ combat.looser.name }} - {{ combat.looser.totalDmg }}</p>
-                {% endif %}
-            </div>
-        {% endfor %}
-    </div>
-    <div class="container center">
-        <div class="black-text green card horizontal rotate-scale-down-diag-2" style="
-             width: 256px;
-             margin: 15px auto;">
-            <div class="card-image center-block center">
-                <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
-                     alt="Un héros">
-            </div>
-            <div class="card-stacked">
-                <div class="card-content">
-                    <h5 class="center"> {{ combat.winner.name }} </h5>
-                    Points de vie
-                    <div class="progress">
-                        <div class="blue-grey determinate" style="width: {{ combat.winner.race.hp }}%"></div>
-                    </div>
-                    Attaque
-                    <div class="progress">
-                        <div class="blue-grey determinate" style="width: {{ combat.winner.race.attack }}%"></div>
-                    </div>
-                    Défense
-                    <div class="progress">
-                        <div class="blue-grey determinate" style="width: {{ combat.winner.race.defense }}%"></div>
-                    </div>
-                    Agilité
-                    <div class="progress">
-                        <div class="blue-grey determinate" style="width: {{ combat.winner.race.agility }}%"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% if combat.type is same as('tpt') %}
-            <button class="waves-effect waves-light btn-large red" id="next"> Tour suivant</button>
 
-            <script>
-                const nextTour = document.getElementById('next');
-                let send = JSON.stringify({{ combat | json_encode() | raw }});
-                nextTour.addEventListener("click", function (_) {
-                    post('nextTour', {combat: send})
-                })
-            </script>
-        {% endif %}
-    </div>
+    <button id="start" class="waves-effect waves-light btn-large red"
+            style="width: 100%;font-size: 0.85em; font-weight: bold; position: fixed; bottom: 0; left:0"> Qui commence ?
+        Le hasard est roi
+    </button>
+    <script>
+        const boutonStart = document.getElementById('start');
+        let send = JSON.stringify({{ combat.persos | json_encode() | raw }});
+        boutonStart.addEventListener("click", function (_) {
+            post('startFight', {persos: send})
+        })
+    </script>
 </div>
 
 {% include '/layout/footer.html.twig' %}

@@ -61,7 +61,7 @@ class monstreController{
             $p->name = $_POST["name"];
             $p->path = "../../public/assets/img/characters/".$newNamePicture;
             $p->save();
-            $id_img = Pictures::where("name","=",$newNamePicture)->first();
+            $id_img = Pictures::where("name","=",$_POST["name"])->first();
             $character->picture = $id_img["id_picture"];
             $character->save();
             $monstre = new Monster();

@@ -10,7 +10,7 @@
                 if("{{ race.name }}" === f.value) {
                     let informationRace = document.getElementById("infoRace")
                     informationRace.className = "card horizontal";
-                    informationRace.innerHTML ="<img style=\"width: 256px\" src=\"../../public/assets/img/characters/hero.png\" alt=\"Un héros\"><h3>{{ race.name }}</h3><p>{{ race.description }}</p><li>attaque : {{ race.attack }}</li><li>défense : {{ race.defense }}</li><li>agilité : {{ race.agility }}</li><li>vie : {{ race.hp }}</li>";
+                    informationRace.innerHTML ="<img style=\"width: 256px\" src=\"{{ race.path }}\" alt=\"Un héros\"><h3>{{ race.name }}</h3><p>{{ race.description }}</p><li>attaque : {{ race.attack }}</li><li>défense : {{ race.defense }}</li><li>agilité : {{ race.agility }}</li><li>vie : {{ race.hp }}</li>";
                 }
             {% endfor %}
         });

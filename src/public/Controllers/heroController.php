@@ -22,6 +22,13 @@ class heroController{
 
         $listeElem = Element::all();
         $listeRace = Race::all();
+        foreach ($listeRace as $race) {
+            $p = Pictures::where("id_picture", "=", $race["id_picture"])->get();
+            $race["path"] = $p[0]["path"];
+
+
+        }
+
         return $this->container->view->render($response, 'character/hero.html.twig', ['element'=>$listeElem, 'listerace'=>$listeRace]);
 
     }

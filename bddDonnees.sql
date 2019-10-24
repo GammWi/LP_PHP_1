@@ -19,12 +19,12 @@ INSERT INTO `element` (`id_element`, `name`, `description`) VALUES
 (4, 'Terre', 'La terre s\'atterre');
 
 INSERT INTO `hero` (`id_character`, `firstname`) VALUES
-(3, 'Nano Le'),
-(4, 'Roger Le'),
-(5, 'Val Le '),
-(6, 'Borbert Le '),
-(7, 'Elfora L\''),
-(8, 'Augro L\'');
+(1, 'Nano Le'),
+(2, 'Roger Le'),
+(3, 'Val Le '),
+(4, 'Borbert Le '),
+(5, 'Elfora L\''),
+(6, 'Augro L\'');
 
 INSERT INTO `isstrongerelem` (`id_isStronger`, `id_elem_stronger`, `id_elem_weaker`) VALUES
 (1, 2, 1),
@@ -33,12 +33,13 @@ INSERT INTO `isstrongerelem` (`id_isStronger`, `id_elem_stronger`, `id_elem_weak
 (4, 3, 2);
 
 INSERT INTO `monster` (`id_character`) VALUES
+(7),
+(8),
 (9),
 (10),
 (11),
-(12),
-(13),
-(14);
+(12);
+
 
 INSERT INTO `pictures` (`name`, `path`) values
 ("nain", "../../public/assets/img/characters/nain.png"),

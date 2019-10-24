@@ -1,30 +1,70 @@
 {% include '/layout/header.html.twig' %}
 
 <script type="application/javascript">
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max  + 1);
+    }
+
+    function uncheckBoxes(name){
+        let selection = document.getElementsByName(name)
+        selection.forEach(function (id) {
+            for(let i = 0; i < selection.length; i++){
+                selection[i].checked = false
+            }
+        })
+    }
+
+
     window.onload = function selection() {
+
+        //bouton de selection d'un heros aleatoire
+        const randomHero = document.getElementById("randomHero")
+        randomHero.addEventListener("click", function (event) {
+            let number = document.getElementById("randomHero").value
+            let id = getRandomInt(number[1]).toString()
+            uncheckBoxes("caracHero")
+            document.getElementById("(hero"+id+")").checked=true
+            console.log(id)
+        })
+
+        //bouton de selection d'un monstre aleatoire
+        const randomMonster = document.getElementById("randomMonster")
+        randomMonster.addEventListener("click", function (event) {
+            let number = document.getElementById("randomMonster").value
+            let id = getRandomInt(number[3])
+            uncheckBoxes("caracMonster")
+            document.getElementById("(monster"+id+")").checked=true
+            console.log(id)
+        })
+
+
+        //lancement du combat
         const f = document.getElementById("gofight")
         f.addEventListener("click", function (event) {
-            let selection = document.getElementsByName("carac");
+            let selecHero = Array.from(document.getElementsByName("caracHero"))
+            let selection = selecHero.concat(Array.from(document.getElementsByName("caracMonster")))
             let i = 0;
             let array_val = [];
             selection.forEach(function (id) {
                 if (id.checked) {
-                    array_val[i] = id.value;
-                    i++;
+                    array_val[i] = id.value
+                    i++
                 }
-            });
+            })
             if (i !== 2) {
                 alert("Veuillez sélectionner deux champions")
             } else {
-                window.location.href = `fight?id_hero=${array_val[0]}&id_monster=${array_val[1]}`;
+                window.location.href = `fight?id_hero=${array_val[0]}&id_monster=${array_val[1]}`
             }
         })
 
+        //selection aleatoire des adversaires
         const f2 = document.getElementById("goRand")
         f2.addEventListener("click", function (event) {
             let rdm = document.getElementById("goRand").value
-
-            window.location.href=`fight?id_hero=${rdm[1]}&id_monster=${rdm[3]}`;
+            let idHero = getRandomInt(rdm[1])
+            let idMonster = getRandomInt(rdm[3])
+            window.location.href=`fight?id_hero=${idHero}&id_monster=${idMonster}`
 
         })
 
@@ -61,7 +101,7 @@
                                             </div>
                                             <div class="card-action">
                                                 <label>
-                                                    <input class="checkbox-green" type="checkbox" name="carac"
+                                                    <input class="checkbox-green" type="checkbox" name="caracHero" id=(hero{{heros.id_hero}})
                                                            value={{ heros.id_hero }}>
                                                     <span>Envoyer
                                             ce héros au combat</span>
@@ -136,16 +176,29 @@
                                 </div>
                                 {#BLOC REPETE HERO#}
                             {% endfor %}
+
+
+
+
                         </div>
+
 
                     </div>
                 </div>
-                <form style="width: 100%;position: absolute; right: 0; bottom: 0;" action="createHero">
+                <form style="width: 49%;position: absolute; right: 0; bottom: 0;" action="createHero">
                     <button class="waves-effect waves-light btn green" style="width: 100%; font-weight: bold;"
                             type="submit"
                             value="">Créer un héros
                     </button>
                 </form>
+
+                <button style="width: 49%; position: absolute; left: 0; bottom: 0; font-weight: bold;"
+                        class="green waves-effect waves-light btn"
+                        id="randomHero"
+                        type="submit"
+                        value={{ count | json_encode | raw }}>
+                    Choisir un héros aléatoirement
+                </button>
 
             </div>
 
@@ -178,7 +231,7 @@
                                         </div>
                                         <div class="card-action">
                                             <label>
-                                                <input class="checkbox-green" type="checkbox" name="carac"
+                                                <input class="checkbox-green" type="checkbox" name="caracMonster" id=(monster{{monsters.id_monster}})
                                                        value={{ monsters.id_monster }}>
                                                 <span>Envoyer
                                             ce monstre au combat</span>
@@ -251,14 +304,23 @@
                                 </div>
                             </div>
                         {% endfor %}
+
                     </div>
                 </div>
-                <form style="width: 100%;" action="createMonster">
+                <form style="width: 49%; position: absolute; right: 0; bottom: 0" action="createMonster">
                     <button class="waves-effect waves-light btn red " style="width: 100%; font-weight: bold;"
                             type="submit"
                             value="">Créer un monstre
                     </button>
                 </form>
+
+                <button style="width: 49%; position: absolute; left: 0; bottom: 0; font-weight: bold;"
+                        class="red waves-effect waves-light btn"
+                        id="randomMonster"
+                        type="submit"
+                        value={{ count | json_encode | raw }}>
+                    Choisir un monstre aléatoirement
+                </button>
             </div>
         </div>
         {#FIN BLOC MONSTRES#}
@@ -270,7 +332,7 @@
 
 
 
-    <button id="goRand" class="waves-effect waves-light btn-large green" style="width: 49.5%; font-size: 0.85em; font-weight: bold;position: fixed; bottom:0; right:0" value="{{ rand | json_encode | raw }}">Cliquez
+    <button id="goRand" class="waves-effect waves-light btn-large green" style="width: 49.5%; font-size: 0.85em; font-weight: bold;position: fixed; bottom:0; right:0" value="{{ count | json_encode | raw }}">Cliquez
         ici
         pour lancer un combat avec des champions aléatoires (à vos risques et périls!)
     </button>

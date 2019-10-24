@@ -38,10 +38,10 @@ class champSelectController{
                 ->leftJoin('character','character.id_character', '=', 'monster.id_character')
                 ->get();
 
-            $rand[0]=$this->randomChampSelect($hero);
-            $rand[1]=$this->randomChampSelect($monster);
-            var_dump($rand);
-            $this->container->view->render($response, 'championSelect/affichage.html.twig', ['hero' => $hero, 'monster' => $monster, 'rand' => $rand]);
+            //$this->randomChampSelect($hero);
+            $count[0]=count($hero);
+            $count[1]=count($monster);
+            $this->container->view->render($response, 'championSelect/affichage.html.twig', ['hero' => $hero, 'monster' => $monster, 'count' => $count]);
 
         }
 

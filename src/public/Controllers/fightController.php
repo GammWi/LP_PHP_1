@@ -7,7 +7,6 @@ use dawa\models\Element;
 use dawa\models\Hero as Hero;
 use dawa\models\Monster;
 use dawa\models\Race;
-use Slim\Slim;
 
 class fightController
 {
@@ -19,7 +18,6 @@ class fightController
 
     public function fight($idHero, $idMonster)
     {
-
         $hero = Hero::where('id_hero', '=', $idHero)->first();
         $characHero = Character::where('id_character', '=', $hero['id_character'])->first();
         $raceHero = Race::where('id_race', '=', $characHero['id_character_race'])->first();
@@ -50,56 +48,25 @@ class fightController
             'type' => 'monster'
         ];
 
-        
-
-
         $beforeLeHero = $this->array_clone_liste($leHero);
         $beforeLeMonster = $this->array_clone_liste($leMonster);
 
         $fin = false;
 
-        $whostart = rand(0, 1);
-
-        
-
         $attaque = ($leHero['race']['agility'] > $leMonster['race']['agility']) ? $leHero : $leMonster;
         $victime = ($leHero['race']['agility'] > $leMonster['race']['agility']) ? $leMonster : $leHero;
 
-//        $persos = [$leHero, $leMonster];
         $tours = [];
         $tour = 1;
         $log = [];
-//        $i = $whostart;
-//        $j = ($whostart == 1) ? 0 : 1;
         while (!$fin) {
-            if ($attaque['race']['hp'] > 0 && $victime['race']['hp'] > 0) {
-                $logAttaque = $this->attaque($attaque, $victime);
-                $attaque['totalDmg'] += $logAttaque['dmgDealt'];
-                $log = [
-                    'tour' => $tour,
-                    'win' => false,
-                    'hpLogBefore' => $logAttaque['hpLogBeforeV'],
-                    'dmgLog' => $logAttaque['dmgLogV'],
-                    'defLog' => $logAttaque['defLogV'],
-                    'hpLogAfter' => $logAttaque['hpLogAfterV']
-                ];
-                if ($attaque['race']['hp'] > 0 && $victime['race']['hp'] > 0) {
-                    $tmp = $attaque;
-                    $attaque = $victime;
-                    $victime = $tmp;
-                }
-            } else {
-                $log = [
-                    'tour' => 'FIN',
-                    'win' => true,
-                    'winner' => $attaque,
-                    'looser' => $victime
-                ];
-                $fin = true;
-            }
+            $resTour = $this->tour($attaque, $victime, $tour);
+            $fin = $resTour['fin'];
+            $attaque = $resTour['attaque'];
+            $victime = $resTour['victime'];
             $tours[] = [
                 "id" => $tour,
-                "log" => $log
+                "log" => $resTour['log']
             ];
             $tour++;
         }
@@ -113,17 +80,17 @@ class fightController
     }
 
     function array_clone_liste($array)
-        {
-            return array_map(function ($element) {
-                return ((is_array($element))
-                    ? $this->array_clone_liste($element)
-                    : ((is_object($element))
-                        ? clone $element
-                        : $element
-                    )
-                );
-            }, $array);
-        }
+    {
+        return array_map(function ($element) {
+            return ((is_array($element))
+                ? $this->array_clone_liste($element)
+                : ((is_object($element))
+                    ? clone $element
+                    : $element
+                )
+            );
+        }, $array);
+    }
 
     function attaque($attaque, $victime)
     {
@@ -192,6 +159,37 @@ class fightController
         $winnerDmg = $logs['combat']['winner']['totalDmg'];
         $looserDmg = $logs['combat']['looser']['totalDmg'];
 
+    }
+
+    public function tour($attaque, $victime, $tour)
+    {
+        if ($attaque['race']['hp'] > 0 && $victime['race']['hp'] > 0) {
+            $fin = false;
+            $logAttaque = $this->attaque($attaque, $victime);
+            $attaque['totalDmg'] += $logAttaque['dmgDealt'];
+            $log = [
+                'tour' => $tour,
+                'win' => false,
+                'hpLogBefore' => $logAttaque['hpLogBeforeV'],
+                'dmgLog' => $logAttaque['dmgLogV'],
+                'defLog' => $logAttaque['defLogV'],
+                'hpLogAfter' => $logAttaque['hpLogAfterV']
+            ];
+            if ($attaque['race']['hp'] > 0 && $victime['race']['hp'] > 0) {
+                $tmp = $attaque;
+                $attaque = $victime;
+                $victime = $tmp;
+            }
+        } else {
+            $log = [
+                'tour' => 'FIN',
+                'win' => true,
+                'winner' => $attaque,
+                'looser' => $victime
+            ];
+            $fin = true;
+        }
+        return ['fin' => $fin, 'attaque' => $attaque, 'victime' => $victime, 'log' => $log];
     }
 }
 

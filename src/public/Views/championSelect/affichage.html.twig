@@ -24,7 +24,7 @@
             let id = getRandomInt(number[1]).toString()
             uncheckBoxes("caracHero")
             document.getElementById("(hero"+id+")").checked=true
-            console.log(id)
+            alert(document.getElementsByClassName("(nomHero"+id+")").value + " a été sélectionné aléatoirement")
         })
 
         //bouton de selection d'un monstre aleatoire
@@ -34,27 +34,37 @@
             let id = getRandomInt(number[3])
             uncheckBoxes("caracMonster")
             document.getElementById("(monster"+id+")").checked=true
-            console.log(id)
         })
 
 
         //lancement du combat
         const f = document.getElementById("gofight")
         f.addEventListener("click", function (event) {
+            let nbSelected
             let selecHero = Array.from(document.getElementsByName("caracHero"))
-            let selection = selecHero.concat(Array.from(document.getElementsByName("caracMonster")))
-            let i = 0;
-            let array_val = [];
-            selection.forEach(function (id) {
+            let array_Hero = []
+            let i = 0
+            selecHero.forEach(function (id) {
                 if (id.checked) {
-                    array_val[i] = id.value
+                    array_Hero[i] = id.value
                     i++
                 }
             })
-            if (i !== 2) {
-                alert("Veuillez sélectionner deux champions")
+
+            let selecMonster = Array.from(document.getElementsByName("caracMonster"))
+            let array_Monster = []
+            let y = 0
+            selecMonster.forEach(function (id) {
+                if (id.checked) {
+                    array_Monster[y] = id.value
+                    y++
+                }
+            })
+
+            if ((i ===1) && (y===1)) {
+                window.location.href = `fight?id_hero=${array_Hero[0]}&id_monster=${array_Monster[0]}`
             } else {
-                window.location.href = `fight?id_hero=${array_val[0]}&id_monster=${array_val[1]}`
+                alert("Veuillez sélectionner un héros et un monstre")
             }
         })
 
@@ -167,6 +177,12 @@
                                                                     type="submit" value={{ heros.id_hero }}>Supprimer
                                                             </button>
                                                         </form>
+
+
+
+                                                    </div>
+                                                    <div class=(nomHero{{heros.id_hero}}) value="bravo t'as réussi BG">
+                                                        {{ heros.firstname }} {{ heros.name }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -295,6 +311,9 @@
                                                                 value={{ monsters.id_monster }}>Supprimer
                                                         </button>
                                                     </form>
+
+                                                    <div class="nomMonster" value={{ monsters.name }}></div>
+
                                                 </div>
                                             </div>
                                         </div>

@@ -22,40 +22,12 @@ class fightController
 
     public function fight($idHero, $idMonster)
     {
-        $hero = Hero::where('id_hero', '=', $idHero)->first();
-        $characHero = Character::where('id_character', '=', $hero['id_character'])->first();
-        $raceHero = Race::where('id_race', '=', $characHero['id_character_race'])->first();
-        $elemHero = Element::where('id_element', '=', $hero['id_character_elem'])->first();
+        $persos  = $this->initPersosFromIDs($idHero, $idMonster);
 
-        $monster = Monster::where('id_monster', '=', $idMonster)->first();
-        $characMonster = Character::where('id_character', '=', $monster['id_character'])->first();
-        $raceMonster = Race::where('id_race', '=', $characMonster['id_character_race'])->first();
-        $elemMonster = Element::where('id_element', '=', $monster['id_character_elem'])->first();
-
-        $leHero = [
-            'perso' => $hero->getAttributes(),
-            'char' => $characHero->getAttributes(),
-            'race' => $raceHero,
-            'elem' => $elemHero,
-            'name' => $hero['firstname'] . ' ' . $characHero['name'],
-            'totalDmg' => 0.0,
-            'totalDmgTook' => 0.0,
-            'type' => 'hero'
-        ];
-
-        $leMonster = [
-            'perso' => $monster->getAttributes(),
-            'char' => $characMonster->getAttributes(),
-            'race' => $raceMonster,
-            'elem' => $elemMonster,
-            'name' => $characMonster['name'],
-            'totalDmg' => 0.0,
-            'totalDmgTook' => 0.0,
-            'type' => 'monster'
-        ];
-
-        $beforeLeHero = $this->array_clone_liste($leHero);
-        $beforeLeMonster = $this->array_clone_liste($leMonster);
+        $leHero = $persos['leHero'];
+        $leMonster = $persos['leMonster'];
+        $beforeLeHero = $persos['beforeLeHero'];
+        $beforeLeMonster = $persos['beforeLeMonster'];
 
         $fin = false;
 
@@ -153,7 +125,7 @@ class fightController
         $idMonster = $_GET['id_monster'];
         $idHero = $_GET['id_hero'];
         $fight = $this->fight($idHero, $idMonster);
-        $this->saveFight($idHero, $idMonster, $fight);
+//        $this->saveFight($idHero, $idMonster, $fight);
         
         return $this->container->view->render($response, 'fight/fight.html.twig', $fight);
     }
@@ -341,6 +313,51 @@ class fightController
 
     function nextTour($request, $response) {
 
+    }
+
+    private function initPersosFromIDs($idHero, $idMonster)
+    {
+        $hero = Hero::where('id_hero', '=', $idHero)->first();
+        $characHero = Character::where('id_character', '=', $hero['id_character'])->first();
+        $raceHero = Race::where('id_race', '=', $characHero['id_character_race'])->first();
+        $elemHero = Element::where('id_element', '=', $hero['id_character_elem'])->first();
+
+        $monster = Monster::where('id_monster', '=', $idMonster)->first();
+        $characMonster = Character::where('id_character', '=', $monster['id_character'])->first();
+        $raceMonster = Race::where('id_race', '=', $characMonster['id_character_race'])->first();
+        $elemMonster = Element::where('id_element', '=', $monster['id_character_elem'])->first();
+
+        $leHero = [
+            'perso' => $hero->getAttributes(),
+            'char' => $characHero->getAttributes(),
+            'race' => $raceHero,
+            'elem' => $elemHero,
+            'name' => $hero['firstname'] . ' ' . $characHero['name'],
+            'totalDmg' => 0.0,
+            'totalDmgTook' => 0.0,
+            'type' => 'hero'
+        ];
+
+        $leMonster = [
+            'perso' => $monster->getAttributes(),
+            'char' => $characMonster->getAttributes(),
+            'race' => $raceMonster,
+            'elem' => $elemMonster,
+            'name' => $characMonster['name'],
+            'totalDmg' => 0.0,
+            'totalDmgTook' => 0.0,
+            'type' => 'monster'
+        ];
+
+        $beforeLeHero = $this->array_clone_liste($leHero);
+        $beforeLeMonster = $this->array_clone_liste($leMonster);
+
+        return [
+            'leHero' => $leHero,
+            'leMonster' => $leMonster,
+            'beforeLeHero' => $beforeLeHero,
+            'beforeLeMonster' => $beforeLeMonster
+        ];
     }
 
 }

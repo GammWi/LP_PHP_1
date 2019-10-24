@@ -225,6 +225,7 @@
         {% endfor %}
     </div>
     <div class="container center">
+        {% if combat.fin == true %}
         <div class="black-text green card horizontal rotate-scale-down-diag-2" style="
              width: 256px;
              margin: 15px auto;">
@@ -254,6 +255,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
         {% if combat.type is same as('tpt') %}
             <button class="waves-effect waves-light btn-large red" id="next"> Tour suivant</button>
 
@@ -268,4 +270,4 @@
     </div>
 </div>
 
-{% include '/layout/footer.html.twig' %}
+{#{% include '/layout/footer.html.twig' %}#}

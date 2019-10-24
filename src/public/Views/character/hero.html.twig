@@ -4,7 +4,6 @@
         const f = document.getElementById("chooseRace");
 
         f.addEventListener("click", function (event) {
-            console.log(f.value);
             let cont = document.getElementById("infoRace");
             {% for race in listerace %}
                 if("{{ race.name }}" === f.value) {

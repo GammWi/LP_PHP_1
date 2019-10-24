@@ -58,6 +58,27 @@
             }
         })
 
+        //lancement du combat
+        const initFight = document.getElementById("initFight");
+        initFight.addEventListener("click", function (event) {
+            console.log('INITFIGHT');
+            let selecHero = Array.from(document.getElementsByName("caracHero"));
+            let selection = selecHero.concat(Array.from(document.getElementsByName("caracMonster")));
+            let i = 0;
+            let array_val = [];
+            selection.forEach(function (id) {
+                if (id.checked) {
+                    array_val[i] = id.value;
+                    i++
+                }
+            });
+            if (i !== 2) {
+                alert("Veuillez sélectionner deux champions")
+            } else {
+                window.location.href = `initFight?id_hero=${array_val[0]}&id_monster=${array_val[1]}`
+            }
+        });
+
         //selection aleatoire des adversaires
         const f2 = document.getElementById("goRand")
         f2.addEventListener("click", function (event) {
@@ -65,7 +86,6 @@
             let idHero = getRandomInt(rdm[1])
             let idMonster = getRandomInt(rdm[3])
             window.location.href=`fight?id_hero=${idHero}&id_monster=${idMonster}`
-
         })
 
     }
@@ -332,7 +352,7 @@
 
 
 
-    <button id="goRand" class="waves-effect waves-light btn-large green" style="width: 49.5%; font-size: 0.85em; font-weight: bold;position: fixed; bottom:0; right:0" value="{{ count | json_encode | raw }}">Cliquez
+    <button id="goRand" class="waves-effect waves-light btn-large green" style="width: 30%; font-size: 0.85em; font-weight: bold;position: fixed; bottom:0; right:0" value="{{ count | json_encode | raw }}">Cliquez
         ici
         pour lancer un combat avec des champions aléatoires (à vos risques et périls!)
     </button>
@@ -342,11 +362,14 @@
 
 
     {#<form style="display: inline-block; width: 100%">#}
-    <button id="gofight" class="waves-effect waves-light btn-large red" style="width: 49.5%;font-size: 0.85em; font-weight: bold; position: fixed; bottom: 0; left:0">Cliquez
+    <button id="gofight" class="waves-effect waves-light btn-large red" style="width: 30%;font-size: 0.85em; font-weight: bold; position: fixed; bottom: 0; left:0">Cliquez
         ici
         pour lancer le combat
     </button>
     {#</form>#}
+
+    <button id="initFight" class="waves-effect waves-light btn-large red" style="width: 30%;font-size: 0.85em; font-weight: bold; position: fixed; bottom: 0; left:0"> INIT FIGHT
+    </button>
 
 </div>
 

@@ -35,6 +35,7 @@ class fightController
             'elem' => $elemHero,
             'name' => $hero['firstname'] . ' ' . $characHero['name'],
             'totalDmg' => 0.0,
+            'totalDmgTook' => 0.0,
             'type' => 'hero'
         ];
 
@@ -45,6 +46,7 @@ class fightController
             'elem' => $elemMonster,
             'name' => $characMonster['name'],
             'totalDmg' => 0.0,
+            'totalDmgTook' => 0.0,
             'type' => 'monster'
         ];
 
@@ -101,20 +103,20 @@ class fightController
 
         $def = rand(0, 100 - $victime['race']['defense']);
         $dmgDef = 0;
-        $tfPercent = 100 - $victime['race']['defense'] * 0.25;
-        $fiftyPercent = 100 - $victime['race']['defense'] * 0.50;
-        $sfPercent = 100 - $victime['race']['defense'] * 0.75;
-        $hundredDef = 100 - $victime['race']['defense'];
+        $tfPercent = (100 - $victime['race']['defense']) * 0.25;
+        $fiftyPercent = (100 - $victime['race']['defense']) * 0.50;
+        $sfPercent = (100 - $victime['race']['defense']) * 0.75;
+        $hundredDef = (100 - $victime['race']['defense']);
         $fullDef = false;
         if (0 < $def && $def <= $tfPercent) {
-            $dmgDef = $dmg * 0.90;
+            $dmgDef = $dmg * 0.10;
         } else {
             if ($tfPercent < $def && $def <= $fiftyPercent) {
-                $dmgDef = $dmg * 0.80;
+                $dmgDef = $dmg * 0.25;
             } else if ($fiftyPercent < $def && $def <= $sfPercent) {
-                $dmgDef = $dmg * 0.70;
+                $dmgDef = $dmg * 0.33;
             } else if ($sfPercent < $def && $def < $hundredDef) {
-                $dmgDef = $dmg * 0.60;
+                $dmgDef = $dmg * 0.50;
             } else if ($def === $hundredDef) {
                 $fullDef = true;
                 $dmgDef = $dmg;
@@ -161,12 +163,13 @@ class fightController
 
     }
 
-    public function tour($attaque, $victime, $tour)
+    public function tour($attaque, $victime, $tour, $persos = [])
     {
         if ($attaque['race']['hp'] > 0 && $victime['race']['hp'] > 0) {
             $fin = false;
             $logAttaque = $this->attaque($attaque, $victime);
             $attaque['totalDmg'] += $logAttaque['dmgDealt'];
+            $victime['totalDmgTook'] += $logAttaque['dmgDealt'];
             $log = [
                 'tour' => $tour,
                 'win' => false,
@@ -191,5 +194,61 @@ class fightController
         }
         return ['fin' => $fin, 'attaque' => $attaque, 'victime' => $victime, 'log' => $log];
     }
-}
 
+    public function initFight($request, $response)
+    {
+        $idMonster = $_GET['id_monster'];
+        $idHero = $_GET['id_hero'];
+        $hero = Hero::where('id_hero', '=', $idHero)->first();
+        $characHero = Character::where('id_character', '=', $hero['id_character'])->first();
+        $raceHero = Race::where('id_race', '=', $characHero['id_character_race'])->first();
+        $elemHero = Element::where('id_element', '=', $hero['id_character_elem'])->first();
+
+        $monster = Monster::where('id_monster', '=', $idMonster)->first();
+        $characMonster = Character::where('id_character', '=', $monster['id_character'])->first();
+        $raceMonster = Race::where('id_race', '=', $characMonster['id_character_race'])->first();
+        $elemMonster = Element::where('id_element', '=', $monster['id_character_elem'])->first();
+
+        $leHero = [
+            'hero' => $hero->getAttributes(),
+            'char' => $characHero->getAttributes(),
+            'race' => $raceHero,
+            'elem' => $elemHero,
+            'name' => $hero['firstname'] . ' ' . $characHero['name'],
+            'totalDmg' => 0.0,
+            'totalDmgTook' => 0.0,
+            'type' => 'hero'
+        ];
+
+        $leMonster = [
+            'monster' => $monster->getAttributes(),
+            'char' => $characMonster->getAttributes(),
+            'race' => $raceMonster,
+            'elem' => $elemMonster,
+            'name' => $characMonster['name'],
+            'totalDmg' => 0.0,
+            'totalDmgTook' => 0.0,
+            'type' => 'monster'
+        ];
+
+        $beforeLeHero = $this->array_clone_liste($leHero);
+        $beforeLeMonster = $this->array_clone_liste($leMonster);
+
+        $persos = [ "initial" => ["beforeHero" => $beforeLeHero, "beforeMonster" => $beforeLeMonster], "hero" => $leHero, "monster" => $leMonster];
+        $combat = ['combat' => [
+            "persos" => $persos
+        ]];
+        var_dump($persos);
+        return $this->container->view->render($response, 'fight/initFight.html.twig', $combat);
+    }
+
+    public function startFight($request, $response) {
+        $persos = json_decode($_POST['persos'], true);
+        $attaque = ($persos['initial']['beforeHero']['race']['agility'] > $persos['initial']['beforeMonster']['race']['agility']) ? $persos['hero'] : $persos['monster'];
+        $victime = ($persos['initial']['beforeHero']['race']['agility'] > $persos['initial']['beforeMonster']['race']['agility']) ? $persos['monster'] : $persos['hero'];
+
+        var_dump($attaque);
+        var_dump($victime);
+    }
+
+}

@@ -58,6 +58,27 @@
             }
         })
 
+        //lancement du combat
+        const initFight = document.getElementById("initFight");
+        initFight.addEventListener("click", function (event) {
+            console.log('INITFIGHT');
+            let selecHero = Array.from(document.getElementsByName("caracHero"));
+            let selection = selecHero.concat(Array.from(document.getElementsByName("caracMonster")));
+            let i = 0;
+            let array_val = [];
+            selection.forEach(function (id) {
+                if (id.checked) {
+                    array_val[i] = id.value;
+                    i++
+                }
+            });
+            if (i !== 2) {
+                alert("Veuillez sélectionner deux champions")
+            } else {
+                window.location.href = `initFight?id_hero=${array_val[0]}&id_monster=${array_val[1]}`
+            }
+        });
+
         //selection aleatoire des adversaires
         const f2 = document.getElementById("goRand")
         f2.addEventListener("click", function (event) {
@@ -65,7 +86,6 @@
             let idHero = getRandomInt(rdm[1])
             let idMonster = getRandomInt(rdm[3])
             window.location.href=`fight?id_hero=${idHero}&id_monster=${idMonster}`
-
         })
 
     }
@@ -347,6 +367,10 @@
         pour lancer le combat
     </button>
     {#</form>#}
+
+    <button id="initFight" class="waves-effect waves-light btn-large red" style="width: 30%;font-size: 0.85em; font-weight: bold;"> INIT FIGHT
+    </button>
+
 
 </div>
 

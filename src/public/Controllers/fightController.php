@@ -234,7 +234,7 @@ class fightController
         $beforeLeHero = $this->array_clone_liste($leHero);
         $beforeLeMonster = $this->array_clone_liste($leMonster);
 
-        $persos = [ "initial" => ["beforeHero" => $beforeLeHero, "beforeMonster" => $beforeLeMonster], "hero" => $leHero, "monster" => $leMonster];
+        $persos = ["initial" => ["beforeHero" => $beforeLeHero, "beforeMonster" => $beforeLeMonster], "hero" => $leHero, "monster" => $leMonster];
         $combat = ['combat' => [
             "persos" => $persos
         ]];
@@ -242,13 +242,40 @@ class fightController
         return $this->container->view->render($response, 'fight/initFight.html.twig', $combat);
     }
 
-    public function startFight($request, $response) {
+    public function startFight($request, $response)
+    {
         $persos = json_decode($_POST['persos'], true);
+
         $attaque = ($persos['initial']['beforeHero']['race']['agility'] > $persos['initial']['beforeMonster']['race']['agility']) ? $persos['hero'] : $persos['monster'];
         $victime = ($persos['initial']['beforeHero']['race']['agility'] > $persos['initial']['beforeMonster']['race']['agility']) ? $persos['monster'] : $persos['hero'];
 
-        var_dump($attaque);
-        var_dump($victime);
+        $tours = [];
+        $tour = 1;
+        $log = [];
+        $fin = false;
+            $resTour = $this->tour($attaque, $victime, $tour);
+            $fin = $resTour['fin'];
+            $attaque = $resTour['attaque'];
+            $victime = $resTour['victime'];
+            $tours[] = [
+                "id" => $tour,
+                "log" => $resTour['log']
+            ];
+            $tour++;
+//        }
+        $combat = ['combat' => [
+            "persos" => [$persos['initial']['beforeHero'], $persos['initial']['beforeMonster']],
+            "nbTours" => $tour,
+            "tours" => $tours,
+            "winner" => $attaque,
+            "looser" => $victime,
+            "type" => 'tpt'
+        ]];
+        return $this->container->view->render($response, 'fight/fight.html.twig', $combat);
+    }
+
+    function nextTour($request, $response) {
+
     }
 
 }

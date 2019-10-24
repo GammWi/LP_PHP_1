@@ -22,6 +22,13 @@ class heroController{
 
         $listeElem = Element::all();
         $listeRace = Race::all();
+        foreach ($listeRace as $race) {
+            $p = Pictures::where("id_picture", "=", $race["id_picture"])->get();
+            $race["path"] = $p[0]["path"];
+
+
+        }
+
         return $this->container->view->render($response, 'character/hero.html.twig', ['element'=>$listeElem, 'listerace'=>$listeRace]);
 
     }
@@ -59,8 +66,10 @@ class heroController{
             $p->name = $_POST["name"];
             $p->path = "../../public/assets/img/characters/".$newNamePicture;
             $p->save();
-            $id_img = Pictures::where("name","=",$newNamePicture)->first();
+
+            $id_img = Pictures::where("name","=",$_POST["name"])->first();
             $character->picture = $id_img["id_picture"];
+
             $character->save();
 
             $hero = new Hero();

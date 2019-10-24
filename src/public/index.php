@@ -82,7 +82,9 @@ $app->get('/auth/signout', "\\dawa\\controllers\\userController:signOut")->setNa
 
 
 $app->get('/fight', "\\dawa\\controllers\\fightController:Index")->setName('fight');
-$app->post('/fight', "\\dawa\\controllers\\fightController:Index")->setName('fight');
+//$app->post('/fight', "\\dawa\\controllers\\fightController:Index")->setName('fight');
+$app->get('/initFight', "\\dawa\\controllers\\fightController:initFight")->setName('initFight');
+$app->post('/startFight', "\\dawa\\controllers\\fightController:startFight")->setName('initFight');
 
 
 //ROUTE TEMPORAIRE CREATION DESIGN

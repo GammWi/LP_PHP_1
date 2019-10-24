@@ -35,6 +35,7 @@ class fightController
             'elem' => $elemHero,
             'name' => $hero['firstname'] . ' ' . $characHero['name'],
             'totalDmg' => 0.0,
+            'totalDmgTook' => 0.0,
             'type' => 'hero'
         ];
 
@@ -45,6 +46,7 @@ class fightController
             'elem' => $elemMonster,
             'name' => $characMonster['name'],
             'totalDmg' => 0.0,
+            'totalDmgTook' => 0.0,
             'type' => 'monster'
         ];
 
@@ -214,6 +216,7 @@ class fightController
             'elem' => $elemHero,
             'name' => $hero['firstname'] . ' ' . $characHero['name'],
             'totalDmg' => 0.0,
+            'totalDmgTook' => 0.0,
             'type' => 'hero'
         ];
 
@@ -224,6 +227,7 @@ class fightController
             'elem' => $elemMonster,
             'name' => $characMonster['name'],
             'totalDmg' => 0.0,
+            'totalDmgTook' => 0.0,
             'type' => 'monster'
         ];
 

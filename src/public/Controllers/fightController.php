@@ -49,7 +49,7 @@ class fightController
             $tour++;
         }
         return ['combat' => [
-            "persos" => [$beforeLeHero, $beforeLeMonster],
+            "persos" => ['attaque' => $beforeLeHero, 'victime' => $beforeLeMonster],
             "nbTours" => $tour,
             "tours" => $tours,
             "winner" => $attaque,
@@ -209,10 +209,10 @@ class fightController
         if ($attaque['race']['hp'] > 0 && $victime['race']['hp'] > 0) {
             $fin = false;
             $logAttaque = $this->attaque($attaque, $victime);
-            $attaque['totalDmg'] += $logAttaque['dmgDealt'];
-            $victime['totalDmgTook'] += $logAttaque['dmgDealt'];
             $attaque = $logAttaque['attaque'];
             $victime = $logAttaque['victime'];
+            $attaque['totalDmg'] += $logAttaque['dmgDealt'];
+            $victime['totalDmgTook'] += $logAttaque['dmgDealt'];
             $log = [
                 'tour' => $tour,
                 'win' => false,
@@ -282,7 +282,7 @@ class fightController
         $tour++;
 //        }
         $combat = ['combat' => [
-            "persos" => ['hero' => $persos['hero'], 'monster' => $persos['monster']],
+            "persos" => ['attaque' => $persos['hero'], 'victime' => $persos['monster']],
             "nbTours" => $tour,
             "tours" => $tours,
             "attaque" => $attaque,
@@ -298,9 +298,9 @@ class fightController
         $persos = $combat['persos'];
         $attaque = $combat['attaque'];
         $victime = $combat['victime'];
-
+        $tour = $combat['nbTours'];
         $tours = [];
-        $tour = 1;
+//        $tour = 1;
         $log = [];
         $fin = false;
         $resTour = $this->tour($attaque, $victime, $tour);
@@ -312,10 +312,11 @@ class fightController
             "log" => $resTour['log']
         ];
         $tour++;
+        $this->log($tour);
 //        }
         $combat = ($resTour['fin']) ?
             ['combat' => [
-                "persos" => ['hero' => $persos['hero'],'monster' => $persos['monster']],
+                "persos" => ['attaque' => $combat['attaque'], 'victime' => $combat['victime']],
                 "nbTours" => $tour,
                 "tours" => $tours,
                 "winner" => $attaque,
@@ -324,7 +325,7 @@ class fightController
                 "fin" => true
             ]] :
             ['combat' => [
-                "persos" => ['hero' => $persos['hero'], 'monster' => $persos['monster']],
+                "persos" => ['attaque' => $combat['attaque'], 'victime' => $combat['victime']],
                 "nbTours" => $tour,
                 "tours" => $tours,
                 "attaque" => $attaque,

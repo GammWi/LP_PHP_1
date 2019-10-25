@@ -211,6 +211,8 @@ class fightController
             $logAttaque = $this->attaque($attaque, $victime);
             $attaque['totalDmg'] += $logAttaque['dmgDealt'];
             $victime['totalDmgTook'] += $logAttaque['dmgDealt'];
+            $attaque = $logAttaque['attaque'];
+            $victime = $logAttaque['victime'];
             $log = [
                 'tour' => $tour,
                 'win' => false,
@@ -233,7 +235,6 @@ class fightController
             ];
             $fin = true;
         }
-        $this->log($victime['race']['hp']);
         return ['fin' => $fin, 'attaque' => $attaque, 'victime' => $victime, 'log' => $log];
     }
 
@@ -306,7 +307,6 @@ class fightController
         $fin = $resTour['fin'];
         $attaque = $resTour['attaque'];
         $victime = $resTour['victime'];
-//        $this->log($resTour['victime']['race']['hp']);
         $tours[] = [
             "id" => $tour,
             "log" => $resTour['log']

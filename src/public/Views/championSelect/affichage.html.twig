@@ -23,8 +23,9 @@
             let number = document.getElementById("randomHero").value
             let id = getRandomInt(number[1]).toString()
             uncheckBoxes("caracHero")
-            document.getElementById("(hero"+id+")").checked=true
-            alert(document.getElementById("nomHero"+id).getAttribute("data-name")+" a été choisi aléatoirement")
+            let heroValue = document.getElementById("hero"+id)
+            heroValue.checked=true
+            alert(heroValue.getAttribute("data-name")+" a été choisi aléatoirement")
         })
 
         //bouton de selection d'un monstre aleatoire
@@ -33,7 +34,9 @@
             let number = document.getElementById("randomMonster").value
             let id = getRandomInt(number[3])
             uncheckBoxes("caracMonster")
-            document.getElementById("(monster"+id+")").checked=true
+            let monsterValue = document.getElementById("monster"+id)
+            monsterValue.checked=true
+            alert(monsterValue.getAttribute("data-name")+" a été choisi aléatoirement")
         })
 
 
@@ -131,8 +134,8 @@
                                             </div>
                                             <div class="card-action">
                                                 <label>
-                                                    <input class="checkbox-green" type="checkbox" name="caracHero" id=(hero{{heros.id_hero}})
-                                                           value={{ heros.id_hero }}>
+                                                    <input class="checkbox-green" type="checkbox" name="caracHero" id=hero{{heros.id_hero}} data-name="{{ heros.firstname }} {{ heros.name }}"
+                                                           value={{ heros.id_hero }} >
                                                     <span>Envoyer
                                             ce héros au combat</span>
                                                 </label>
@@ -201,7 +204,8 @@
 
 
                                                     </div>
-                                                    <div class="nomHero" id="nomHero{{heros.id_hero}}" data-name="{{ heros.firstname }} {{ heros.name }}">
+
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -266,7 +270,7 @@
                                         </div>
                                         <div class="card-action">
                                             <label>
-                                                <input class="checkbox-green" type="checkbox" name="caracMonster" id=(monster{{monsters.id_monster}})
+                                                <input class="checkbox-green" type="checkbox" name="caracMonster" id=monster{{monsters.id_monster}} data-name="{{ monsters.name }}"
                                                        value={{ monsters.id_monster }}>
                                                 <span>Envoyer
                                             ce monstre au combat</span>

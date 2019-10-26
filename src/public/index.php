@@ -85,6 +85,7 @@ $app->get('/fight', "\\dawa\\controllers\\fightController:Index")->setName('figh
 //$app->post('/fight', "\\dawa\\controllers\\fightController:Index")->setName('fight');
 $app->get('/initFight', "\\dawa\\controllers\\fightController:initFight")->setName('initFight');
 $app->post('/startFight', "\\dawa\\controllers\\fightController:startFight")->setName('initFight');
+$app->post('/nextTour', "\\dawa\\controllers\\fightController:nextTour")->setName('nextTour');
 
 
 //ROUTE TEMPORAIRE CREATION DESIGN

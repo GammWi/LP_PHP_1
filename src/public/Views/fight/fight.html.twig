@@ -125,11 +125,13 @@
             opacity: 1;
         }
     }
+
     .rotate-scale-down-diag-2 {
         -webkit-animation: rotate-scale-down-diag-2 0.7s linear both;
         animation: rotate-scale-down-diag-2 0.7s linear both;
         /*animation-iteration-count: infinite;*/
     }
+
     @-webkit-keyframes rotate-scale-down-diag-2 {
         0% {
             -webkit-transform: scale(1) rotate3d(-1, 1, 0, 0deg);
@@ -144,6 +146,7 @@
             transform: scale(1) rotate3d(-1, 1, 0, 360deg);
         }
     }
+
     @keyframes rotate-scale-down-diag-2 {
         0% {
             -webkit-transform: scale(1) rotate3d(-1, 1, 0, 0deg);
@@ -215,43 +218,58 @@
                     <p>{{ tour.log.hpLogAfter }}</p>
                 {% endif %}{% if tour.log.win == true %}
                     <h2>FIN</h2>
-                    <p>WINNER : {{ combat.winner.name }} - {{ combat.winner.totalDmg  }}</p>
+                    <p>WINNER : {{ combat.winner.name }} - {{ combat.winner.totalDmg }}</p>
                     <p>LOOSER : {{ combat.looser.name }} - {{ combat.looser.totalDmg }}</p>
                 {% endif %}
             </div>
         {% endfor %}
     </div>
-    <div class="container">
-        <div class="black-text green card horizontal rotate-scale-down-diag-2" style="
+    <div class="container center">
+        {% if combat.fin == true %}
+            <div class="black-text green card horizontal rotate-scale-down-diag-2" style="
              width: 256px;
              margin: 15px auto;">
-            <div class="card-image center-block center">
-                <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
-                     alt="Un héros">
-            </div>
-            <div class="card-stacked">
-                <div class="card-content">
-                    <h5 class="center"> {{ combat.winner.name }} </h5>
-                    Points de vie
-                    <div class="progress">
-                        <div class="blue-grey determinate" style="width: {{ combat.winner.race.hp }}%"></div>
-                    </div>
-                    Attaque
-                    <div class="progress">
-                        <div class="blue-grey determinate" style="width: {{ combat.winner.race.attack }}%"></div>
-                    </div>
-                    Défense
-                    <div class="progress">
-                        <div class="blue-grey determinate" style="width: {{ combat.winner.race.defense }}%"></div>
-                    </div>
-                    Agilité
-                    <div class="progress">
-                        <div class="blue-grey determinate" style="width: {{ combat.winner.race.agility }}%"></div>
+                <div class="card-image center-block center">
+                    <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
+                         alt="Un héros">
+                </div>
+                <div class="card-stacked">
+                    <div class="card-content">
+                        <h5 class="center"> {{ combat.winner.name }} </h5>
+                        Points de vie
+                        <div class="progress">
+                            <div class="red determinate" style="width: {{ combat.winner.race.hp }}%"></div>
+                        </div>
+                        Attaque
+                        <div class="progress">
+                            <div class="red determinate" style="width: {{ combat.winner.race.attack }}%"></div>
+                        </div>
+                        Défense
+                        <div class="progress">
+                            <div class="red determinate" style="width: {{ combat.winner.race.defense }}%"></div>
+                        </div>
+                        Agilité
+                        <div class="progress">
+                            <div class="red determinate" style="width: {{ combat.winner.race.agility }}%"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
+        {% if combat.type is same as('tpt') %}
+            {% if combat.fin != true %}
+                <button class="waves-effect waves-light btn-large red" id="next"> Tour suivant</button>
+
+                <script>
+                    const nextTour = document.getElementById('next');
+                    let send = JSON.stringify({{ combat | json_encode() | raw }});
+                    nextTour.addEventListener("click", function (_) {
+                        post('nextTour', {combat: send})
+                    })
+                </script>
+            {% endif %}
+        {% endif %}
     </div>
 </div>
 
-{% include '/layout/footer.html.twig' %}
+{#{% include '/layout/footer.html.twig' %}#}

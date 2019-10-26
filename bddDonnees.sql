@@ -1,16 +1,16 @@
 INSERT INTO `character` (`id_character_race`, `id_character_elem`, `name`, `picture`) VALUES
 (1, 1, 'Nain', 1),
 (2, 1, 'Ranger', 2),
-(2, 1, 'Voleur', 2),
-(2, 1, 'Barbare', 2),
-(3, 1, 'Elfe', 3),
-(4, 1, 'Ogre', 4),
-(5, 1, 'Orque', 5),
-(6, 1, 'Gobelin', 6),
-(7, 1, 'Troll', 7),
-(8, 1, 'Mort-vivant', 8),
-(9, 1, 'Squelette', 9),
-(2, 1, 'Sorcier', 2);
+(2, 1, 'Voleur', 3),
+(2, 1, 'Barbare', 4),
+(3, 1, 'Elfe', 5),
+(4, 1, 'Ogre', 6),
+(5, 1, 'Orque', 7),
+(6, 1, 'Gobelin', 8),
+(7, 1, 'Troll', 9),
+(8, 1, 'Mort-vivant', 10),
+(9, 1, 'Squelette', 11),
+(2, 1, 'Sorcier', 12);
 
 INSERT INTO `element` (`id_element`, `name`, `description`) VALUES
 (1, 'Feu', 'Le feu ça brûle'),
@@ -43,14 +43,18 @@ INSERT INTO `monster` (`id_character`) VALUES
 
 INSERT INTO `pictures` (`name`, `path`) values
 ("nain", "../../public/assets/img/characters/nain.png"),
-("humain", "../../public/assets/img/characters/humain.jpg"),
+("ranger", "../../public/assets/img/characters/ranger.jpg"),
+("voleur", "../../public/assets/img/characters/voleur.jpg"),
+("barbare", "../../public/assets/img/characters/barbare.jpg"),
 ("elfe","../../public/assets/img/characters/elfe.jpg"),
 ("ogre","../../public/assets/img/characters/ogre.jpg"),
 ("orque","../../public/assets/img/characters/orque.jpg"),
 ("gobelin","../../public/assets/img/characters/gobelin.jpg"),
-("troll","../../public/assets/img/characters/troll.png"),
+("troll","../../public/assets/img/characters/troll.jpg"),
 ("mort","../../public/assets/img/characters/mort.jpg"),
-("squelette","../../public/assets/img/characters/squelette.jpg");
+("squelette","../../public/assets/img/characters/squelette.jpg"),
+("sorcier", "../../public/assets/img/characters/sorcier.jpg"),
+("humain", "../../public/assets/img/characters/humain.jpg");
 
 INSERT INTO `race` (`id_race`, `name`, `description`, `attack`, `defense`, `agility`, `hp`, `id_picture`) VALUES
 (1, 'Nain', 'Les nains sont des créatures robustes de petite taille, qui se distinguent par leurs talents de forgerons, de mineurs et de bâtisseurs. Ils adorent la bière et détestent les elfes', 20, 25, 5, 70,1),

@@ -24,7 +24,7 @@
             let id = getRandomInt(number[1]).toString()
             uncheckBoxes("caracHero")
             document.getElementById("(hero"+id+")").checked=true
-            alert(document.getElementsByClassName("(nomHero"+id+")").value + " a été sélectionné aléatoirement")
+            alert(document.getElementById("nomHero"+id).getAttribute("data-name")+" a été choisi aléatoirement")
         })
 
         //bouton de selection d'un monstre aleatoire
@@ -201,8 +201,7 @@
 
 
                                                     </div>
-                                                    <div class=(nomHero{{heros.id_hero}}) value="bravo t'as réussi BG">
-                                                        {{ heros.firstname }} {{ heros.name }}
+                                                    <div class="nomHero" id="nomHero{{heros.id_hero}}" data-name="{{ heros.firstname }} {{ heros.name }}">
                                                     </div>
                                                 </div>
                                             </div>

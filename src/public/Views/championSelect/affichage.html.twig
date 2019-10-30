@@ -23,8 +23,9 @@
             let number = document.getElementById("randomHero").value
             let id = getRandomInt(number[1]).toString()
             uncheckBoxes("caracHero")
-            document.getElementById("(hero"+id+")").checked=true
-            console.log(id)
+            let heroValue = document.getElementById("hero"+id)
+            heroValue.checked=true
+            alert(heroValue.getAttribute("data-name")+" a été choisi aléatoirement")
         })
 
         //bouton de selection d'un monstre aleatoire
@@ -33,28 +34,40 @@
             let number = document.getElementById("randomMonster").value
             let id = getRandomInt(number[3])
             uncheckBoxes("caracMonster")
-            document.getElementById("(monster"+id+")").checked=true
-            console.log(id)
+            let monsterValue = document.getElementById("monster"+id)
+            monsterValue.checked=true
+            alert(monsterValue.getAttribute("data-name")+" a été choisi aléatoirement")
         })
 
 
         //lancement du combat
         const f = document.getElementById("gofight")
         f.addEventListener("click", function (event) {
+            let nbSelected
             let selecHero = Array.from(document.getElementsByName("caracHero"))
-            let selection = selecHero.concat(Array.from(document.getElementsByName("caracMonster")))
-            let i = 0;
-            let array_val = [];
-            selection.forEach(function (id) {
+            let array_Hero = []
+            let i = 0
+            selecHero.forEach(function (id) {
                 if (id.checked) {
-                    array_val[i] = id.value
+                    array_Hero[i] = id.value
                     i++
                 }
             })
-            if (i !== 2) {
-                alert("Veuillez sélectionner deux champions")
+
+            let selecMonster = Array.from(document.getElementsByName("caracMonster"))
+            let array_Monster = []
+            let y = 0
+            selecMonster.forEach(function (id) {
+                if (id.checked) {
+                    array_Monster[y] = id.value
+                    y++
+                }
+            })
+
+            if ((i ===1) && (y===1)) {
+                window.location.href = `fight?id_hero=${array_Hero[0]}&id_monster=${array_Monster[0]}`
             } else {
-                window.location.href = `fight?id_hero=${array_val[0]}&id_monster=${array_val[1]}`
+                alert("Veuillez sélectionner un héros et un monstre")
             }
         })
 
@@ -121,7 +134,7 @@
                                             </div>
                                             <div class="card-action">
                                                 <label>
-                                                    <input class="checkbox-green" type="checkbox" name="caracHero" id=(hero{{heros.id_hero}})
+                                                    <input class="checkbox-green" type="checkbox" name="caracHero" id=hero{{heros.id_hero}} data-name="{{ heros.firstname }} {{ heros.name }}"
                                                            value={{ heros.id_hero }}>
                                                     <span>Envoyer
                                             ce héros au combat</span>
@@ -187,7 +200,11 @@
                                                                     type="submit" value={{ heros.id_hero }}>Supprimer
                                                             </button>
                                                         </form>
+
+
+
                                                     </div>
+
                                                 </div>
                                             </div>
                                             {#BLOC ACTIONS#}
@@ -251,7 +268,7 @@
                                         </div>
                                         <div class="card-action">
                                             <label>
-                                                <input class="checkbox-green" type="checkbox" name="caracMonster" id=(monster{{monsters.id_monster}})
+                                                <input class="checkbox-green" type="checkbox" name="caracMonster" id=monster{{monsters.id_monster}} data-name="{{ monsters.name }}"
                                                        value={{ monsters.id_monster }}>
                                                 <span>Envoyer
                                             ce monstre au combat</span>
@@ -315,6 +332,9 @@
                                                                 value={{ monsters.id_monster }}>Supprimer
                                                         </button>
                                                     </form>
+
+                                                    <div class="nomMonster" value={{ monsters.name }}></div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -356,10 +376,6 @@
         ici
         pour lancer un combat avec des champions aléatoires (à vos risques et périls!)
     </button>
-
-
-
-
 
     {#<form style="display: inline-block; width: 100%">#}
     <button id="gofight" class="waves-effect waves-light btn-large red" style="width: 49.5%;font-size: 0.85em; font-weight: bold; position: fixed; bottom: 0; left:0">Cliquez

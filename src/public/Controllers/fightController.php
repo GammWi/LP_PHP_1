@@ -4,12 +4,12 @@ namespace dawa\controllers;
 
 use dawa\models\Character;
 use dawa\models\Element;
+use dawa\models\Fight;
 use dawa\models\Hero as Hero;
 use dawa\models\Monster;
-use dawa\models\Fight;
 use dawa\models\Race;
-use dawa\models\StatsFight;
 use dawa\models\StatsCharac;
+use dawa\models\StatsFight;
 use Slim\Slim;
 
 class fightController
@@ -22,40 +22,12 @@ class fightController
 
     public function fight($idHero, $idMonster)
     {
-        $hero = Hero::where('id_hero', '=', $idHero)->first();
-        $characHero = Character::where('id_character', '=', $hero['id_character'])->first();
-        $raceHero = Race::where('id_race', '=', $characHero['id_character_race'])->first();
-        $elemHero = Element::where('id_element', '=', $hero['id_character_elem'])->first();
+        $persos = $this->initPersosFromIDs($idHero, $idMonster);
 
-        $monster = Monster::where('id_monster', '=', $idMonster)->first();
-        $characMonster = Character::where('id_character', '=', $monster['id_character'])->first();
-        $raceMonster = Race::where('id_race', '=', $characMonster['id_character_race'])->first();
-        $elemMonster = Element::where('id_element', '=', $monster['id_character_elem'])->first();
-
-        $leHero = [
-            'perso' => $hero->getAttributes(),
-            'char' => $characHero->getAttributes(),
-            'race' => $raceHero,
-            'elem' => $elemHero,
-            'name' => $hero['firstname'] . ' ' . $characHero['name'],
-            'totalDmg' => 0.0,
-            'totalDmgTook' => 0.0,
-            'type' => 'hero'
-        ];
-
-        $leMonster = [
-            'perso' => $monster->getAttributes(),
-            'char' => $characMonster->getAttributes(),
-            'race' => $raceMonster,
-            'elem' => $elemMonster,
-            'name' => $characMonster['name'],
-            'totalDmg' => 0.0,
-            'totalDmgTook' => 0.0,
-            'type' => 'monster'
-        ];
-
-        $beforeLeHero = $this->array_clone_liste($leHero);
-        $beforeLeMonster = $this->array_clone_liste($leMonster);
+        $leHero = $persos['leHero'];
+        $leMonster = $persos['leMonster'];
+        $beforeLeHero = $persos['beforeLeHero'];
+        $beforeLeMonster = $persos['beforeLeMonster'];
 
         $fin = false;
 
@@ -77,11 +49,12 @@ class fightController
             $tour++;
         }
         return ['combat' => [
-            "persos" => [$beforeLeHero, $beforeLeMonster],
+            "persos" => ['attaque' => $beforeLeHero, 'victime' => $beforeLeMonster],
             "nbTours" => $tour,
             "tours" => $tours,
             "winner" => $attaque,
-            "looser" => $victime
+            "looser" => $victime,
+            "fin" => true
         ]];
     }
 
@@ -157,7 +130,8 @@ class fightController
         return $this->container->view->render($response, 'fight/fight.html.twig', $fight);
     }
 
-    public function lancerCombat($idHero, $idMonster){
+    public function lancerCombat($idHero, $idMonster)
+    {
         $fight = $this->fight($idHero, $idMonster);
         $stats = new StatsController($this->container);
         $stats->saveFight($idHero, $idMonster, $fight);
@@ -171,6 +145,8 @@ class fightController
         if ($attaque['race']['hp'] > 0 && $victime['race']['hp'] > 0) {
             $fin = false;
             $logAttaque = $this->attaque($attaque, $victime);
+            $attaque = $logAttaque['attaque'];
+            $victime = $logAttaque['victime'];
             $attaque['totalDmg'] += $logAttaque['dmgDealt'];
             $victime['totalDmgTook'] += $logAttaque['dmgDealt'];
             $log = [
@@ -202,6 +178,102 @@ class fightController
     {
         $idMonster = $_GET['id_monster'];
         $idHero = $_GET['id_hero'];
+        $persos = $this->initPersosFromIDs($idHero, $idMonster);
+
+        $leHero = $persos['leHero'];
+        $leMonster = $persos['leMonster'];
+        $beforeLeHero = $persos['beforeLeHero'];
+        $beforeLeMonster = $persos['beforeLeMonster'];
+
+        $persos = ["hero" => $leHero, "monster" => $leMonster];
+        $combat = ['combat' => [
+            "persos" => $persos
+        ]];
+        return $this->container->view->render($response, 'fight/initFight.html.twig', $combat);
+    }
+
+    public function log($data) {
+        echo ('<div style="color: white">' . $data .'</div>');
+    }
+
+    public function startFight($request, $response)
+    {
+        $persos = json_decode($_POST['persos'], true);
+
+        $attaque = ($persos['hero']['race']['agility'] > $persos['monster']['race']['agility']) ? $persos['hero'] : $persos['monster'];
+        $victime = ($persos['hero']['race']['agility'] > $persos['monster']['race']['agility']) ? $persos['monster'] : $persos['hero'];
+
+        $tours = [];
+        $tour = 1;
+        $log = [];
+        $fin = false;
+        $resTour = $this->tour($attaque, $victime, $tour);
+        $fin = $resTour['fin'];
+        $attaque = $resTour['attaque'];
+        $victime = $resTour['victime'];
+        $tours[] = [
+            "id" => $tour,
+            "log" => $resTour['log']
+        ];
+        $tour++;
+//        }
+        $combat = ['combat' => [
+            "persos" => ['attaque' => $persos['hero'], 'victime' => $persos['monster']],
+            "nbTours" => $tour,
+            "tours" => $tours,
+            "attaque" => $attaque,
+            "victime" => $victime,
+            "type" => 'tpt'
+        ]];
+        return $this->container->view->render($response, 'fight/fight.html.twig', $combat);
+    }
+
+    function nextTour($request, $response)
+    {
+        $combat = json_decode($_POST['combat'], true);
+        $persos = $combat['persos'];
+        $attaque = $combat['attaque'];
+        $victime = $combat['victime'];
+        $tour = $combat['nbTours'];
+        $tours = [];
+//        $tour = 1;
+        $log = [];
+        $fin = false;
+        $resTour = $this->tour($attaque, $victime, $tour);
+        $fin = $resTour['fin'];
+        $attaque = $resTour['attaque'];
+        $victime = $resTour['victime'];
+        $tours[] = [
+            "id" => $tour,
+            "log" => $resTour['log']
+        ];
+        $tour++;
+        $this->log($tour);
+//        }
+        $combat = ($resTour['fin']) ?
+            ['combat' => [
+                "persos" => ['attaque' => $combat['attaque'], 'victime' => $combat['victime']],
+                "nbTours" => $tour,
+                "tours" => $tours,
+                "winner" => $attaque,
+                "looser" => $victime,
+                "type" => 'tpt',
+                "fin" => true
+            ]] :
+            ['combat' => [
+                "persos" => ['attaque' => $combat['attaque'], 'victime' => $combat['victime']],
+                "nbTours" => $tour,
+                "tours" => $tours,
+                "attaque" => $attaque,
+                "victime" => $victime,
+                "type" => 'tpt',
+                "fin" => false
+            ]];
+        return $this->container->view->render($response, 'fight/fight.html.twig', $combat);
+    }
+
+    private function initPersosFromIDs($idHero, $idMonster)
+    {
         $hero = Hero::where('id_hero', '=', $idHero)->first();
         $characHero = Character::where('id_character', '=', $hero['id_character'])->first();
         $raceHero = Race::where('id_race', '=', $characHero['id_character_race'])->first();
@@ -213,7 +285,7 @@ class fightController
         $elemMonster = Element::where('id_element', '=', $monster['id_character_elem'])->first();
 
         $leHero = [
-            'hero' => $hero->getAttributes(),
+            'perso' => $hero->getAttributes(),
             'char' => $characHero->getAttributes(),
             'race' => $raceHero,
             'elem' => $elemHero,
@@ -224,7 +296,7 @@ class fightController
         ];
 
         $leMonster = [
-            'monster' => $monster->getAttributes(),
+            'perso' => $monster->getAttributes(),
             'char' => $characMonster->getAttributes(),
             'race' => $raceMonster,
             'elem' => $elemMonster,
@@ -237,48 +309,12 @@ class fightController
         $beforeLeHero = $this->array_clone_liste($leHero);
         $beforeLeMonster = $this->array_clone_liste($leMonster);
 
-        $persos = ["initial" => ["beforeHero" => $beforeLeHero, "beforeMonster" => $beforeLeMonster], "hero" => $leHero, "monster" => $leMonster];
-        $combat = ['combat' => [
-            "persos" => $persos
-        ]];
-        var_dump($persos);
-        return $this->container->view->render($response, 'fight/initFight.html.twig', $combat);
-    }
-
-    public function startFight($request, $response)
-    {
-        $persos = json_decode($_POST['persos'], true);
-
-        $attaque = ($persos['initial']['beforeHero']['race']['agility'] > $persos['initial']['beforeMonster']['race']['agility']) ? $persos['hero'] : $persos['monster'];
-        $victime = ($persos['initial']['beforeHero']['race']['agility'] > $persos['initial']['beforeMonster']['race']['agility']) ? $persos['monster'] : $persos['hero'];
-
-        $tours = [];
-        $tour = 1;
-        $log = [];
-        $fin = false;
-            $resTour = $this->tour($attaque, $victime, $tour);
-            $fin = $resTour['fin'];
-            $attaque = $resTour['attaque'];
-            $victime = $resTour['victime'];
-            $tours[] = [
-                "id" => $tour,
-                "log" => $resTour['log']
-            ];
-            $tour++;
-//        }
-        $combat = ['combat' => [
-            "persos" => [$persos['initial']['beforeHero'], $persos['initial']['beforeMonster']],
-            "nbTours" => $tour,
-            "tours" => $tours,
-            "winner" => $attaque,
-            "looser" => $victime,
-            "type" => 'tpt'
-        ]];
-        return $this->container->view->render($response, 'fight/fight.html.twig', $combat);
-    }
-
-    function nextTour($request, $response) {
-
+        return [
+            'leHero' => $leHero,
+            'leMonster' => $leMonster,
+            'beforeLeHero' => $beforeLeHero,
+            'beforeLeMonster' => $beforeLeMonster
+        ];
     }
 
 }

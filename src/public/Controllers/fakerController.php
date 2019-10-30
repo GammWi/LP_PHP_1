@@ -17,12 +17,12 @@ class fakerController{
 
     public function generationCombats(){
         
-        for($i = 0; $i<250; $i++){
+        /*for($i = 0; $i<250; $i++){
             $monstre = Monster::all()->random();
             $hero = Hero::all()->random();
             $fight = new FightController($this->container);
             $fight->lancerCombat($hero->id_hero, $monstre->id_monster);
-        }
+        }*/
         $test = new FightController($this->container);
         $test->statsCharac();
         

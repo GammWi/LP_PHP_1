@@ -59,11 +59,12 @@ class heroController{
         $cheminDest = str_replace("Controllers", "assets/img/characters/", $cheminDest);
 
         $typePicture = str_replace("image/","",$_FILES["img"]["type"]);
+
         if($typePicture == 'png' || $typePicture == 'gif' || $typePicture == 'jpg' || $typePicture == 'jpeg') {
             $newNamePicture = $_POST["name"].".".$typePicture;
             move_uploaded_file($_FILES["img"]["tmp_name"], $cheminDest.$newNamePicture);
             $p = new Pictures();
-            $p->name = $_POST["name"];
+            $p->name = $_POST["name"].".".$typePicture;
             $p->path = "../../public/assets/img/characters/".$newNamePicture;
             $p->save();
 
@@ -135,10 +136,23 @@ class heroController{
         return $response->withRedirect($this->container->router->pathFor('home'));
     }
 
+    /**
+     * @param $request
+     * @param $response
+     * @return mixed
+     * methode de supression des heros
+     */
     public function supprimerHero($request, $response){
         $idHero = $_POST['supprimer'];
         $hero = Hero::where('id_hero', '=', $idHero)->get()->each->delete();
         $cha = Character::where('id_character','=', $hero[0]["id_character"])->get()->each->delete();
+        $pic = Pictures::where('id_picture', "=", $cha[0]["picture"])->get()->each->delete();
+
+        $imageFichier = fopen("../../public/assets/img/characters/".$pic[0]["name"]);
+        if(file_exists($imageFichier)) {
+            unlink($imageFichier);
+        }
+
         $this->container->flash->addMessage('success', 'Le hero a bien été supprimé');
         return $response->withRedirect($this->container->router->pathFor('home'));
     }

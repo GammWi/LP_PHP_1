@@ -41,11 +41,20 @@
                         </select>
                     </div>
                 </div>
+
             </div>
-            <img style="width: 256px" src="{{ hero.hero.path }}"
-                 alt="0">
-            
+            <label class="title">Image actuelle du hero</label>
+            <div class="row">
+                <img style="width: 256px" src="{{ hero.hero.path }}"
+                     alt="0">
             </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input type="hidden" name="MAX_FILE_SIZE" value="2500000">
+                    <input id="img" type="file" name="img" class="green-text validate" size="50">
+                </div>
+            </div>
+
             
 
             <button class="green btn waves-effect waves-light" type="submit">Valider

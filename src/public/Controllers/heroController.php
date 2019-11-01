@@ -119,6 +119,7 @@ class heroController{
         $name = $request->getParam('name');
         $firstname = $request->getParam('firstname');
 
+
         if($newRace !== $hero['race']->name){
             $idRace = Race::where('name','=',$newRace)->first();
             $hero['charac']->update(['id_character_race' => $idRace['id_race']]);
@@ -130,7 +131,39 @@ class heroController{
         }else{
             $hero['charac']->update(['name' => $name]);
         }
- 
+
+
+        $cheminDest = __DIR__;
+        $cheminDest = str_replace( "\\","/", $cheminDest);
+        $cheminDest = str_replace("Controllers", "assets/img/characters/", $cheminDest);
+        $typePicture = str_replace("image/","",$_FILES["img"]["type"]);
+        var_dump($typePicture);
+        if($typePicture == 'png' || $typePicture == 'gif' || $typePicture == 'jpg' || $typePicture == 'jpeg') {
+
+            $newNamePicture = $hero["charac"]["name"].".".$typePicture;
+            move_uploaded_file($_FILES["img"]["tmp_name"], $cheminDest . $newNamePicture);
+
+            $pic = Pictures::where('id_picture', "=", $hero["charac"]["picture"])->get()->each->delete();
+
+            $cheminDest = __DIR__;
+            $cheminDest = str_replace( "\\","/", $cheminDest);
+            $cheminDest = str_replace("Controllers", "assets/img/characters/", $cheminDest);
+            unlink($cheminDest.$pic[0]["name"]);
+
+            $p = new Pictures();
+            $p->name = $newNamePicture;
+            $p->path = "../../public/assets/img/characters/" . $newNamePicture;
+            $p->save();
+
+            $img = Pictures::where("name", "=", $newNamePicture)->first();
+            $id_img = $img["id_picture"];
+
+            $hero['charac']->picture = $id_img;
+            $hero['charac']->save();
+
+        }
+
+
         $hero['hero']->update(['firstname' => $firstname]);
 
         $this->container->flash->addMessage('info', 'Le Héro '.$firstname.' '.$name.' a bien été modifié');

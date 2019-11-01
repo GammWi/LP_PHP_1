@@ -7,6 +7,7 @@ use dawa\models\StatsFight;
 use dawa\models\Hero;
 use dawa\models\Monster;
 use dawa\controllers\fightController;
+use dawa\controllers\statsController;
 
 class fakerController{
 
@@ -15,13 +16,16 @@ class fakerController{
         $this->container = $container;
     }
 
-    public function generationCombats(){
-        
+    public function generationCombats($request, $response){
+        $fight = new FightController($this->container);
         for($i = 0; $i<250; $i++){
             $monstre = Monster::all()->random();
             $hero = Hero::all()->random();
-            $fight = new FightController($this->container);
-            var_dump($fight->fight($hero->id_hero, $monstre->id_monster));
+            $fight->lancerCombat($hero->id_hero, $monstre->id_monster);
         }
+
+        $this->container->flash->addMessage('success', '250 combats viennent d\' être générés');
+        return $response->withRedirect($this->container->router->pathFor('home'));
+        
     }
 }

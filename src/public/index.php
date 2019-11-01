@@ -71,7 +71,7 @@ $app->get('/test', function(Request $request, Response $response, $args){
 
 $app->get('/selectChamp', "\\dawa\\controllers\\champSelectController:Index")->setName('home');
 
-
+$app->get('/touchezpas', "\\dawa\\controllers\\statsController:statsCharac")->setName('ui');
 
 $app->get('/auth/signin', "\\dawa\\controllers\\userController:signIn")->setName('auth.signin');
 $app->post('/auth/signin', "\\dawa\\controllers\\userController:postSignIn");
@@ -85,6 +85,7 @@ $app->get('/fight', "\\dawa\\controllers\\fightController:Index")->setName('figh
 //$app->post('/fight', "\\dawa\\controllers\\fightController:Index")->setName('fight');
 $app->get('/initFight', "\\dawa\\controllers\\fightController:initFight")->setName('initFight');
 $app->post('/startFight', "\\dawa\\controllers\\fightController:startFight")->setName('initFight');
+$app->post('/nextTour', "\\dawa\\controllers\\fightController:nextTour")->setName('nextTour');
 
 
 //ROUTE TEMPORAIRE CREATION DESIGN

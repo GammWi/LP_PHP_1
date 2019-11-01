@@ -1,21 +1,6 @@
 {% include '/layout/header.html.twig' %}
 <script>
-    function post(path, params, method='post') {
-        const form = document.createElement('form');
-        form.method = method;
-        form.action = path;
-        for (const key in params) {
-            if (params.hasOwnProperty(key)) {
-                const hiddenField = document.createElement('input');
-                hiddenField.type = 'hidden';
-                hiddenField.name = key;
-                hiddenField.value = params[key];
-                form.appendChild(hiddenField);
-            }
-        }
-        document.body.appendChild(form);
-        form.submit();
-    }
+
 </script>
 <style>
     .bounce-top {
@@ -183,7 +168,7 @@
     <h2 class="white-text center-align">Puisse le sort vous être favorable !</h2>
 
     <div class="row valign-wrapper flex" style="justify-content: center">
-        {% for perso in combat.persos.initial %}
+        {% for perso in combat.persos %}
             <div class="black-text blue-grey bounce-top card horizontal" style="width: 256px">
                 <div class="card-image center-block center">
                     <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
@@ -217,11 +202,12 @@
             {% endif %}
         {% endfor %}
     </div>
-
-    <button id="start" class="waves-effect waves-light btn-large red"
-            style="width: 100%;font-size: 0.85em; font-weight: bold; position: fixed; bottom: 0; left:0"> Qui commence ?
-        Le hasard est roi
-    </button>
+    <div style="position: fixed; bottom: 0; left:0; z-index: 9999; width: 100%" class="row">
+        <button id="start" class="waves-effect waves-light btn-large red col"
+                style="width: 100%;font-size: 0.85em; font-weight: bold;"> Qui commence ?
+            Le hasard est roi
+        </button>
+    </div>
     <script>
         const boutonStart = document.getElementById('start');
         let send = JSON.stringify({{ combat.persos | json_encode() | raw }});
@@ -231,4 +217,6 @@
     </script>
 </div>
 
+<div style="position:absolute; bottom: 0;">
 {% include '/layout/footer.html.twig' %}
+</div>

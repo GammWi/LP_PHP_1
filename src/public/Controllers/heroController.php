@@ -104,6 +104,8 @@ class heroController{
         $hero = $this->getAllCaracHero($request->getParam('modifier'));
         $listeElem = Element::where('id_element', '!=', $hero['charac']->id_character_elem)->get();
         $listeRace = Race::where('id_race', '!=', $hero['charac']->id_character_race)->get();
+        $p = Pictures::where("id_picture", "=", $hero["charac"]["picture"])->get();
+        $hero["hero"]["path"] = $p[0]["path"];
         return $this->container->view->render($response, 'character/modifierHero.twig', ['hero' => $hero, 'listeElem' => $listeElem, 'listeRace' => $listeRace]);
     }
 

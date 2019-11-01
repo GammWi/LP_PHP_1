@@ -125,11 +125,13 @@
             opacity: 1;
         }
     }
+
     .rotate-scale-down-diag-2 {
         -webkit-animation: rotate-scale-down-diag-2 0.7s linear both;
         animation: rotate-scale-down-diag-2 0.7s linear both;
         /*animation-iteration-count: infinite;*/
     }
+
     @-webkit-keyframes rotate-scale-down-diag-2 {
         0% {
             -webkit-transform: scale(1) rotate3d(-1, 1, 0, 0deg);
@@ -144,6 +146,7 @@
             transform: scale(1) rotate3d(-1, 1, 0, 360deg);
         }
     }
+
     @keyframes rotate-scale-down-diag-2 {
         0% {
             -webkit-transform: scale(1) rotate3d(-1, 1, 0, 0deg);
@@ -182,9 +185,17 @@
                         <div class="progress">
                             <div class="green determinate" style="width: {{ perso.race.attack }}%"></div>
                         </div>
-                        Défense
+                        {% if perso.boostDefense %}
+                            Défense (BOOST)
+                        {% else %}
+                            Défense
+                        {% endif %}
                         <div class="progress">
-                            <div class="green    determinate" style="width: {{ perso.race.defense }}%"></div>
+                            {% if perso.boostDefense %}
+                                <div class="red determinate" style="width: {{ perso.race.defense * 1.25 }}%"></div>
+                            {% else %}
+                                <div class="green determinate" style="width: {{ perso.race.defense }}%"></div>
+                            {% endif %}
                         </div>
                         Agilité
                         <div class="progress">
@@ -195,7 +206,7 @@
             </div>
             {% if loop.index == 1 %}
                 <img style="display: block; width: 300px"
-                     src="https://media1.giphy.com/media/l4pTkNEd2P4MWo9iw/source.gif">
+                     src="../../public/assets/img/gifs/vs.gif">
             {% endif %}
         {% endfor %}
     </div>
@@ -205,53 +216,78 @@
                 {% if tour.log.win == false %}
                     <h2>Tour n°{{ tour.id }}</h2>
                     <p>{{ tour.log.hpLogBefore }}</p>
-                    <p>{{ tour.log.dmgLog }}</p>
-                    <p>{{ tour.log.defLog }}</p>
+                    {% if tour.log.type == 'attaque' %}
+                        <p>{{ tour.log.dmgLog }}</p>
+                        <p>{{ tour.log.defLog }}</p>
+                    {% endif %}
+                    {% if tour.log.type == 'defense' %}
+                        <p>{{ tour.log.defLog }}</p>
+                    {% endif %}
                     <div>
                         <img style="width: 50px" src=""><img
-                                src="http://pixeljoint.com/files/icons/full/uther_lord.gif"> <img style="width: 50px"
-                                                                                                  src="../../public/assets/img/characters/hero.png">
+                                src="../../public/assets/img/gifs/attaque.gif"> <img style="width: 50px"
+                                                                                     src="../../public/assets/img/characters/hero.png">
                     </div>
                     <p>{{ tour.log.hpLogAfter }}</p>
                 {% endif %}{% if tour.log.win == true %}
                     <h2>FIN</h2>
-                    <p>WINNER : {{ combat.winner.name }} - {{ combat.winner.totalDmg  }}</p>
+                    <p>WINNER : {{ combat.winner.name }} - {{ combat.winner.totalDmg }}</p>
                     <p>LOOSER : {{ combat.looser.name }} - {{ combat.looser.totalDmg }}</p>
                 {% endif %}
             </div>
         {% endfor %}
     </div>
-    <div class="container">
-        <div class="black-text green card horizontal rotate-scale-down-diag-2" style="
+    <div class="container center">
+        {% if combat.fin == true %}
+            <div class="black-text green card horizontal rotate-scale-down-diag-2" style="
              width: 256px;
              margin: 15px auto;">
-            <div class="card-image center-block center">
-                <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
-                     alt="Un héros">
-            </div>
-            <div class="card-stacked">
-                <div class="card-content">
-                    <h5 class="center"> {{ combat.winner.name }} </h5>
-                    Points de vie
-                    <div class="progress">
-                        <div class="blue-grey determinate" style="width: {{ combat.winner.race.hp }}%"></div>
-                    </div>
-                    Attaque
-                    <div class="progress">
-                        <div class="blue-grey determinate" style="width: {{ combat.winner.race.attack }}%"></div>
-                    </div>
-                    Défense
-                    <div class="progress">
-                        <div class="blue-grey determinate" style="width: {{ combat.winner.race.defense }}%"></div>
-                    </div>
-                    Agilité
-                    <div class="progress">
-                        <div class="blue-grey determinate" style="width: {{ combat.winner.race.agility }}%"></div>
+                <div class="card-image center-block center">
+                    <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
+                         alt="Un héros">
+                </div>
+                <div class="card-stacked">
+                    <div class="card-content">
+                        <h5 class="center"> {{ combat.winner.name }} </h5>
+                        Points de vie
+                        <div class="progress">
+                            <div class="red determinate" style="width: {{ combat.winner.race.hp }}%"></div>
+                        </div>
+                        Attaque
+                        <div class="progress">
+                            <div class="red determinate" style="width: {{ combat.winner.race.attack }}%"></div>
+                        </div>
+                        Défense
+                        <div class="progress">
+                            <div class="red determinate" style="width: {{ combat.winner.race.defense }}%"></div>
+                        </div>
+                        Agilité
+                        <div class="progress">
+                            <div class="red determinate" style="width: {{ combat.winner.race.agility }}%"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
+        {% if combat.type is same as('tpt') %}
+            {% if combat.fin != true %}
+                <button class="waves-effect waves-light btn-large red" id="attaquer"> Attaquer l'ennemi</button>
+                <button class="waves-effect waves-light btn-large green" id="defendre"> Se défendre</button>
+
+                <script>
+                    const attaquer = document.getElementById('attaquer');
+                    const defendre = document.getElementById('defendre');
+                    let send = JSON.stringify({{ combat | json_encode() | raw }});
+                    attaquer.addEventListener("click", function (_) {
+                        post('nextTour', {combat: send, action: 'attaquer'})
+                    });
+                    defendre.addEventListener("click", function (_) {
+                        post('nextTour', {combat: send, action: 'defendre'})
+                    });
+                </script>
+            {% endif %}
+        {% endif %}
     </div>
 </div>
 
-{% include '/layout/footer.html.twig' %}
+{#{% include '/layout/footer.html.twig' %}#}

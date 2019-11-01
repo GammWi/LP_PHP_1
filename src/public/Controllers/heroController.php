@@ -23,9 +23,9 @@ class heroController{
         $listeElem = Element::all();
         $listeRace = Race::all();
         foreach ($listeRace as $race) {
+
             $p = Pictures::where("id_picture", "=", $race["id_picture"])->get();
             $race["path"] = $p[0]["path"];
-
 
         }
 
@@ -64,11 +64,12 @@ class heroController{
             $newNamePicture = $_POST["name"].".".$typePicture;
             move_uploaded_file($_FILES["img"]["tmp_name"], $cheminDest.$newNamePicture);
             $p = new Pictures();
-            $p->name = $_POST["name"].".".$typePicture;
+
+            $p->name = $newNamePicture;
             $p->path = "../../public/assets/img/characters/".$newNamePicture;
             $p->save();
 
-            $id_img = Pictures::where("name","=",$_POST["name"])->first();
+            $id_img = Pictures::where("name","=",$newNamePicture)->first();
             $character->picture = $id_img["id_picture"];
 
             $character->save();
@@ -148,10 +149,11 @@ class heroController{
         $cha = Character::where('id_character','=', $hero[0]["id_character"])->get()->each->delete();
         $pic = Pictures::where('id_picture', "=", $cha[0]["picture"])->get()->each->delete();
 
-        $imageFichier = fopen("../../public/assets/img/characters/".$pic[0]["name"]);
-        if(file_exists($imageFichier)) {
-            unlink($imageFichier);
-        }
+        $cheminDest = __DIR__;
+        $cheminDest = str_replace( "\\","/", $cheminDest);
+        $cheminDest = str_replace("Controllers", "assets/img/characters/", $cheminDest);
+        unlink($cheminDest.$pic[0]["name"]);
+
 
         $this->container->flash->addMessage('success', 'Le hero a bien été supprimé');
         return $response->withRedirect($this->container->router->pathFor('home'));

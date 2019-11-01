@@ -202,11 +202,12 @@
             {% endif %}
         {% endfor %}
     </div>
-
-    <button id="start" class="waves-effect waves-light btn-large red"
-            style="width: 100%;font-size: 0.85em; font-weight: bold; position: fixed; bottom: 0; left:0"> Qui commence ?
-        Le hasard est roi
-    </button>
+    <div style="position: fixed; bottom: 0; left:0; z-index: 9999; width: 100%" class="row">
+        <button id="start" class="waves-effect waves-light btn-large red col"
+                style="width: 100%;font-size: 0.85em; font-weight: bold;"> Qui commence ?
+            Le hasard est roi
+        </button>
+    </div>
     <script>
         const boutonStart = document.getElementById('start');
         let send = JSON.stringify({{ combat.persos | json_encode() | raw }});
@@ -216,4 +217,6 @@
     </script>
 </div>
 
+<div style="position:absolute; bottom: 0;">
 {% include '/layout/footer.html.twig' %}
+</div>

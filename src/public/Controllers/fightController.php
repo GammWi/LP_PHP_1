@@ -4,12 +4,9 @@ namespace dawa\controllers;
 
 use dawa\models\Character;
 use dawa\models\Element;
-use dawa\models\Fight;
 use dawa\models\Hero as Hero;
 use dawa\models\Monster;
 use dawa\models\Race;
-use dawa\models\StatsCharac;
-use dawa\models\StatsFight;
 use Slim\Slim;
 
 class fightController
@@ -71,51 +68,82 @@ class fightController
         }, $array);
     }
 
-    function attaque($attaque, $victime)
+    function attaque($attaque, $victime, $isNewAttaque = false)
     {
         $hpLogBefore = $attaque['name'] . ': ' . $attaque['race']['hp'] . 'hp ||| ' . $victime['name'] . ': ' . $victime['race']['hp'] . 'hp';
 
         $crit = ($attaque['race']['agility'] >= 2 * $victime['race']['agility']);
         $dmg = ($crit) ? $attaque['race']['attack'] * 2 : $attaque['race']['attack'];
 
-        $def = rand(0, 100 - $victime['race']['defense']);
         $dmgDef = 0;
-        $tfPercent = (100 - $victime['race']['defense']) * 0.25;
-        $fiftyPercent = (100 - $victime['race']['defense']) * 0.50;
-        $sfPercent = (100 - $victime['race']['defense']) * 0.75;
-        $hundredDef = (100 - $victime['race']['defense']);
-        $fullDef = false;
-        if (0 < $def && $def <= $tfPercent) {
-            $dmgDef = $dmg * 0.10;
-        } else {
-            if ($tfPercent < $def && $def <= $fiftyPercent) {
-                $dmgDef = $dmg * 0.25;
-            } else if ($fiftyPercent < $def && $def <= $sfPercent) {
-                $dmgDef = $dmg * 0.33;
-            } else if ($sfPercent < $def && $def < $hundredDef) {
-                $dmgDef = $dmg * 0.50;
-            } else if ($def === $hundredDef) {
-                $fullDef = true;
-                $dmgDef = $dmg;
+//        if (!$isNewAttaque) {
+            $def = rand(0, 100 - (isset($victime['boostDefense']) && $victime['boostDefense']) ? $victime['race']['defense'] * 1.25 : $victime['race']['defense']);
+
+            $dmgDef = 0;
+            $tfPercent = (100 - $victime['race']['defense']) * 0.25;
+            $fiftyPercent = (100 - $victime['race']['defense']) * 0.50;
+            $sfPercent = (100 - $victime['race']['defense']) * 0.75;
+            $hundredDef = (100 - $victime['race']['defense']);
+            $fullDef = false;
+            if (0 < $def && $def <= $tfPercent) {
+                $dmgDef = $dmg * 0.10;
+            } else {
+                if ($tfPercent < $def && $def <= $fiftyPercent) {
+                    $dmgDef = $dmg * 0.25;
+                } else if ($fiftyPercent < $def && $def <= $sfPercent) {
+                    $dmgDef = $dmg * 0.33;
+                } else if ($sfPercent < $def && $def < $hundredDef) {
+                    $dmgDef = $dmg * 0.50;
+                } else if ($def === $hundredDef) {
+                    $fullDef = true;
+                    $dmgDef = $dmg;
+                }
             }
-        }
+//        }
 
         $dmgLog = $attaque['name'] . ' attaque ' . $victime['name'] . ' pour ' . $dmg;
         $dmgLog .= ($crit) ? ' COUP CRITIQUE !' : '';
-        $defLog = $victime['name'] . ' se défend pour ' . $dmgDef;
-        $defLog .= ($fullDef) ? ' DEFENSE PARFAITE ' : '';
 
+//        if (!$isNewAttaque) {
+            $defLog = $victime['name'] . ' se défend pour ' . $dmgDef;
+            $defLog .= ($fullDef) ? ' DEFENSE PARFAITE ' : '';
+//        }
         $victime['race']['hp'] -= ($dmg - $dmgDef);
+
+        $hpLogAfter = $attaque['name'] . ': ' . $attaque['race']['hp'] . 'hp ||| ' . $victime['name'] . ': ' . $victime['race']['hp'] . 'hp';
+        if (isset($victime['boostDefense']) && $victime['boostDefense']) {
+            $victime['boostDefense'] = false;
+        }
+        $log = [
+            "type" => "attaque",
+            "attaque" => $attaque,
+            "hpLogBeforeV" => $hpLogBefore,
+            "dmgLogV" => $dmgLog,
+            "defLogV" => (isset($defLog)) ? $defLog : '',
+            "hpLogAfterV" => $hpLogAfter,
+            "dmgDealt" => $dmg - $dmgDef,
+            "victime" => $victime
+        ];
+        return $log;
+    }
+
+    function defense($attaque, $victime)
+    {
+        $hpLogBefore = $attaque['name'] . ': ' . $attaque['race']['hp'] . 'hp ||| ' . $victime['name'] . ': ' . $victime['race']['hp'] . 'hp';
+
+        $logDef = $attaque['name'] . ' boost sa défense pour un tour';
+        $attaque['boostDefense'] = true;
+
 
         $hpLogAfter = $attaque['name'] . ': ' . $attaque['race']['hp'] . 'hp ||| ' . $victime['name'] . ': ' . $victime['race']['hp'] . 'hp';
 
         $log = [
+            "type" => "defense",
             "attaque" => $attaque,
             "hpLogBeforeV" => $hpLogBefore,
-            "dmgLogV" => $dmgLog,
-            "defLogV" => $defLog,
+            "defLogV" => $logDef,
             "hpLogAfterV" => $hpLogAfter,
-            "dmgDealt" => $dmg - $dmgDef,
+            "dmgDealt" => 0,
             "victime" => $victime
         ];
         return $log;
@@ -140,22 +168,36 @@ class fightController
     }
 
 
-    public function tour($attaque, $victime, $tour, $persos = [])
+    public function tour($attaque, $victime, $tour, $action = '')
     {
         if ($attaque['race']['hp'] > 0 && $victime['race']['hp'] > 0) {
             $fin = false;
-            $logAttaque = $this->attaque($attaque, $victime);
-            $attaque = $logAttaque['attaque'];
-            $victime = $logAttaque['victime'];
-            $attaque['totalDmg'] += $logAttaque['dmgDealt'];
-            $victime['totalDmgTook'] += $logAttaque['dmgDealt'];
+            if (isset($action) && $action !== '') {
+                switch ($action) {
+                    case 'attaquer':
+                        $logTour = $this->attaque($attaque, $victime, true);
+                        break;
+                    case 'defendre':
+                        $logTour = $this->defense($attaque, $victime);
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                $logTour = $this->attaque($attaque, $victime, false);
+            }
+            $attaque = $logTour['attaque'];
+            $victime = $logTour['victime'];
+            $attaque['totalDmg'] += $logTour['dmgDealt'];
+            $victime['totalDmgTook'] += $logTour['dmgDealt'];
             $log = [
                 'tour' => $tour,
+                'type' => $logTour['type'],
                 'win' => false,
-                'hpLogBefore' => $logAttaque['hpLogBeforeV'],
-                'dmgLog' => $logAttaque['dmgLogV'],
-                'defLog' => $logAttaque['defLogV'],
-                'hpLogAfter' => $logAttaque['hpLogAfterV']
+                'hpLogBefore' => $logTour['hpLogBeforeV'],
+                'dmgLog' => (isset($logTour['dmgLogV'])) ? $logTour['dmgLogV'] : '',
+                'defLog' => $logTour['defLogV'],
+                'hpLogAfter' => $logTour['hpLogAfterV']
             ];
             if ($attaque['race']['hp'] > 0 && $victime['race']['hp'] > 0) {
                 $tmp = $attaque;
@@ -192,8 +234,9 @@ class fightController
         return $this->container->view->render($response, 'fight/initFight.html.twig', $combat);
     }
 
-    public function log($data) {
-        echo ('<div style="color: white">' . $data .'</div>');
+    public function log($data)
+    {
+        echo('<div style="color: white">' . $data . '</div>');
     }
 
     public function startFight($request, $response)
@@ -231,16 +274,14 @@ class fightController
     function nextTour($request, $response)
     {
         $combat = json_decode($_POST['combat'], true);
-        $persos = $combat['persos'];
         $attaque = $combat['attaque'];
         $victime = $combat['victime'];
+        if (isset($_POST['action'])) {
+            $action = $_POST['action'];
+        }
         $tour = $combat['nbTours'];
         $tours = [];
-//        $tour = 1;
-        $log = [];
-        $fin = false;
-        $resTour = $this->tour($attaque, $victime, $tour);
-        $fin = $resTour['fin'];
+        $resTour = $this->tour($attaque, $victime, $tour, $action);
         $attaque = $resTour['attaque'];
         $victime = $resTour['victime'];
         $tours[] = [
@@ -248,8 +289,6 @@ class fightController
             "log" => $resTour['log']
         ];
         $tour++;
-        $this->log($tour);
-//        }
         $combat = ($resTour['fin']) ?
             ['combat' => [
                 "persos" => ['attaque' => $combat['attaque'], 'victime' => $combat['victime']],

@@ -187,7 +187,11 @@
                         </div>
                         Défense
                         <div class="progress">
-                            <div class="green    determinate" style="width: {{ perso.race.defense }}%"></div>
+                            {% if perso.boostDefense %}
+                                <div class="red determinate" style="width: {{ perso.race.defense * 1.25 }}%"></div>
+                            {% else %}
+                                <div class="green determinate" style="width: {{ perso.race.defense }}%"></div>
+                            {% endif %}
                         </div>
                         Agilité
                         <div class="progress">
@@ -198,7 +202,7 @@
             </div>
             {% if loop.index == 1 %}
                 <img style="display: block; width: 300px"
-                     src="https://media1.giphy.com/media/l4pTkNEd2P4MWo9iw/source.gif">
+                     src="../../public/assets/img/gifs/vs.gif">
             {% endif %}
         {% endfor %}
     </div>
@@ -208,12 +212,17 @@
                 {% if tour.log.win == false %}
                     <h2>Tour n°{{ tour.id }}</h2>
                     <p>{{ tour.log.hpLogBefore }}</p>
-                    <p>{{ tour.log.dmgLog }}</p>
-                    <p>{{ tour.log.defLog }}</p>
+                    {% if tour.log.type == 'attaque' %}
+                        <p>{{ tour.log.dmgLog }}</p>
+                        <p>{{ tour.log.defLog }}</p>
+                    {% endif %}
+                    {% if tour.log.type == 'defense' %}
+                        <p>{{ tour.log.defLog }}</p>
+                    {% endif %}
                     <div>
                         <img style="width: 50px" src=""><img
-                                src="http://pixeljoint.com/files/icons/full/uther_lord.gif"> <img style="width: 50px"
-                                                                                                  src="../../public/assets/img/characters/hero.png">
+                                src="../../public/assets/img/gifs/attaque.gif"> <img style="width: 50px"
+                                                                                     src="../../public/assets/img/characters/hero.png">
                     </div>
                     <p>{{ tour.log.hpLogAfter }}</p>
                 {% endif %}{% if tour.log.win == true %}
@@ -258,14 +267,22 @@
         {% endif %}
         {% if combat.type is same as('tpt') %}
             {% if combat.fin != true %}
-                <button class="waves-effect waves-light btn-large red" id="next"> Tour suivant</button>
+                <button class="waves-effect waves-light btn-large red" id="attaquer"> Attaquer l'ennemi</button>
+                <button class="waves-effect waves-light btn-large green" id="defendre"> Se défendre</button>
 
                 <script>
-                    const nextTour = document.getElementById('next');
+                    const attaquer = document.getElementById('attaquer');
+                    const defendre = document.getElementById('defendre');
                     let send = JSON.stringify({{ combat | json_encode() | raw }});
                     nextTour.addEventListener("click", function (_) {
                         post('nextTour', {combat: send})
-                    })
+                    });
+                    attaquer.addEventListener("click", function (_) {
+                        post('nextTour', {combat: send, action: 'attaquer'})
+                    });
+                    defendre.addEventListener("click", function (_) {
+                        post('nextTour', {combat: send, action: 'defendre'})
+                    });
                 </script>
             {% endif %}
         {% endif %}

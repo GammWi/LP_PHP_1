@@ -105,7 +105,7 @@
 </script>
 
 
-<div class="">
+<div>
 
     <h2 class="white-text center-align">Préparez-vous au combat !</h2>
 
@@ -371,21 +371,20 @@
 
 
 
-
-    <button id="goRand" class="waves-effect waves-light btn-large green" style="width: 49.5%; font-size: 0.85em; font-weight: bold;position: fixed; bottom:0; right:0" value="{{ count | json_encode | raw }}">Cliquez
+<div style="position: fixed; bottom: 0; left:0; z-index: 9999; width: 100%" class="row">
+    <button id="goRand" class="col waves-effect waves-light btn-large green"  style="width: 32%; font-size: 0.8em" value="{{ count | json_encode | raw }}">Cliquez
         ici
         pour lancer un combat avec des champions aléatoires (à vos risques et périls!)
     </button>
 
+    <button id="initFight" class="col waves-effect waves-light btn-large red" style="width: 32%"> Lancer le combat tour par tour
+    </button>
+
     {#<form style="display: inline-block; width: 100%">#}
-    <button id="gofight" class="waves-effect waves-light btn-large red" style="width: 49.5%;font-size: 0.85em; font-weight: bold; position: fixed; bottom: 0; left:0">Cliquez
-        ici
-        pour lancer le combat
+    <button id="gofight" class="col waves-effect waves-light btn-large red" style="width: 32%"> Lancer le combat automatique
     </button>
     {#</form>#}
-
-    <button id="initFight" class="waves-effect waves-light btn-large red" style="width: 30%;font-size: 0.85em; font-weight: bold;"> INIT FIGHT
-    </button>
+</div>
 
 
 </div>

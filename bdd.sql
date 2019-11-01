@@ -44,7 +44,7 @@ DROP TABLE IF EXISTS `hero`;
 DROP TABLE IF EXISTS `isstrongerelem`;
 DROP TABLE IF EXISTS `monster`;
 DROP TABLE IF EXISTS `race`;
-DROP TABLE IF EXISTS `statscarac`;
+DROP TABLE IF EXISTS `statscharac`;
 DROP TABLE IF EXISTS `statsfight`;
 DROP TABLE IF EXISTS `user`;
 

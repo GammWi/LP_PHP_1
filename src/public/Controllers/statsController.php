@@ -58,29 +58,33 @@ class statsController
     public function statsCharac($winner, $looser){
         $win = StatsCharac::where('id_charac', '=', $winner['perso']['id_character'])->first();
         $loo = StatsCharac::where('id_charac', '=', $looser['perso']['id_character'])->first();
-        if($win != NULL){
+        if($win !== NULL){
             $win->increment('nbWin');
+            $win->increment('nbTotal');
         }else{
             StatsCharac::create([
                 'id_charac' => $winner['perso']['id_character'],
                 'type' => '1vs1',
-                'nbWin' => 1
+                'nbWin' => 1,
+                'nbTotal' => 1
             ]);
         }
 
-        if($loo != NULL){
+        if($loo !== NULL){
             $loo->increment('nbLoose');
+            $loo->increment('nbTotal');
             
         }else{
             StatsCharac::create([
                 'id_charac' => $looser['perso']['id_character'],
                 'type' => '1vs1',
-                'nbLoose' => 1
+                'nbLoose' => 1,
+                'nbTotal' => 1
             ]);
         }
 
-        $win->increment('nbTotal');
-        $loo->increment('nbTotal');
+        
+        
         
     }
 

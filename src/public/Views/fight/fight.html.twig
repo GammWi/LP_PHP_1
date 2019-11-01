@@ -185,7 +185,11 @@
                         <div class="progress">
                             <div class="green determinate" style="width: {{ perso.race.attack }}%"></div>
                         </div>
-                        Défense
+                        {% if perso.boostDefense %}
+                            Défense (BOOST)
+                        {% else %}
+                            Défense
+                        {% endif %}
                         <div class="progress">
                             {% if perso.boostDefense %}
                                 <div class="red determinate" style="width: {{ perso.race.defense * 1.25 }}%"></div>
@@ -274,9 +278,6 @@
                     const attaquer = document.getElementById('attaquer');
                     const defendre = document.getElementById('defendre');
                     let send = JSON.stringify({{ combat | json_encode() | raw }});
-                    nextTour.addEventListener("click", function (_) {
-                        post('nextTour', {combat: send})
-                    });
                     attaquer.addEventListener("click", function (_) {
                         post('nextTour', {combat: send, action: 'attaquer'})
                     });

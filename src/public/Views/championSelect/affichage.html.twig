@@ -14,34 +14,76 @@
         })
     }
 
+    //fonction prenant un string en paramètre et retournant les deux nombres contenus dans ce string
+    function returnNumbers(champ){
+        console.log(champ)
+        console.log(champ.length)
+        let numbers=[]
+        if (champ.length === 7) {
+            numbers[0]=parseInt(champ[1]+champ[2],10)
+            numbers[1]=parseInt(champ[4]+champ[5],10)
 
-    window.onload = function selection() {
+        }
+        if (champ.length === 5) {
+            numbers[0]=parseInt(champ[1],10)
+            numbers[1]=parseInt(champ[3],10)
+        }
+        if (champ.length === 6 && champ[2] == ","){
+            numbers[0]=parseInt(champ[1],10)
+            numbers[1]=parseInt(champ[3]+champ[4],10)
+        }
+        if (champ.length === 6 && champ[3] == ","){
+            numbers[0]=parseInt(champ[1]+champ[2],10)
+            numbers[1]=parseInt(champ[4],10)
+        }
+       console.log(numbers)
+        return numbers
 
-        //bouton de selection d'un heros aleatoire
+    }
+    //bouton de selection d'un heros aleatoire
+    function randomHero(){
         const randomHero = document.getElementById("randomHero")
         randomHero.addEventListener("click", function (event) {
-            let number = document.getElementById("randomHero").value
-            alert(number)
-            let id = getRandomInt(number[1]).toString()
+            let number = returnNumbers(document.getElementById("randomHero").value)
+            let id = getRandomInt(number[0]).toString()
             uncheckBoxes("caracHero")
+            console.log(id)
             let heroValue = document.getElementById("hero"+id)
             heroValue.checked=true
-            alert(heroValue.getAttribute("data-name")+" a été choisi aléatoirement")
+           alert(heroValue.getAttribute("data-name")+" a été choisi aléatoirement")
         })
+    }
 
-        //bouton de selection d'un monstre aleatoire
+    //bouton de selection d'un monstre aleatoire
+    function randomMonster(){
         const randomMonster = document.getElementById("randomMonster")
         randomMonster.addEventListener("click", function (event) {
-            let number = document.getElementById("randomMonster").value
-            let id = getRandomInt(number[3])
+            let number = returnNumbers(document.getElementById("randomMonster").value)
+            let id = getRandomInt(number[1])
             uncheckBoxes("caracMonster")
-            let monsterValue = document.getElementById("monster"+id)
-            monsterValue.checked=true
-            alert(monsterValue.getAttribute("data-name")+" a été choisi aléatoirement")
+            console.log(id)
+            let monsterValue = document.getElementById("monster" + id)
+            monsterValue.checked = true
+            alert(monsterValue.getAttribute("data-name") + " a été choisi aléatoirement")
         })
+    }
 
+    //bouton lancement aléatoire
+    function randomFight(){
+        const f2 = document.getElementById("goRand")
+        f2.addEventListener("click", function (event) {
+            let number = returnNumbers(document.getElementById("randomMonster").value)
+            let idCheckHero = getRandomInt(number[0])
+            let idCheckMonster = getRandomInt(number[1])
+            uncheckBoxes("caracMonster")
+            let idHero = document.getElementById("hero"+idCheckHero).value
+            let idMonster = document.getElementById("monster"+idCheckMonster).value
+            window.location.href = `fight?id_hero=${idHero}&id_monster=${idMonster}`
+        })
+    }
 
-        //lancement du combat
+    //bouton lancement combat
+    function fight(){
         const f = document.getElementById("gofight")
         f.addEventListener("click", function (event) {
             let nbSelected
@@ -71,11 +113,12 @@
                 alert("Veuillez sélectionner un héros et un monstre")
             }
         })
+    }
 
-        //lancement du combat
+    //bouton lancement tour par tour
+    function initFight(){
         const initFight = document.getElementById("initFight");
         initFight.addEventListener("click", function (event) {
-            console.log('INITFIGHT');
             let selecHero = Array.from(document.getElementsByName("caracHero"));
             let selection = selecHero.concat(Array.from(document.getElementsByName("caracMonster")));
             let i = 0;
@@ -92,15 +135,21 @@
                 window.location.href = `initFight?id_hero=${array_val[0]}&id_monster=${array_val[1]}`
             }
         });
+    }
 
-        //selection aleatoire des adversaires
-        const f2 = document.getElementById("goRand")
-        f2.addEventListener("click", function (event) {
-            let rdm = document.getElementById("goRand").value
-            let idHero = getRandomInt(rdm[1])
-            let idMonster = getRandomInt(rdm[3])
-            window.location.href=`fight?id_hero=${idHero}&id_monster=${idMonster}`
-        })
+
+
+    window.onload = function selection() {
+
+        randomHero()
+
+        randomMonster()
+
+        randomFight()
+
+        fight()
+
+        initFight()
 
     }
 </script>
@@ -119,7 +168,12 @@
                 <div class="card-content">
                     <div class="col">
                         <div>
+                            {% set numberHero = 0 %}
+
                             {% for heros in hero %}
+
+                                {% set numberHero = numberHero + 1 %}
+
                                 {#BLOC REPETE HERO#}
                                 <div class="row valign-wrapper">
                                     {#BLOC INFO PERSO#}
@@ -135,7 +189,7 @@
                                             </div>
                                             <div class="card-action">
                                                 <label>
-                                                    <input class="checkbox-green" type="checkbox" name="caracHero" id=hero{{heros.id_hero}} data-name="{{ heros.firstname }} {{ heros.name }}"
+                                                    <input class="checkbox-green" type="checkbox" name="caracHero" id=hero{{numberHero}} data-name="{{ heros.firstname }} {{ heros.name }}"
                                                            value={{ heros.id_hero }}>
                                                     <span>Envoyer
                                             ce héros au combat</span>
@@ -250,7 +304,12 @@
             <div class="card valign-wrapper">
                 <div class="card-content">
                     <div class="col">
+                        {% set numberMonster = 0 %}
+
+
                         {% for monsters in monster %}
+
+                            {% set numberMonster = numberMonster + 1 %}
                             <div class="row valign-wrapper">
                                 {#BLOC INFO PERSO#}
                                 <div class="card horizontal" style="width: 256px">
@@ -269,7 +328,7 @@
                                         </div>
                                         <div class="card-action">
                                             <label>
-                                                <input class="checkbox-green" type="checkbox" name="caracMonster" id=monster{{monsters.id_monster}} data-name="{{ monsters.name }}"
+                                                <input class="checkbox-green" type="checkbox" name="caracMonster" id=monster{{numberMonster}} data-name="{{ monsters.name }}"
                                                        value={{ monsters.id_monster }}>
                                                 <span>Envoyer
                                             ce monstre au combat</span>

@@ -44,7 +44,7 @@ DROP TABLE IF EXISTS `hero`;
 DROP TABLE IF EXISTS `isstrongerelem`;
 DROP TABLE IF EXISTS `monster`;
 DROP TABLE IF EXISTS `race`;
-DROP TABLE IF EXISTS `statscarac`;
+DROP TABLE IF EXISTS `statscharac`;
 DROP TABLE IF EXISTS `statsfight`;
 DROP TABLE IF EXISTS `user`;
 
@@ -80,7 +80,9 @@ CREATE TABLE `element` (
 CREATE TABLE `fight` (
   `id_fight` bigint(20) UNSIGNED NOT NULL,
   `id_hero` int(11) NOT NULL,
-  `id_monster` int(11) NOT NULL
+  `id_monster` int(11) NOT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_at` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -146,12 +148,13 @@ CREATE TABLE IF NOT EXISTS `race` (
 -- Structure de la table `statscarac`
 --
 
-CREATE TABLE `statscarac` (
-  `id_statscarac` bigint(20) UNSIGNED NOT NULL,
-  `id_carac` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE `statscharac` (
+  `id_statscharac` bigint(20) UNSIGNED NOT NULL,
+  `id_charac` bigint(20) UNSIGNED NOT NULL,
   `type` varchar(30) COLLATE utf8_bin NOT NULL,
-  `nbWin` bigint(20) UNSIGNED DEFAULT NULL,
-  `nbLoose` bigint(20) UNSIGNED DEFAULT NULL
+  `nbWin` bigint(20) UNSIGNED DEFAULT '0',
+  `nbLoose` bigint(20) UNSIGNED DEFAULT '0',
+  `nbTotal` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -162,12 +165,11 @@ CREATE TABLE `statscarac` (
 
 CREATE TABLE `statsfight` (
   `id_stats` bigint(20) UNSIGNED NOT NULL,
-  `id_fight` bigint(20) UNSIGNED NOT NULL,
-  `id_winner` bigint(20) UNSIGNED NOT NULL,
-  `id_looser` bigint(20) UNSIGNED NOT NULL,
-  `pvWinner` int(11) DEFAULT NULL,
-  `dmgWinner` int(11) DEFAULT NULL,
-  `dmgLooser` int(11) DEFAULT NULL
+  `id_fight` int(11) NOT NULL,
+  `id_character` int(11) NOT NULL,
+  `isWinner` tinyint(1) NOT NULL,
+  `dmgInfliges` float NOT NULL,
+  `dmgRecus` float NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -241,10 +243,10 @@ ALTER TABLE `monster`
 --
 -- Index pour la table `statscarac`
 --
-ALTER TABLE `statscarac`
-  ADD PRIMARY KEY (`id_statscarac`),
-  ADD UNIQUE KEY `id_statscarac` (`id_statscarac`),
-  ADD KEY `id_carac` (`id_carac`);
+ALTER TABLE `statscharac`
+  ADD PRIMARY KEY (`id_statscharac`),
+  ADD UNIQUE KEY `id_statscarac` (`id_statscharac`),
+  ADD KEY `id_carac` (`id_charac`);
 
 --
 -- Index pour la table `user`
@@ -252,6 +254,13 @@ ALTER TABLE `statscarac`
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id_user`),
   ADD UNIQUE KEY `id_user` (`id_user`);
+
+--
+-- Index pour la table `statsfight`
+--
+ALTER TABLE `statsfight`
+  ADD PRIMARY KEY (`id_stats`),
+  ADD UNIQUE KEY `id_stats` (`id_stats`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -273,7 +282,7 @@ ALTER TABLE `element`
 -- AUTO_INCREMENT pour la table `fight`
 --
 ALTER TABLE `fight`
-  MODIFY `id_fight` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id_fight` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `hero`
@@ -298,8 +307,14 @@ ALTER TABLE `monster`
 --
 -- AUTO_INCREMENT pour la table `statscarac`
 --
-ALTER TABLE `statscarac`
-  MODIFY `id_statscarac` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+ALTER TABLE `statscharac`
+  MODIFY `id_statscharac` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `statsfight`
+--
+ALTER TABLE `statsfight`
+  MODIFY `id_stats` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `user`

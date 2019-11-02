@@ -58,18 +58,20 @@ class monstreController{
             $newNamePicture = $_POST["name"].".".$typePicture;
             move_uploaded_file($_FILES["img"]["tmp_name"], $cheminDest.$newNamePicture);
             $p = new Pictures();
-            $p->name = $_POST["name"];
+
+            $p->name = $newNamePicture;
             $p->path = "../../public/assets/img/characters/".$newNamePicture;
             $p->save();
-            $id_img = Pictures::where("name","=",$_POST["name"])->first();
+
+            $id_img = Pictures::where("name","=",$newNamePicture)->first();
             $character->picture = $id_img["id_picture"];
             $character->save();
+
             $monstre = new Monster();
             $idChara = Character::where("name", "=", $_POST["name"],"and","id_race","=",$idRace[0]["id_race"])->get();
             $monstre->id_character = $idChara[0]["id_character"];
             $monstre->save();
         }else {
-            var_dump("something wrong");
             $p = new Pictures();
             $p->name = "Erreur";
             $p->path = "/";
@@ -123,6 +125,14 @@ class monstreController{
         $idMonstre = $_POST['supprimer'];
         $monstre = Monster::where('id_monster', '=', $idMonstre)->get()->each->delete();
         $cha = Character::where('id_character','=', $monstre[0]["id_character"])->get()->each->delete();
+        $pic = Pictures::where('id_picture', "=", $cha[0]["picture"])->get()->each->delete();
+
+        $cheminDest = __DIR__;
+        $cheminDest = str_replace( "\\","/", $cheminDest);
+        $cheminDest = str_replace("Controllers", "assets/img/characters/", $cheminDest);
+        unlink($cheminDest.$pic[0]["name"]);
+
+
         $this->container->flash->addMessage('success', 'Le monstre a bien été supprimé');
         return $response->withRedirect($this->container->router->pathFor('home'));
     }

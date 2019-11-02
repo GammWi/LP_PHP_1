@@ -21,6 +21,7 @@
         const randomHero = document.getElementById("randomHero")
         randomHero.addEventListener("click", function (event) {
             let number = document.getElementById("randomHero").value
+            alert(number)
             let id = getRandomInt(number[1]).toString()
             uncheckBoxes("caracHero")
             let heroValue = document.getElementById("hero"+id)

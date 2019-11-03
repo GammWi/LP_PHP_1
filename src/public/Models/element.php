@@ -6,4 +6,8 @@ class Element extends \Illuminate\Database\Eloquent\Model {
     public $timestamps = false;
     protected $fillable = ['name', "description"];
 
+    public function character() {
+        return $this->belongsTo('\dawa\models\Character');
 }
+}
+

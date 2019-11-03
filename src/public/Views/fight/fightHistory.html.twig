@@ -1,0 +1,46 @@
+{% include '/layout/header.html.twig' %}
+
+
+{% for fight in fights |reverse %}
+    {% for hero in heros %}
+        {% if fight.id_hero==hero.id_hero %}
+            {% for monstre in monsters %}
+                {% if fight.id_monster==monstre.id_monster %}
+                    {% if fight.id_character==hero.id_character and fight.isWinner==1 %}
+                        <div class="card horizontal">
+                            <p class="green-text-text">Combat du {{ fight.created_at }}</p>
+                            <img style="width: 5%" src="{{ hero.path }}"
+                                 alt="Un heros">
+                            <p class="green-text">{{ hero.name }} {{ hero.firstname }}</p>
+                            <p class="green-text">Gagne contre</p>
+                            <p class="red-text">{{ monstre.name }}</p>
+                            <img style="width: 5%" src="{{ monstre.path }}"
+                                 alt="Un monstre">
+                            <p class="green-text">En infligeant {{ fight.dmgInfliges }} degats et en subissant {{ fight.dmgRecus }} points de degats sur {{ globalHero.getAllCaracHero(hero.id_hero).race.hp}}</p>
+                        </div>
+                    {% endif %}
+                    {% if fight.id_character==monstre.id_character and fight.isWinner==1 %}
+                        <div class="card horizontal">
+                            <p class="red-text">Combat du {{ fight.created_at }}</p>
+                            <p class="red-text">{{ monstre.name }}</p>
+                            <img style="width: 5%" src="{{ monstre.path }}"
+                                 alt="Un monstre">
+                            <p class="red-text">Gagne contre</p>
+                            <img style="width: 5%" src="{{ hero.path }}"
+                                 alt="Un heros">
+                            <p class="green-text">{{ hero.name }} {{ hero.firstname }}</p>
+
+                            <p class="red-text">En infligeant {{ fight.dmgInfliges }} degats et en subissant {{ fight.dmgRecus }}  points de degats sur {{ globalMonster.getAllCaracMonstre(monstre.id_monster).race.hp}}</p>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+        {% endif %}
+
+
+    {% endfor %}
+
+{% endfor %}
+
+{% include '/layout/footer.html.twig' %}

@@ -54,6 +54,9 @@ $app = new \Slim\App($container,[
         'displayErrorDetails' => true
     ]
 ]);
+/**
+ * on initialise la conn
+ */
 $capsule = new DB();
 $capsule->addConnection($container['settings']['db']);
 $capsule->setAsGlobal();
@@ -63,13 +66,6 @@ $container['db'] = function ($container) use ($capsule) {
     return $capsule;
 };
 
-
-$app->get('/test', function(Request $request, Response $response, $args){
-    $response->getBody()->write("Hello world");
-    return $response;
-});
-
-
 $app->get('/selectChamp', "\\dawa\\controllers\\champSelectController:Index")->setName('home');
 
 $app->get('/classement', "\\dawa\\controllers\\classementController:getClassement")->setName('classement');
@@ -77,10 +73,6 @@ $app->get('/classement', "\\dawa\\controllers\\classementController:getClassemen
 $app->get('/auth/signin', "\\dawa\\controllers\\userController:signIn")->setName('auth.signin');
 $app->post('/auth/signin', "\\dawa\\controllers\\userController:postSignIn");
 $app->get('/auth/signout', "\\dawa\\controllers\\userController:signOut")->setName('auth.signout');
-
-
-
-
 
 $app->get('/fight', "\\dawa\\controllers\\fightController:Index")->setName('fight');
 //$app->post('/fight', "\\dawa\\controllers\\fightController:Index")->setName('fight');
@@ -114,7 +106,7 @@ $app->group('', function(){
     $this->post('/valCreateMonster', "\\dawa\\controllers\\monstreController:insererMonster");
 
     $this->post('/valCreateHero', "\\dawa\\controllers\\heroController:insererHero");
-
+    $this->get('/historiqueCombats', "\\dawa\\controllers\\historiqueController:Index")->setName('historique');
 
     $this->get('/getImage/:id',"\\dawa\\controllers\\picturesController:getImage");
 

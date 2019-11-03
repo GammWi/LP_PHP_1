@@ -6,9 +6,12 @@
 <h4></h4>
 {% set nbCharac = 0 %}
 {% for charac in characters %}
-    Nom: {{ c[nbCharac]['firstname'] }}  
-    {% set nbCharac = nbCharac + 1 %}
-    {{ c[nbCharac]['name'] }} - Nombre de WIN: {{ charac.nbWin }}</br>
-    {% set nbCharac = nbCharac + 1 %}
+    <div class="card horizontal">
+        Nom: {{ c[nbCharac]['firstname'] }}
+        {% set nbCharac = nbCharac + 1 %}
+        {{ c[nbCharac]['name'] }} - Nombre de WIN: {{ charac.nbWin }}</br>
+        {% set nbCharac = nbCharac + 1 %}
+    </div>
+
 {% endfor %}</br>
 {% endblock %}

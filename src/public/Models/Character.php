@@ -29,4 +29,11 @@ class Character extends \Illuminate\Database\Eloquent\Model {
     }
 
 
+    public function element() {
+        return $this->hasMany('\dawa\modele\Element', 'id_elem','id_character_elem');
+
+    }
+
+
+
 }

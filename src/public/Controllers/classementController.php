@@ -19,21 +19,19 @@ class classementController
     public function getClassement($request, $response){
         
         $statsCharac = StatsCharac::orderBy('nbWin', 'DESC')->get();
-        $test = array();
+        $char = array();
         foreach($statsCharac as $charac){
             $c = Character::where('id_character', $charac->id_charac)->first();
             $hero = Hero::where('id_character', $charac->id_charac)->first();
             if($hero == NULL){
-                $test[] = ['firstname' => '']; 
+                $char[] = ['firstname' => '']; 
             }else{
-                $test[] = ['firstname' =>$hero['firstname']];
+                $char[] = ['firstname' =>$hero['firstname']];
             }
-            $test[] = ['name' => $c['name']];
+            $char[] = ['name' => $c['name']];
         }
-
-        var_dump($test);
         
-        return $this->container->view->render($response, 'stats/classement.twig', ['characters'=>$statsCharac, 'c'=>$test]);
+        return $this->container->view->render($response, 'stats/classement.twig', ['characters'=>$statsCharac, 'c'=>$char]);
     }
 
 

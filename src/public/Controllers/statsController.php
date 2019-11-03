@@ -18,11 +18,13 @@ class statsController
     }
 
     public function saveFight($id_hero, $id_monster, $fight){
+        $id_combat = Fight::count() + 1;
         Fight::create([
+            'id_fight' => $id_combat,
             'id_hero' => $id_hero,
             'id_monster' => $id_monster
         ]);
-        $id_combat = Fight::latest()->first()->id_fight;
+        
         $this->saveLogs($fight, $id_combat);
     }
 
@@ -34,13 +36,15 @@ class statsController
         $looser = $fight['combat']['looser'];
         $winnerDmg = $fight['combat']['winner']['totalDmg'];
         $looserDmg = $fight['combat']['looser']['totalDmg'];
+        $winnerDmgTook = $fight['combat']['winner']['totalDmgTook']; 
+        $looserDmgTook = $fight['combat']['looser']['totalDmgTook'];
 
         StatsFight::create([
             'id_fight' => $id_combat,
             'id_character' => $winner['perso']['id_character'],
             'isWinner' => 1,
             'dmgInfliges' => $winnerDmg,
-            'dmgRecus' => 0
+            'dmgRecus' => $winnerDmgTook
         ]);
 
         StatsFight::create([
@@ -48,7 +52,7 @@ class statsController
             'id_character' => $looser['perso']['id_character'],
             'isWinner' => 0,
             'dmgInfliges' => $looserDmg,
-            'dmgRecus' => 0
+            'dmgRecus' => $looserDmgTook
         ]);
 
     $this->statsCharac($winner, $looser);

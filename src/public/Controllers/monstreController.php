@@ -220,9 +220,10 @@ class monstreController{
         $nbLoose = $statsCombat['nbLoose'];
         $nbTotal = $statsCombat['nbTotal'];
         $dmgInfliges = StatsFight::where('id_character', $monstre->id_character)->sum('dmgInfliges');
+        $dmgRecus = StatsFight::where('id_character', $monstre->id_character)->sum('dmgRecus');
 
         $liste = array('monstre' => $monstre, 'charac' => $charac, 'elem' => $elem_monstre, 'race' => $race_monstre, 'pourcentage' => $pourcentageWin,
-                        'dmg' => $dmgInfliges, 'nbWin'=>$nbWin, 'nbLoose'=>$nbLoose,
+                        'dmg' => $dmgInfliges, 'dmgTook'=>$dmgRecus, 'nbWin'=>$nbWin, 'nbLoose'=>$nbLoose,
                         'nbTotal' => $nbTotal);
         return $liste;
     }

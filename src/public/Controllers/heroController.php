@@ -236,10 +236,11 @@ class heroController{
         $nbLoose = $statsCombat['nbLoose'];
         $nbTotal = $statsCombat['nbTotal'];
         $dmgInfliges = StatsFight::where('id_character', $hero->id_character)->sum('dmgInfliges');
+        $dmgRecus = StatsFight::where('id_character', $hero->id_character)->sum('dmgRecus');
 
         $liste = array('hero' => $hero, 'charac' => $charac, 'elem' => $elem_hero, 
-        'race' => $race_hero, 'pourcentage' => $pourcentageWin, 'dmg' => $dmgInfliges, 'nbWin'=>$nbWin, 'nbLoose'=>$nbLoose,
-        'nbTotal' => $nbTotal);
+        'race' => $race_hero, 'pourcentage' => $pourcentageWin, 'dmg' => $dmgInfliges, 'dmgTook' => $dmgRecus, 
+        'nbWin'=>$nbWin, 'nbLoose'=>$nbLoose, 'nbTotal' => $nbTotal);
         return $liste;
     }
 

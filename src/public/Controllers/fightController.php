@@ -137,6 +137,9 @@ class fightController
         $crit = ($attaque['race']['agility'] >= 2 * $victime['race']['agility']);
         $dmg = ($crit) ? $attaque['race']['attack'] * 2 : $attaque['race']['attack'];
 
+        $isStrongerElem = elementController::isStronger($attaque['char']['id_character_elem'], $victime['char']['id_character_elem']);
+
+        $dmg = ($isStrongerElem) ? $dmg * 1.25 : $dmg;
 //        if (!$isNewAttaque) {
         $isBoostDef = isset($victime['boostDefense']) && $victime['boostDefense'];
 
@@ -168,6 +171,7 @@ class fightController
 
         $dmgLog = $attaque['name'] . ' attaque ' . $victime['name'] . ' pour ' . $dmg;
         $dmgLog .= ($crit) ? ' COUP CRITIQUE !' : '';
+        $dmgLog .= ($isStrongerElem) ? ' AVANTAGE ELEMENT !' : '';
 
 //        if (!$isNewAttaque) {
         $defLog = $victime['name'] . ' se défend pour ' . $dmgDef;
@@ -450,13 +454,13 @@ class fightController
             $hero = Hero::where('id_hero', '=', $idHero)->first();
             $characHero = Character::where('id_character', '=', $hero['id_character'])->first();
             $raceHero = Race::where('id_race', '=', $characHero['id_character_race'])->first();
-            $elemHero = Element::where('id_element', '=', $hero['id_character_elem'])->first();
+            $elemHero = Element::where('id_element', '=', $characHero['id_character_elem'])->first();
             $pathHero = Pictures::where('id_picture', '=', $characHero['picture'])->first()['path'];
 
             $monster = Monster::where('id_monster', '=', $idMonster)->first();
             $characMonster = Character::where('id_character', '=', $monster['id_character'])->first();
             $raceMonster = Race::where('id_race', '=', $characMonster['id_character_race'])->first();
-            $elemMonster = Element::where('id_element', '=', $monster['id_character_elem'])->first();
+            $elemMonster = Element::where('id_element', '=', $characMonster['id_character_elem'])->first();
             $pathMonster = Pictures::where('id_picture', '=', $characMonster['picture'])->first()['path'];
 
             $leHero = [
@@ -500,7 +504,7 @@ class fightController
                 $hero = Hero::where('id_hero', '=', $lm)->first();
                 $characHero = Character::where('id_character', '=', $hero['id_character'])->first();
                 $raceHero = Race::where('id_race', '=', $characHero['id_character_race'])->first();
-                $elemHero = Element::where('id_element', '=', $hero['id_character_elem'])->first();
+                $elemHero = Element::where('id_element', '=', $characHero['id_character_elem'])->first();
                 $path = Pictures::where('id_picture', '=', $characHero['picture'])->first()['path'];
 
                 $tmp = [
@@ -522,7 +526,7 @@ class fightController
                 $monster = Monster::where('id_monster', '=', $lm)->first();
                 $characMonster = Character::where('id_character', '=', $monster['id_character'])->first();
                 $raceMonster = Race::where('id_race', '=', $characMonster['id_character_race'])->first();
-                $elemMonster = Element::where('id_element', '=', $monster['id_character_elem'])->first();
+                $elemMonster = Element::where('id_element', '=', $characMonster['id_character_elem'])->first();
                 $path = Pictures::where('id_picture', '=', $characMonster['picture'])->first()['path'];
 
                 $tmp = [

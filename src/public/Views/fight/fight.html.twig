@@ -312,7 +312,7 @@
                     <p>{{ tour.log.hpLogAfter }}</p>
                 {% endif %}{% if tour.log.win == true %}
                     <h2>FIN</h2>
-                    {% if combat.type == '1v1' %}
+                    {% if combat.type != '3v3' %}
                         <p>WINNER : {{ combat.winner.name }} - {{ combat.winner.totalDmg }}</p>
                         <p>LOOSER : {{ combat.looser.name }} - {{ combat.looser.totalDmg }}</p>
                     {% else %}
@@ -330,7 +330,7 @@
     </div>
     <div class="container center">
         {% if combat.fin == true %}
-        {% if combat.type == '1v1' %}
+        {% if combat.type != '3v3' %}
         <div class="black-text green card horizontal rotate-scale-down-diag-2" style="
              width: 256px;
              margin: 15px auto;">

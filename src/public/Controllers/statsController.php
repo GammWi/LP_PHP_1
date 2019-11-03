@@ -34,13 +34,15 @@ class statsController
         $looser = $fight['combat']['looser'];
         $winnerDmg = $fight['combat']['winner']['totalDmg'];
         $looserDmg = $fight['combat']['looser']['totalDmg'];
+        $winnerDmgTook = $fight['combat']['winner']['totalDmgTook']; 
+        $looserDmgTook = $fight['combat']['looser']['totalDmgTook'];
 
         StatsFight::create([
             'id_fight' => $id_combat,
             'id_character' => $winner['perso']['id_character'],
             'isWinner' => 1,
             'dmgInfliges' => $winnerDmg,
-            'dmgRecus' => 0
+            'dmgRecus' => $winnerDmgTook
         ]);
 
         StatsFight::create([
@@ -48,7 +50,7 @@ class statsController
             'id_character' => $looser['perso']['id_character'],
             'isWinner' => 0,
             'dmgInfliges' => $looserDmg,
-            'dmgRecus' => 0
+            'dmgRecus' => $winnerDmgTook
         ]);
 
     $this->statsCharac($winner, $looser);

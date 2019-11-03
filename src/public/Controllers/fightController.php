@@ -306,18 +306,16 @@ class fightController
                 $fin = true;
             }
         } else {
-            $attaqueAlive = ($attaque[0]['race']['hp'] > 0) && ($attaque[1]['race']['hp'] > 0) && ($attaque[2]['race']['hp'] > 0);
-            $victimeAlive = ($victime[0]['race']['hp'] > 0) && ($victime[1]['race']['hp'] > 0) && ($victime[2]['race']['hp'] > 0);
+            $attaqueAlive = ($attaque[0]['race']['hp'] > 0) || ($attaque[1]['race']['hp'] > 0) || ($attaque[2]['race']['hp'] > 0);
+            $victimeAlive = ($victime[0]['race']['hp'] > 0) || ($victime[1]['race']['hp'] > 0) || ($victime[2]['race']['hp'] > 0);
 
             if ($attaqueAlive && $victimeAlive) {
                 $fin = false;
                 $logTour = $this->attaque($attaque, $victime, false, true);
                 $attaque = $logTour['attaque'];
                 $victime = $logTour['victime'];
-                if (!$groupFight) {
-                    $attaque['totalDmg'] += $logTour['dmgDealt'];
-                    $victime['totalDmgTook'] += $logTour['dmgDealt'];
-                }
+//                $attaque['totalDmg'] += $logTour['dmgDealt'];
+//                $victime['totalDmgTook'] += $logTour['dmgDealt'];
                 $log = [
                     'tour' => $tour,
                     'type' => $logTour['type'],
@@ -327,8 +325,8 @@ class fightController
                     'defLog' => $logTour['defLogV'],
                     'hpLogAfter' => $logTour['hpLogAfterV']
                 ];
-                $attaqueAlive = ($attaque[0]['race']['hp'] > 0) && ($attaque[1]['race']['hp'] > 0) && ($attaque[2]['race']['hp'] > 0);
-                $victimeAlive = ($victime[0]['race']['hp'] > 0) && ($victime[1]['race']['hp'] > 0) && ($victime[2]['race']['hp'] > 0);
+                $attaqueAlive = ($attaque[0]['race']['hp'] > 0) || ($attaque[1]['race']['hp'] > 0) || ($attaque[2]['race']['hp'] > 0);
+                $victimeAlive = ($victime[0]['race']['hp'] > 0) || ($victime[1]['race']['hp'] > 0) || ($victime[2]['race']['hp'] > 0);
                 if ($attaqueAlive && $victimeAlive) {
                     $tmp = $attaque;
                     $attaque = $victime;

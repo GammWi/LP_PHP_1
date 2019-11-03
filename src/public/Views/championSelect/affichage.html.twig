@@ -223,7 +223,7 @@
                                                         </div>
                                                         <div class="center">
                                                             Pourcentage de victoire:
-                                                            {{ globalHero.getAllCaracHero(heros.id_hero).pourcentage}}%
+                                                            {{ globalHero.getAllCaracHero(heros.id_hero).pourcentage | number_format(2)}}%
                                                         </div>
                                                     </div>
                                                 </div>
@@ -362,7 +362,7 @@
                                                     </div>
                                                     <div class="center">
                                                         Pourcentage de victoire:
-                                                        {{ globalMonster.getAllCaracMonstre(monsters.id_monster).pourcentage}}%
+                                                        {{ globalMonster.getAllCaracMonstre(monsters.id_monster).pourcentage | number_format(2)}}%
                                                     </div>
                                                 </div>
                                             </div>

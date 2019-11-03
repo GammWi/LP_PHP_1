@@ -137,18 +137,16 @@ class heroController{
         $cheminDest = str_replace( "\\","/", $cheminDest);
         $cheminDest = str_replace("Controllers", "assets/img/characters/", $cheminDest);
         $typePicture = str_replace("image/","",$_FILES["img"]["type"]);
-        var_dump($typePicture);
         if($typePicture == 'png' || $typePicture == 'gif' || $typePicture == 'jpg' || $typePicture == 'jpeg') {
-
-            $newNamePicture = $hero["charac"]["name"].".".$typePicture;
-            move_uploaded_file($_FILES["img"]["tmp_name"], $cheminDest . $newNamePicture);
-
-            $pic = Pictures::where('id_picture', "=", $hero["charac"]["picture"])->get()->each->delete();
 
             $cheminDest = __DIR__;
             $cheminDest = str_replace( "\\","/", $cheminDest);
             $cheminDest = str_replace("Controllers", "assets/img/characters/", $cheminDest);
+            $pic = Pictures::where('id_picture', "=", $hero["charac"]["picture"])->get()->each->delete();
             unlink($cheminDest.$pic[0]["name"]);
+
+            $newNamePicture = $hero["charac"]["name"].".".$typePicture;
+            move_uploaded_file($_FILES["img"]["tmp_name"], $cheminDest . $newNamePicture);
 
             $p = new Pictures();
             $p->name = $newNamePicture;

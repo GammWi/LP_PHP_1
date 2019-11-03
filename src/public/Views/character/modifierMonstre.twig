@@ -9,15 +9,15 @@
         <form class="col s12" action="{{ path_for('modif.monstre')}}" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="name" type="text" name="name" class="green-text validate" value= {{monstre.charac.name}}>
-                    <input id="name" type="hidden" name="id_monstre" class="green-text validate" value= {{monstre.monstre.id_monster}}> 
-                    <label class="green-text" for="name">Nom</label>
+                    <input id="name" type="text" name="name" class="red-text validate" value= {{monstre.charac.name}}>
+                    <input id="name" type="hidden" name="id_monstre" class="red-text validate" value= {{monstre.monstre.id_monster}}>
+                    <label class="red-text" for="name">Nom</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
                     <div class="selects-container">
-                        <label class="green-text" for="elem">L'élement du Monstre</label>
+                        <label class="red-text" for="elem">L'élement du Monstre</label>
                         <select id="name" name="elem" >
                             <option selected="selected">{{monstre.elem.name}}</option>
                             {% for elem in listeElem %}
@@ -28,7 +28,7 @@
                 </div>
                 <div class="input-field col s6">
                     <div class="selects-container">
-                        <label class="green-text" for="elem">Race du Monstre</label>
+                        <label class="red-text" for="elem">Race du Monstre</label>
                         <select id="firstname" name="race" >
                             <option selected="selected">{{monstre.race.name}}</option>
                             {% for race in listeRace %}
@@ -38,11 +38,18 @@
                     </div>
                 </div>
             </div>
-            
+            <label class="title">Image actuelle du hero</label>
+            <div class="row">
+                <img style="width: 256px" src="{{ monstre.monstre.path }}"
+                     alt="0">
             </div>
-            
-
-            <button class="green btn waves-effect waves-light" type="submit">Valider
+            <div class="row">
+                <div class="input-field col s12">
+                    <input type="hidden" name="MAX_FILE_SIZE" value="2500000">
+                    <input id="img" type="file" name="img" class="red-text validate" size="50">
+                </div>
+            </div>
+            <button class="red btn waves-effect waves-light" type="submit">Valider
                 <i class="material-icons right">send</i>
             </button>
         </form>

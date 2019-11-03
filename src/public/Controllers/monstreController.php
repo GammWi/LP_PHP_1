@@ -95,7 +95,8 @@ class monstreController{
         $monstre = $this->getAllCaracMonstre($request->getParam('modifier'));
         $listeElem = Element::where('id_element', '!=', $monstre['charac']->id_character_elem)->get();
         $listeRace = Race::where('id_race', '!=', $monstre['charac']->id_character_race)->get();
-        
+        $p = Pictures::where("id_picture", "=", $monstre["charac"]["picture"])->get();
+        $monstre["monstre"]["path"] = $p[0]["path"];
         return $this->container->view->render($response, 'character/modifierMonstre.twig', ['monstre' => $monstre, 'listeElem' => $listeElem, 'listeRace' => $listeRace]);
     }
 
@@ -115,6 +116,36 @@ class monstreController{
                           'name' => $name]);
         }else{
             $monstre['charac']->update(['name' => $name]);
+        }
+
+        $cheminDest = __DIR__;
+        $cheminDest = str_replace( "\\","/", $cheminDest);
+        $cheminDest = str_replace("Controllers", "assets/img/characters/", $cheminDest);
+        $typePicture = str_replace("image/","",$_FILES["img"]["type"]);
+        if($typePicture == 'png' || $typePicture == 'gif' || $typePicture == 'jpg' || $typePicture == 'jpeg') {
+
+            $pic = Pictures::where('id_picture', "=", $monstre["charac"]["picture"])->get()->each->delete();
+
+            $cheminDest = __DIR__;
+            $cheminDest = str_replace( "\\","/", $cheminDest);
+            $cheminDest = str_replace("Controllers", "assets/img/characters/", $cheminDest);
+            unlink($cheminDest.$pic[0]["name"]);
+            $newNamePicture = $monstre["charac"]["name"].".".$typePicture;
+            move_uploaded_file($_FILES["img"]["tmp_name"], $cheminDest . $newNamePicture);
+
+
+
+            $p = new Pictures();
+            $p->name = $newNamePicture;
+            $p->path = "../../public/assets/img/characters/" . $newNamePicture;
+            $p->save();
+
+            $img = Pictures::where("name", "=", $newNamePicture)->first();
+            $id_img = $img["id_picture"];
+
+            $monstre['charac']->picture = $id_img;
+            $monstre['charac']->save();
+
         }
         
         $this->container->flash->addMessage('info', 'Le monstre '.$name.' a bien été modifié');

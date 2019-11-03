@@ -183,6 +183,7 @@ class heroController{
         $hero = Hero::where('id_hero', '=', $idHero)->get()->each->delete();
         $cha = Character::where('id_character','=', $hero[0]["id_character"])->get()->each->delete();
         $pic = Pictures::where('id_picture', "=", $cha[0]["picture"])->get()->each->delete();
+        $stats = StatsCharac::where('id_charac', $hero[0]["id_character"])->get()->each->delete();
 
         $cheminDest = __DIR__;
         $cheminDest = str_replace( "\\","/", $cheminDest);

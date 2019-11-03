@@ -127,6 +127,7 @@ class monstreController{
         $monstre = Monster::where('id_monster', '=', $idMonstre)->get()->each->delete();
         $cha = Character::where('id_character','=', $monstre[0]["id_character"])->get()->each->delete();
         $pic = Pictures::where('id_picture', "=", $cha[0]["picture"])->get()->each->delete();
+        $stats = StatsCharac::where('id_charac','=', $monstre[0]["id_character"])->get()->each->delete();
 
         $cheminDest = __DIR__;
         $cheminDest = str_replace( "\\","/", $cheminDest);

@@ -146,7 +146,11 @@ class monstreController{
         $elem_monstre = Element::where('id_element', $charac->id_character_elem)->first();
         $race_monstre = Race::where('id_race', $charac->id_character_race)->first();
         $statsCombat = StatsCharac::where('id_charac', $monstre->id_character)->first();
-        $pourcentageWin = ($statsCombat['nbWin']/$statsCombat['nbTotal']) * 100;
+        if($statsCombat['nbTotal'] != 0){
+            $pourcentageWin = ($statsCombat['nbWin']/$statsCombat['nbTotal']) * 100;
+        }else{
+            $pourcentageWin = 0;
+        }
         $nbWin = $statsCombat['nbWin'];
         $nbLoose = $statsCombat['nbLoose'];
         $nbTotal = $statsCombat['nbTotal'];

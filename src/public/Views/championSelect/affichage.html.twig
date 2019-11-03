@@ -185,7 +185,7 @@
                                         <div class="card-stacked">
                                             <div class="card-content">
                                                 <h5 class="center"> {{ heros.firstname }} {{ heros.name }} </h5>
-                                                <p>{{ heroo.getAllCaracHero(heros.id_hero).race.hp}}</p>
+                                                {{ globalHero.getAllCaracHero(heros.id_hero).race.description}}
                                             </div>
                                             <div class="card-action">
                                                 <label>
@@ -207,19 +207,19 @@
                                                     <div class="card-content">
                                                         Points de vie:
                                                         <div class="progress">
-                                                            <div class="green determinate" style="width: 70%"></div>
+                                                            <div class="green determinate" style="width: {{ globalHero.getAllCaracHero(heros.id_hero).race.hp}}%"></div>
                                                         </div>
                                                         Attaque
                                                         <div class="progress">
-                                                            <div class="green determinate" style="width: 70%"></div>
+                                                            <div class="green determinate" style="width: {{ globalHero.getAllCaracHero(heros.id_hero).race.attack}}%"></div>
                                                         </div>
                                                         Défense
                                                         <div class="progress">
-                                                            <div class="red determinate" style="width: 70%"></div>
+                                                            <div class="green determinate" style="width: {{ globalHero.getAllCaracHero(heros.id_hero).race.defense}}%"></div>
                                                         </div>
                                                         Agilité
                                                         <div class="progress">
-                                                            <div class="green determinate" style="width: 70%"></div>
+                                                            <div class="green determinate" style="width: {{ globalHero.getAllCaracHero(heros.id_hero).race.agility}}%"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -320,11 +320,7 @@
                                     <div class="card-stacked">
                                         <div class="card-content">
                                             <h5 class="center"> {{ monsters.name }} </h5>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                                tempor
-                                                incididunt
-                                                ut
-                                                labore et dolore magna aliqua.</p>
+                                            <p>{{ globalMonster.getAllCaracMonstre(monsters.id_monster).race.description}}</p>
                                         </div>
                                         <div class="card-action">
                                             <label>
@@ -346,19 +342,19 @@
                                                 <div class="card-content">
                                                     Points de vie
                                                     <div class="progress">
-                                                        <div class="red determinate" style="width: 70%"></div>
+                                                        <div class="red determinate" style="width: {{ globalMonster.getAllCaracMonstre(monsters.id_monster).race.hp}}%"></div>
                                                     </div>
                                                     Attaque
                                                     <div class="progress">
-                                                        <div class="red determinate" style="width: 70%"></div>
+                                                        <div class="red determinate" style="width: {{ globalMonster.getAllCaracMonstre(monsters.id_monster).race.attack}}%"></div>
                                                     </div>
                                                     Défense
                                                     <div class="progress">
-                                                        <div class="red determinate" style="width: 70%"></div>
+                                                        <div class="red determinate" style="width: {{ globalMonster.getAllCaracMonstre(monsters.id_monster).race.defense}}%"></div>
                                                     </div>
                                                     Agilité
                                                     <div class="progress">
-                                                        <div class="red determinate" style="width: 70%"></div>
+                                                        <div class="red determinate" style="width: {{ globalMonster.getAllCaracMonstre(monsters.id_monster).race.agility}}%"></div>
                                                     </div>
                                                 </div>
                                             </div>

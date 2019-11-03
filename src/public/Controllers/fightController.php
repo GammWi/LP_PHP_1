@@ -176,6 +176,9 @@ class fightController
         if (isset($victime['boostDefense']) && $victime['boostDefense']) {
             $victime['boostDefense'] = false;
         }
+
+        $attaque['totalDmg'] += ($dmg - $dmgDef);
+        $victime['totalDmgTook'] += ($dmg - $dmgDef);
         if ($groupFight) {
             $att[$attaqueIdx] = $attaque;
             $vict[$victimeIdx] = $victime;
@@ -314,8 +317,6 @@ class fightController
                 $logTour = $this->attaque($attaque, $victime, false, true);
                 $attaque = $logTour['attaque'];
                 $victime = $logTour['victime'];
-//                $attaque['totalDmg'] += $logTour['dmgDealt'];
-//                $victime['totalDmgTook'] += $logTour['dmgDealt'];
                 $log = [
                     'tour' => $tour,
                     'type' => $logTour['type'],

@@ -316,12 +316,13 @@
                         <p>WINNER : {{ combat.winner.name }} - {{ combat.winner.totalDmg }}</p>
                         <p>LOOSER : {{ combat.looser.name }} - {{ combat.looser.totalDmg }}</p>
                     {% else %}
-                        <p>WINNER : {{ combat.winner[0].name }}/{{ combat.winner[1].name }}/{{ combat.winner[2].name }}
-                            - {{ combat.winner.totalDmg }}</p>
-                        <p>LOOSER : {{ combat.looser[0].name }}/{{ combat.looser[1].name }}/{{ combat.looser[2].name }}
+                        <p>WINNER : {{ combat.winner[0].name }} - {{ combat.winner[0].totalDmg }}DMG
+                            / {{ combat.winner[1].name }} - {{ combat.winner[1].totalDmg }}DMG
+                            / {{ combat.winner[2].name }} - {{ combat.winner[2].totalDmg }}DMG </p>
+                        <p>LOOSER : {{ combat.looser[0].name }} - ({{ combat.looser[0].race.hp }}
+                            HP) / {{ combat.looser[1].name }} - ({{ combat.looser[1].race.hp }}
+                            HP) / {{ combat.looser[2].name }} - ({{ combat.looser[2].race.hp }}HP)
                             - {{ combat.looser.totalDmg }}</p>
-                        <p>LOOSER : {{ combat.looser[0].race.hp }}/{{ combat.looser[1].race.hp }}
-                            /{{ combat.looser[2].race.hp }}</p>
                     {% endif %}
                 {% endif %}
             </div>

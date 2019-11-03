@@ -168,47 +168,128 @@
     <h2 class="white-text center-align">Puisse le sort vous être favorable !</h2>
 
     <div class="row valign-wrapper flex" style="justify-content: center">
-        {% for perso in combat.persos %}
-            <div class="black-text blue-grey bounce-top card horizontal" style="width: 256px">
-                <div class="card-image center-block center">
-                    <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
-                         alt="Un héros">
-                </div>
-                <div class="card-stacked">
-                    <div class="card-content">
-                        <h5 class="center"> {{ perso.name }} </h5>
-                        Points de vie
-                        <div class="progress">
-                            <div class="green determinate" style="width: {{ perso.race.hp }}%"></div>
-                        </div>
-                        Attaque
-                        <div class="progress">
-                            <div class="green determinate" style="width: {{ perso.race.attack }}%"></div>
-                        </div>
-                        {% if perso.boostDefense %}
-                            Défense (BOOST)
-                        {% else %}
-                            Défense
-                        {% endif %}
-                        <div class="progress">
+        {% if combat.type == '3v3' %}
+            {% for perso in combat.persos.attaque %}
+                <div class="black-text green bounce-top card horizontal" style="width: 256px">
+                    <div class="card-image center-block center">
+                        <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
+                             alt="Un héros">
+                    </div>
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <h5 class="center"> {{ perso.name }} </h5>
+                            Points de vie
+                            <div class="progress">
+                                <div class="light-green determinate" style="width: {{ perso.race.hp }}%"></div>
+                            </div>
+                            Attaque
+                            <div class="progress">
+                                <div class="light-green determinate" style="width: {{ perso.race.attack }}%"></div>
+                            </div>
                             {% if perso.boostDefense %}
-                                <div class="red determinate" style="width: {{ perso.race.defense * 1.25 }}%"></div>
+                                Défense (BOOST)
                             {% else %}
-                                <div class="green determinate" style="width: {{ perso.race.defense }}%"></div>
+                                Défense
                             {% endif %}
-                        </div>
-                        Agilité
-                        <div class="progress">
-                            <div class="green determinate" style="width: {{ perso.race.agility }}%"></div>
+                            <div class="progress">
+                                {% if perso.boostDefense %}
+                                    <div class="red determinate" style="width: {{ perso.race.defense * 1.25 }}%"></div>
+                                {% else %}
+                                    <div class="light-green determinate" style="width: {{ perso.race.defense }}%"></div>
+                                {% endif %}
+                            </div>
+                            Agilité
+                            <div class="progress">
+                                <div class="light-green determinate" style="width: {{ perso.race.agility }}%"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            {% if loop.index == 1 %}
+            {% endfor %}
+            <div>
                 <img style="display: block; width: 300px"
                      src="../../public/assets/img/gifs/vs.gif">
-            {% endif %}
-        {% endfor %}
+            </div>
+            {% for perso in combat.persos.victime %}
+                <div class="black-text red bounce-top card horizontal" style="width: 256px">
+                    <div class="card-image center-block center">
+                        <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
+                             alt="Un héros">
+                    </div>
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <h5 class="center"> {{ perso.name }} </h5>
+                            Points de vie
+                            <div class="progress">
+                                <div class="green determinate" style="width: {{ perso.race.hp }}%"></div>
+                            </div>
+                            Attaque
+                            <div class="progress">
+                                <div class="green determinate" style="width: {{ perso.race.attack }}%"></div>
+                            </div>
+                            {% if perso.boostDefense %}
+                                Défense (BOOST)
+                            {% else %}
+                                Défense
+                            {% endif %}
+                            <div class="progress">
+                                {% if perso.boostDefense %}
+                                    <div class="red determinate" style="width: {{ perso.race.defense * 1.25 }}%"></div>
+                                {% else %}
+                                    <div class="green determinate" style="width: {{ perso.race.defense }}%"></div>
+                                {% endif %}
+                            </div>
+                            Agilité
+                            <div class="progress">
+                                <div class="green determinate" style="width: {{ perso.race.agility }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            {% for perso in combat.persos %}
+                <div class="black-text blue-grey bounce-top card horizontal" style="width: 256px">
+                    <div class="card-image center-block center">
+                        <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
+                             alt="Un héros">
+                    </div>
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <h5 class="center"> {{ perso.name }} </h5>
+                            Points de vie
+                            <div class="progress">
+                                <div class="green determinate" style="width: {{ perso.race.hp }}%"></div>
+                            </div>
+                            Attaque
+                            <div class="progress">
+                                <div class="green determinate" style="width: {{ perso.race.attack }}%"></div>
+                            </div>
+                            {% if perso.boostDefense %}
+                                Défense (BOOST)
+                            {% else %}
+                                Défense
+                            {% endif %}
+                            <div class="progress">
+                                {% if perso.boostDefense %}
+                                    <div class="red determinate" style="width: {{ perso.race.defense * 1.25 }}%"></div>
+                                {% else %}
+                                    <div class="green determinate" style="width: {{ perso.race.defense }}%"></div>
+                                {% endif %}
+                            </div>
+                            Agilité
+                            <div class="progress">
+                                <div class="green determinate" style="width: {{ perso.race.agility }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% if loop.index == 1 %}
+                    <img style="display: block; width: 300px"
+                         src="../../public/assets/img/gifs/vs.gif">
+                {% endif %}
+            {% endfor %}
+        {% endif %}
     </div>
     <div class="container center" style="max-height: 400px; overflow: auto; border: 2px solid red">
         {% for tour in combat.tours %}
@@ -231,63 +312,111 @@
                     <p>{{ tour.log.hpLogAfter }}</p>
                 {% endif %}{% if tour.log.win == true %}
                     <h2>FIN</h2>
-                    <p>WINNER : {{ combat.winner.name }} - {{ combat.winner.totalDmg }}</p>
-                    <p>LOOSER : {{ combat.looser.name }} - {{ combat.looser.totalDmg }}</p>
+                    {% if combat.type == '1v1' %}
+                        <p>WINNER : {{ combat.winner.name }} - {{ combat.winner.totalDmg }}</p>
+                        <p>LOOSER : {{ combat.looser.name }} - {{ combat.looser.totalDmg }}</p>
+                    {% else %}
+                        <p>WINNER : {{ combat.winner[0].name }} - {{ combat.winner[0].totalDmg }}DMG
+                            / {{ combat.winner[1].name }} - {{ combat.winner[1].totalDmg }}DMG
+                            / {{ combat.winner[2].name }} - {{ combat.winner[2].totalDmg }}DMG </p>
+                        <p>LOOSER : {{ combat.looser[0].name }} - ({{ combat.looser[0].race.hp }}
+                            HP) / {{ combat.looser[1].name }} - ({{ combat.looser[1].race.hp }}
+                            HP) / {{ combat.looser[2].name }} - ({{ combat.looser[2].race.hp }}HP)
+                            - {{ combat.looser.totalDmg }}</p>
+                    {% endif %}
                 {% endif %}
             </div>
         {% endfor %}
     </div>
     <div class="container center">
         {% if combat.fin == true %}
-            <div class="black-text green card horizontal rotate-scale-down-diag-2" style="
+        {% if combat.type == '1v1' %}
+        <div class="black-text green card horizontal rotate-scale-down-diag-2" style="
              width: 256px;
              margin: 15px auto;">
+            <div class="card-image center-block center">
+                <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
+                     alt="Un héros">
+            </div>
+            <div class="card-stacked">
+                <div class="card-content">
+                    <h5 class="center"> {{ combat.winner.name }} </h5>
+                    Points de vie
+                    <div class="progress">
+                        <div class="red determinate" style="width: {{ combat.winner.race.hp }}%"></div>
+                    </div>
+                    Attaque
+                    <div class="progress">
+                        <div class="red determinate" style="width: {{ combat.winner.race.attack }}%"></div>
+                    </div>
+                    Défense
+                    <div class="progress">
+                        <div class="red determinate" style="width: {{ combat.winner.race.defense }}%"></div>
+                    </div>
+                    Agilité
+                    <div class="progress">
+                        <div class="red determinate" style="width: {{ combat.winner.race.agility }}%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        {% for winner in combat.winner %}
+        {% if winner.race.hp > 0 %}
+        <div class="black-text green card horizontal rotate-scale-down-diag-2"
+             style="width: 256px;margin: 15px auto;display: inline-block;">
+            {% else %}
+            <div class="black-text black white-text card horizontal rotate-scale-down-diag-2"
+                 style="width: 256px;margin: 15px auto;display: inline-block;">
+                {% endif %}
                 <div class="card-image center-block center">
                     <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
                          alt="Un héros">
                 </div>
                 <div class="card-stacked">
                     <div class="card-content">
-                        <h5 class="center"> {{ combat.winner.name }} </h5>
+                        <h5 class="center"> {{ winner.name }} </h5>
                         Points de vie
                         <div class="progress">
-                            <div class="red determinate" style="width: {{ combat.winner.race.hp }}%"></div>
+                            <div class="red determinate" style="width: {{ winner.race.hp }}%"></div>
                         </div>
                         Attaque
                         <div class="progress">
-                            <div class="red determinate" style="width: {{ combat.winner.race.attack }}%"></div>
+                            <div class="red determinate" style="width: {{ winner.race.attack }}%"></div>
                         </div>
                         Défense
                         <div class="progress">
-                            <div class="red determinate" style="width: {{ combat.winner.race.defense }}%"></div>
+                            <div class="red determinate" style="width: {{ winner.race.defense }}%"></div>
                         </div>
                         Agilité
                         <div class="progress">
-                            <div class="red determinate" style="width: {{ combat.winner.race.agility }}%"></div>
+                            <div class="red determinate" style="width: {{ winner.race.agility }}%"></div>
                         </div>
                     </div>
                 </div>
             </div>
-        {% endif %}
-        {% if combat.type is same as('tpt') %}
-            {% if combat.fin != true %}
-                <button class="waves-effect waves-light btn-large red" id="attaquer"> Attaquer l'ennemi</button>
-                <button class="waves-effect waves-light btn-large green" id="defendre"> Se défendre</button>
-
-                <script>
-                    const attaquer = document.getElementById('attaquer');
-                    const defendre = document.getElementById('defendre');
-                    let send = JSON.stringify({{ combat | json_encode() | raw }});
-                    attaquer.addEventListener("click", function (_) {
-                        post('nextTour', {combat: send, action: 'attaquer'})
-                    });
-                    defendre.addEventListener("click", function (_) {
-                        post('nextTour', {combat: send, action: 'defendre'})
-                    });
-                </script>
+            {% endfor %}
             {% endif %}
-        {% endif %}
+            {% endif %}
+            {% if combat.type is same as('tpt') %}
+                {% if combat.fin != true %}
+                    <button class="waves-effect waves-light btn-large red" id="attaquer"> Attaquer l'ennemi</button>
+                    <button class="waves-effect waves-light btn-large green" id="defendre"> Se défendre</button>
+
+                    <script>
+                        const attaquer = document.getElementById('attaquer');
+                        const defendre = document.getElementById('defendre');
+                        let send = JSON.stringify({{ combat | json_encode() | raw }});
+                        attaquer.addEventListener("click", function (_) {
+                            post('nextTour', {combat: send, action: 'attaquer'})
+                        });
+                        defendre.addEventListener("click", function (_) {
+                            post('nextTour', {combat: send, action: 'defendre'})
+                        });
+                    </script>
+                {% endif %}
+            {% endif %}
+        </div>
     </div>
-</div>
 
 {% include '/layout/footer.html.twig' %}

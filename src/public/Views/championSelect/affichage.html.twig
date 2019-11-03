@@ -177,7 +177,7 @@
                                 {#BLOC REPETE HERO#}
                                 <div class="row valign-wrapper">
                                     {#BLOC INFO PERSO#}
-                                    <div class="card horizontal" style="width: 256px">
+                                    <div class="card horizontal" style="width: 256px; margin-top:40px">
                                         <div class="card-image center-block center">
                                             <img style="width: 256px" src="{{ heros.path }}" onclick="alert('Nombre de combats: {{globalHero.getAllCaracHero(heros.id_hero).nbTotal}}\nNombre de victoires: {{globalHero.getAllCaracHero(heros.id_hero).nbWin}}\nNombre de défaites: {{globalHero.getAllCaracHero(heros.id_hero).nbLoose}}\nDegats infligés: {{globalHero.getAllCaracHero(heros.id_hero).dmg}}')"
                                                  alt="Un héros">
@@ -281,14 +281,14 @@
 
                     </div>
                 </div>
-                <form style="width: 49%;position: absolute; right: 0; bottom: 0;" action="createHero">
+                <form style="width: 49%;position: absolute; right: 0; top: 0;" action="createHero">
                     <button class="waves-effect waves-light btn green" style="width: 100%; font-weight: bold;"
                             type="submit"
                             value="">Créer un héros
                     </button>
                 </form>
 
-                <button style="width: 49%; position: absolute; left: 0; bottom: 0; font-weight: bold;"
+                <button style="width: 49%; position: absolute; left: 0; top: 0; font-weight: bold;"
                         class="green waves-effect waves-light btn"
                         id="randomHero"
                         type="submit"
@@ -316,7 +316,7 @@
                             {% set numberMonster = numberMonster + 1 %}
                             <div class="row valign-wrapper">
                                 {#BLOC INFO PERSO#}
-                                <div class="card horizontal" style="width: 256px">
+                                <div class="card horizontal" style="width: 256px; margin-top:40px">
                                     <div class="card-image center-block center">
                                         <img style="width: 256px" src="{{ monsters.path }}" onclick="alert('Nombre de combats: {{globalMonster.getAllCaracMonstre(monsters.id_monster).nbTotal}}\nNombre de victoires: {{globalMonster.getAllCaracMonstre(monsters.id_monster).nbWin}}\nNombre de défaites: {{globalMonster.getAllCaracMonstre(monsters.id_monster).nbLoose}}\nDegats infligés: {{globalMonster.getAllCaracMonstre(monsters.id_monster).dmg}}')"
                                              alt="Un héros">
@@ -411,14 +411,14 @@
 
                     </div>
                 </div>
-                <form style="width: 49%; position: absolute; right: 0; bottom: 0" action="createMonster">
+                <form style="width: 49%; position: absolute; right: 0; top: 0" action="createMonster">
                     <button class="waves-effect waves-light btn red " style="width: 100%; font-weight: bold;"
                             type="submit"
                             value="">Créer un monstre
                     </button>
                 </form>
 
-                <button style="width: 49%; position: absolute; left: 0; bottom: 0; font-weight: bold;"
+                <button style="width: 49%; position: absolute; left: 0; top: 0; font-weight: bold;"
                         class="red waves-effect waves-light btn"
                         id="randomMonster"
                         type="submit"

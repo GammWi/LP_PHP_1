@@ -7,6 +7,7 @@ use dawa\models\Character;
 use dawa\models\Element;
 use dawa\models\Hero as Hero;
 use dawa\models\Monster;
+use dawa\models\Pictures;
 use dawa\models\Race;
 use Slim\Slim;
 
@@ -90,10 +91,12 @@ class fightController
         $weak = null;
         $weakRatio = 99999;
         foreach ($array as $key => $value) {
-            $ratio = $value['race']['attack'] / $value['race']['hp'];
-            if ($ratio < $weakRatio && $value['race']['hp'] > 0) {
-                $weakRatio = $ratio;
-                $weak = $key;
+            if ($value['race']['hp'] > 0) {
+                $ratio = $value['race']['attack'] / $value['race']['hp'];
+                if ($ratio < $weakRatio) {
+                    $weakRatio = $ratio;
+                    $weak = $key;
+                }
             }
         }
         return $weak;
@@ -448,17 +451,20 @@ class fightController
             $characHero = Character::where('id_character', '=', $hero['id_character'])->first();
             $raceHero = Race::where('id_race', '=', $characHero['id_character_race'])->first();
             $elemHero = Element::where('id_element', '=', $hero['id_character_elem'])->first();
+            $pathHero = Pictures::where('id_picture', '=', $characHero['picture'])->first()['path'];
 
             $monster = Monster::where('id_monster', '=', $idMonster)->first();
             $characMonster = Character::where('id_character', '=', $monster['id_character'])->first();
             $raceMonster = Race::where('id_race', '=', $characMonster['id_character_race'])->first();
             $elemMonster = Element::where('id_element', '=', $monster['id_character_elem'])->first();
+            $pathMonster = Pictures::where('id_picture', '=', $characMonster['picture'])->first()['path'];
 
             $leHero = [
                 'perso' => $hero->getAttributes(),
                 'char' => $characHero->getAttributes(),
                 'race' => $raceHero,
                 'elem' => $elemHero,
+                'path' => $pathHero,
                 'name' => $hero['firstname'] . ' ' . $characHero['name'],
                 'totalDmg' => 0.0,
                 'totalDmgTook' => 0.0,
@@ -470,6 +476,7 @@ class fightController
                 'char' => $characMonster->getAttributes(),
                 'race' => $raceMonster,
                 'elem' => $elemMonster,
+                'path' => $pathMonster,
                 'name' => $characMonster['name'],
                 'totalDmg' => 0.0,
                 'totalDmgTook' => 0.0,
@@ -494,12 +501,14 @@ class fightController
                 $characHero = Character::where('id_character', '=', $hero['id_character'])->first();
                 $raceHero = Race::where('id_race', '=', $characHero['id_character_race'])->first();
                 $elemHero = Element::where('id_element', '=', $hero['id_character_elem'])->first();
+                $path = Pictures::where('id_picture', '=', $characHero['picture'])->first()['path'];
 
                 $tmp = [
                     'perso' => $hero->getAttributes(),
                     'char' => $characHero->getAttributes(),
                     'race' => $raceHero,
                     'elem' => $elemHero,
+                    'path' => $path,
                     'name' => $hero['firstname'] . ' ' . $characHero['name'],
                     'totalDmg' => 0.0,
                     'totalDmgTook' => 0.0,
@@ -514,12 +523,14 @@ class fightController
                 $characMonster = Character::where('id_character', '=', $monster['id_character'])->first();
                 $raceMonster = Race::where('id_race', '=', $characMonster['id_character_race'])->first();
                 $elemMonster = Element::where('id_element', '=', $monster['id_character_elem'])->first();
+                $path = Pictures::where('id_picture', '=', $characMonster['picture'])->first()['path'];
 
                 $tmp = [
                     'perso' => $monster->getAttributes(),
                     'char' => $characMonster->getAttributes(),
                     'race' => $raceMonster,
                     'elem' => $elemMonster,
+                    'path' => $path,
                     'name' => $characMonster['name'],
                     'totalDmg' => 0.0,
                     'totalDmgTook' => 0.0,

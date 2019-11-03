@@ -172,7 +172,7 @@
             {% for perso in combat.persos.attaque %}
                 <div class="black-text green bounce-top card horizontal" style="width: 256px">
                     <div class="card-image center-block center">
-                        <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
+                        <img style="width: 256px" src="{{ perso.path }}"
                              alt="Un héros">
                     </div>
                     <div class="card-stacked">
@@ -213,7 +213,7 @@
             {% for perso in combat.persos.victime %}
                 <div class="black-text red bounce-top card horizontal" style="width: 256px">
                     <div class="card-image center-block center">
-                        <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
+                        <img style="width: 256px" src="{{ perso.path }}"
                              alt="Un héros">
                     </div>
                     <div class="card-stacked">
@@ -251,7 +251,7 @@
             {% for perso in combat.persos %}
                 <div class="black-text blue-grey bounce-top card horizontal" style="width: 256px">
                     <div class="card-image center-block center">
-                        <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
+                        <img style="width: 256px" src="{{ perso.path }}"
                              alt="Un héros">
                     </div>
                     <div class="card-stacked">
@@ -305,9 +305,9 @@
                         <p>{{ tour.log.defLog }}</p>
                     {% endif %}
                     <div>
-                        <img style="width: 50px" src=""><img
+                        <img style="width: 50px" src="{{ combat.persos.victime.path }}"><img
                                 src="../../public/assets/img/gifs/attaque.gif"> <img style="width: 50px"
-                                                                                     src="../../public/assets/img/characters/hero.png">
+                                                                                     src="{{ combat.persos.attaque.path }}">
                     </div>
                     <p>{{ tour.log.hpLogAfter }}</p>
                 {% endif %}{% if tour.log.win == true %}
@@ -335,7 +335,7 @@
              width: 256px;
              margin: 15px auto;">
             <div class="card-image center-block center">
-                <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
+                <img style="width: 256px" src="{{ combat.winner.path }}"
                      alt="Un héros">
             </div>
             <div class="card-stacked">
@@ -370,7 +370,7 @@
                  style="width: 256px;margin: 15px auto;display: inline-block;">
                 {% endif %}
                 <div class="card-image center-block center">
-                    <img style="width: 256px" src="../../public/assets/img/characters/hero.png"
+                    <img style="width: 256px" src="{{ winner.path }}"
                          alt="Un héros">
                 </div>
                 <div class="card-stacked">

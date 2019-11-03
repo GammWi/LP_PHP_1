@@ -114,7 +114,7 @@ $app->group('', function(){
     $this->post('/valCreateMonster', "\\dawa\\controllers\\monstreController:insererMonster");
 
     $this->post('/valCreateHero', "\\dawa\\controllers\\heroController:insererHero");
-
+    $this->get('/historiqueCombats', "\\dawa\\controllers\\historiqueController:Index")->setName('historique');
 
     $this->get('/getImage/:id',"\\dawa\\controllers\\picturesController:getImage");
 

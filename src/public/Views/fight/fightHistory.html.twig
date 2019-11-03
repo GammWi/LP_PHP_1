@@ -1,0 +1,22 @@
+{% include '/layout/header.html.twig' %}
+
+
+{% for fight in fights |reverse %}
+    {{ fight }}
+    {% for hero in heros %}
+
+        {% if fight.id_hero==hero.id_hero %}
+            {% for monstre in monsters %}
+                {% if fight.id_monster==monstre.id_monster %}
+                    <div class="card horizontal">{{ hero.name }} {{ hero.firstname }} vs {{ monstre.name }} le {{ fight.created_at }}</div>
+                {% endif %}
+            {% endfor %}
+
+        {% endif %}
+
+
+    {% endfor %}
+
+{% endfor %}
+
+{% include '/layout/footer.html.twig' %}

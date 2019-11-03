@@ -14,6 +14,9 @@
                 <li>
                     <a class="nav-link" href="{{ path_for('classement') }}">Classement</span></a>
                 </li>
+                <li>
+                    <a class="nav-link" href="{{ path_for('historique') }}">Historique des combats</span></a>
+                </li>
                 {% if auth.check() %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path_for('admin.panel') }}">Panel admin</span></a>

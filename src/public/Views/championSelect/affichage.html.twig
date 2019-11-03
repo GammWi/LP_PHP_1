@@ -177,13 +177,13 @@
                                 {#BLOC REPETE HERO#}
                                 <div class="row valign-wrapper">
                                     {#BLOC INFO PERSO#}
-                                    <div class="card horizontal" style="width: 256px; margin-top:40px" onclick="alert('Nombre de combats: {{globalHero.getAllCaracHero(heros.id_hero).nbTotal}}\nNombre de victoires: {{globalHero.getAllCaracHero(heros.id_hero).nbWin}}\nNombre de défaites: {{globalHero.getAllCaracHero(heros.id_hero).nbLoose}}\nDegats infligés: {{globalHero.getAllCaracHero(heros.id_hero).dmg | number_format(2)}}\nDegats reçus: {{globalHero.getAllCaracHero(heros.id_hero).dmgTook | number_format(2)}}')">
+                                    <div class="card horizontal" style="width: 256px; margin-top:40px" >
                                         <div class="card-image center-block center">
                                             <img style="width: 256px" src="{{ heros.path }}" 
                                                  alt="Un héros">
                                         </div>
                                         <div class="card-stacked">
-                                            <div class="card-content">
+                                            <div class="card-content" onclick="alert('Nombre de combats: {{globalHero.getAllCaracHero(heros.id_hero).nbTotal}}\nNombre de victoires: {{globalHero.getAllCaracHero(heros.id_hero).nbWin}}\nNombre de défaites: {{globalHero.getAllCaracHero(heros.id_hero).nbLoose}}\nDegats infligés: {{globalHero.getAllCaracHero(heros.id_hero).dmg | number_format(2)}}\nDegats reçus: {{globalHero.getAllCaracHero(heros.id_hero).dmgTook | number_format(2)}}')">
                                                 <h5 class="center"> {{ heros.firstname }} {{ heros.name }} </h5>
                                                 {{ globalHero.getAllCaracHero(heros.id_hero).race.description}}
                                             </div>
@@ -316,13 +316,13 @@
                             {% set numberMonster = numberMonster + 1 %}
                             <div class="row valign-wrapper">
                                 {#BLOC INFO PERSO#}
-                                <div class="card horizontal" style="width: 256px; margin-top:40px" onclick="alert('Nombre de combats: {{globalMonster.getAllCaracMonstre(monsters.id_monster).nbTotal}}\nNombre de victoires: {{globalMonster.getAllCaracMonstre(monsters.id_monster).nbWin}}\nNombre de défaites: {{globalMonster.getAllCaracMonstre(monsters.id_monster).nbLoose}}\nDegats infligés: {{globalMonster.getAllCaracMonstre(monsters.id_monster).dmg | number_format(2)}}\nDegats reçus: {{globalMonster.getAllCaracMonstre(monsters.id_monster).dmgTook | number_format(2)}}')">
+                                <div class="card horizontal" style="width: 256px; margin-top:40px" >
                                     <div class="card-image center-block center">
                                         <img style="width: 256px" src="{{ monsters.path }}" 
                                              alt="Un héros">
                                     </div>
                                     <div class="card-stacked">
-                                        <div class="card-content">
+                                        <div class="card-content" onclick="alert('Nombre de combats: {{globalMonster.getAllCaracMonstre(monsters.id_monster).nbTotal}}\nNombre de victoires: {{globalMonster.getAllCaracMonstre(monsters.id_monster).nbWin}}\nNombre de défaites: {{globalMonster.getAllCaracMonstre(monsters.id_monster).nbLoose}}\nDegats infligés: {{globalMonster.getAllCaracMonstre(monsters.id_monster).dmg | number_format(2)}}\nDegats reçus: {{globalMonster.getAllCaracMonstre(monsters.id_monster).dmgTook | number_format(2)}}')">
                                             <h5 class="center"> {{ monsters.name }} </h5>
                                             <p>{{ globalMonster.getAllCaracMonstre(monsters.id_monster).race.description}}</p>
                                         </div>

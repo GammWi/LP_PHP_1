@@ -20,6 +20,12 @@ class monstreController{
 
     }
 
+    /**
+     * @param $request
+     * @param $response
+     * @return mixed
+     * methode qui permet d'afficher la page de creation des monstres
+     */
     public function CreerMonster($request, $response){
 
         $listeElem = Element::all();
@@ -28,6 +34,12 @@ class monstreController{
 
     }
 
+    /**
+     * @param $request
+     * @param $response
+     * @return mixed
+     * methode qui permet l'insertion du monstre dans la base
+     */
     public function insererMonster($request, $response) {
 
         $character = new Character();
@@ -92,6 +104,12 @@ class monstreController{
 
     }
 
+    /**
+     * @param $request
+     * @param $response
+     * @return mixed
+     * methode qui permet d'afficher la page de modification des monstres
+     */
     public function getModifierMonster($request, $response){
         $monstre = $this->getAllCaracMonstre($request->getParam('modifier'));
         $listeElem = Element::where('id_element', '!=', $monstre['charac']->id_character_elem)->get();
@@ -101,6 +119,12 @@ class monstreController{
         return $this->container->view->render($response, 'character/modifierMonstre.twig', ['monstre' => $monstre, 'listeElem' => $listeElem, 'listeRace' => $listeRace]);
     }
 
+    /**
+     * @param $request
+     * @param $response
+     * @return mixed
+     * methode qui modifie le monstre dans la base
+     */
     public function postModifierMonster($request, $response){
         $monstre = $this->getAllCaracMonstre($request->getParam('id_monstre'));
         $newRace = $request->getParam('race');
@@ -153,6 +177,12 @@ class monstreController{
         return $response->withRedirect($this->container->router->pathFor('home'));
     }
 
+    /**
+     * @param $request
+     * @param $response
+     * @return mixed
+     * methode qui permet de supprimer un monstre de la base
+     */
     public function supprimerMonster($request, $response){
         $idMonstre = $_POST['supprimer'];
         $monstre = Monster::where('id_monster', '=', $idMonstre)->get()->each->delete();
@@ -169,8 +199,12 @@ class monstreController{
         $this->container->flash->addMessage('success', 'Le monstre a bien été supprimé');
         return $response->withRedirect($this->container->router->pathFor('home'));
     }
-    
 
+    /**
+     * @param $id
+     * @return array
+     * methode qui renvoi une liste de monstre
+     */
     public function getAllCaracMonstre($id){
         $monstre = Monster::where('id_monster', $id)->first();
         $charac = Character::where('id_character', $monstre->id_character)->first();

@@ -20,6 +20,12 @@ class heroController{
 
     }
 
+    /**
+     * @param $request
+     * @param $response
+     * @return mixed
+     * methode app lors de la création d'un héro
+     */
     public function CreerHero($request, $response){
 
         $listeElem = Element::all();
@@ -35,6 +41,12 @@ class heroController{
 
     }
 
+    /**
+     * @param $request
+     * @param $response
+     * @return mixed
+     * methode qui permet de gérer l'insertion d'un héro dans la base
+     */
     public function insererHero($request, $response) {
 
         $character = new Character();
@@ -103,7 +115,12 @@ class heroController{
     }
 
 
-
+    /**
+     * @param $request
+     * @param $response
+     * @return mixed
+     * methode app lorsque que l'on souhaite modifier un heros
+     */
     public function getModifierHero($request, $response){
         $hero = $this->getAllCaracHero($request->getParam('modifier'));
         $listeElem = Element::where('id_element', '!=', $hero['charac']->id_character_elem)->get();
@@ -113,7 +130,12 @@ class heroController{
         return $this->container->view->render($response, 'character/modifierHero.twig', ['hero' => $hero, 'listeElem' => $listeElem, 'listeRace' => $listeRace]);
     }
 
-
+    /**
+     * @param $request
+     * @param $response
+     * @return mixed
+     * methode qui permet de traiter la modification d'un heros
+     */
     public function postModifierHero($request, $response){
         $hero = $this->getAllCaracHero($request->getParam('id_hero'));
         $newRace = $request->getParam('race');
@@ -193,6 +215,11 @@ class heroController{
         return $response->withRedirect($this->container->router->pathFor('home'));
     }
 
+    /**
+     * @param $id
+     * @return array
+     * methode qui permet de retourner tous les heros
+     */
     public function getAllCaracHero($id){
         $hero = Hero::where('id_hero', $id)->first();
         $charac = Character::where('id_character', $hero->id_character)->first();

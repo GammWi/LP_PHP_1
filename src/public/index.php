@@ -38,7 +38,8 @@ $container["view"] = function ($container){
     $uri = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER));
     $view->addExtension(new \Slim\Views\TwigExtension($router, $uri));
     $view->getEnvironment()->addGlobal('auth', new dawa\controllers\userController($container));
-    $view->getEnvironment()->addGlobal('heroo', new dawa\controllers\heroController($container));
+    $view->getEnvironment()->addGlobal('globalHero', new dawa\controllers\heroController($container));
+    $view->getEnvironment()->addGlobal('globalMonster', new dawa\controllers\monstreController($container));
     $view->getEnvironment()->addGlobal('flash', $container->flash);
     return $view;
 };

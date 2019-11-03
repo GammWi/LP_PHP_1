@@ -46,19 +46,18 @@ class fightController
         }
         $tours = [];
         $tour = 1;
-//        while (!$fin) {
+        while (!$fin) {
+            $resTour = $this->tour($attaque, $victime, $tour, '', $groupFight);
+            $fin = $resTour['fin'];
+            $attaque = $resTour['attaque'];
+            $victime = $resTour['victime'];
 
-        $resTour = $this->tour($attaque, $victime, $tour, '', $groupFight);
-        $fin = $resTour['fin'];
-        $attaque = $resTour['attaque'];
-        $victime = $resTour['victime'];
-
-        $tours[] = [
-            "id" => $tour,
-            "log" => $resTour['log']
-        ];
-        $tour++;
-//        }
+            $tours[] = [
+                "id" => $tour,
+                "log" => $resTour['log']
+            ];
+            $tour++;
+        }
         return ['combat' => [
             "persos" => ['attaque' => $beforeLeHero, 'victime' => $beforeLeMonster],
             "nbTours" => $tour,
@@ -68,13 +67,6 @@ class fightController
             "fin" => true,
             "type" => (!$groupFight) ? '1v1' : '3v3'
         ]];
-    }
-
-    function tmp($array)
-    {
-        foreach ($array as $lm) {
-            $this->log($lm['race']['hp']);
-        }
     }
 
     function array_clone_liste($array)
@@ -109,11 +101,19 @@ class fightController
 
     function findAttackMan($array)
     {
+        $essai = 0;
         $found = false;
         do {
-            $tmp = rand(0,2);
+            $essai++;
+            $tmp = rand(0, 2);
             $found = $array[$tmp]['race']['hp'] > 0;
+            if ($essai > 100) {
+                break;
+            }
         } while (!$found);
+        if (!$found) {
+            var_dump('ERREUR SA MERE');
+        }
         return $tmp;
     }
 
@@ -306,14 +306,8 @@ class fightController
                 $fin = true;
             }
         } else {
-            $attaqueAlive = true;
-            $victimeAlive = true;
-            foreach ($attaque as $lm) {
-                $attaqueAlive = ($lm['race']['hp'] > 0) ? ($attaqueAlive || true) : ($attaqueAlive || false);
-            }
-            foreach ($victime as $lm) {
-                $victimeAlive = ($lm['race']['hp'] > 0) ? ($victimeAlive || true) : ($victimeAlive || false);
-            }
+            $attaqueAlive = ($attaque[0]['race']['hp'] > 0) && ($attaque[1]['race']['hp'] > 0) && ($attaque[2]['race']['hp'] > 0);
+            $victimeAlive = ($victime[0]['race']['hp'] > 0) && ($victime[1]['race']['hp'] > 0) && ($victime[2]['race']['hp'] > 0);
 
             if ($attaqueAlive && $victimeAlive) {
                 $fin = false;
@@ -333,12 +327,8 @@ class fightController
                     'defLog' => $logTour['defLogV'],
                     'hpLogAfter' => $logTour['hpLogAfterV']
                 ];
-                foreach ($attaque as $lm) {
-                    $attaqueAlive = ($lm['race']['hp'] > 0) ? ($attaqueAlive || true) : ($attaqueAlive || false);
-                }
-                foreach ($victime as $lm) {
-                    $victimeAlive = ($lm['race']['hp'] > 0) ? ($victimeAlive || true) : ($victimeAlive || false);
-                }
+                $attaqueAlive = ($attaque[0]['race']['hp'] > 0) && ($attaque[1]['race']['hp'] > 0) && ($attaque[2]['race']['hp'] > 0);
+                $victimeAlive = ($victime[0]['race']['hp'] > 0) && ($victime[1]['race']['hp'] > 0) && ($victime[2]['race']['hp'] > 0);
                 if ($attaqueAlive && $victimeAlive) {
                     $tmp = $attaque;
                     $attaque = $victime;

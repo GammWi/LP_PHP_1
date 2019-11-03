@@ -50,7 +50,7 @@ class statsController
             'id_character' => $looser['perso']['id_character'],
             'isWinner' => 0,
             'dmgInfliges' => $looserDmg,
-            'dmgRecus' => $winnerDmgTook
+            'dmgRecus' => $looserDmgTook
         ]);
 
     $this->statsCharac($winner, $looser);

@@ -2,60 +2,60 @@
 
 <script type="application/javascript">
     function getRandomInt(max) {
-        return Math.floor(Math.random() * max  + 1);
+        return Math.floor(Math.random() * max + 1);
     }
 
-    function uncheckBoxes(name){
+    function uncheckBoxes(name) {
         let selection = document.getElementsByName(name)
         selection.forEach(function (id) {
-            for(let i = 0; i < selection.length; i++){
+            for (let i = 0; i < selection.length; i++) {
                 selection[i].checked = false
             }
         })
     }
 
     //fonction prenant un string en paramètre et retournant les deux nombres contenus dans ce string
-    function returnNumbers(champ){
+    function returnNumbers(champ) {
         console.log(champ)
         console.log(champ.length)
-        let numbers=[]
+        let numbers = []
         if (champ.length === 7) {
-            numbers[0]=parseInt(champ[1]+champ[2],10)
-            numbers[1]=parseInt(champ[4]+champ[5],10)
+            numbers[0] = parseInt(champ[1] + champ[2], 10)
+            numbers[1] = parseInt(champ[4] + champ[5], 10)
 
         }
         if (champ.length === 5) {
-            numbers[0]=parseInt(champ[1],10)
-            numbers[1]=parseInt(champ[3],10)
+            numbers[0] = parseInt(champ[1], 10)
+            numbers[1] = parseInt(champ[3], 10)
         }
-        if (champ.length === 6 && champ[2] == ","){
-            numbers[0]=parseInt(champ[1],10)
-            numbers[1]=parseInt(champ[3]+champ[4],10)
+        if (champ.length === 6 && champ[2] == ",") {
+            numbers[0] = parseInt(champ[1], 10)
+            numbers[1] = parseInt(champ[3] + champ[4], 10)
         }
-        if (champ.length === 6 && champ[3] == ","){
-            numbers[0]=parseInt(champ[1]+champ[2],10)
-            numbers[1]=parseInt(champ[4],10)
+        if (champ.length === 6 && champ[3] == ",") {
+            numbers[0] = parseInt(champ[1] + champ[2], 10)
+            numbers[1] = parseInt(champ[4], 10)
         }
-       console.log(numbers)
+        console.log(numbers)
         return numbers
 
     }
     //bouton de selection d'un heros aleatoire
-    function randomHero(){
+    function randomHero() {
         const randomHero = document.getElementById("randomHero")
         randomHero.addEventListener("click", function (event) {
             let number = returnNumbers(document.getElementById("randomHero").value)
             let id = getRandomInt(number[0]).toString()
             uncheckBoxes("caracHero")
             console.log(id)
-            let heroValue = document.getElementById("hero"+id)
-            heroValue.checked=true
-           alert(heroValue.getAttribute("data-name")+" a été choisi aléatoirement")
+            let heroValue = document.getElementById("hero" + id)
+            heroValue.checked = true
+            alert(heroValue.getAttribute("data-name") + " a été choisi aléatoirement")
         })
     }
 
     //bouton de selection d'un monstre aleatoire
-    function randomMonster(){
+    function randomMonster() {
         const randomMonster = document.getElementById("randomMonster")
         randomMonster.addEventListener("click", function (event) {
             let number = returnNumbers(document.getElementById("randomMonster").value)
@@ -69,21 +69,21 @@
     }
 
     //bouton lancement aléatoire
-    function randomFight(){
+    function randomFight() {
         const f2 = document.getElementById("goRand")
         f2.addEventListener("click", function (event) {
             let number = returnNumbers(document.getElementById("randomMonster").value)
             let idCheckHero = getRandomInt(number[0])
             let idCheckMonster = getRandomInt(number[1])
             uncheckBoxes("caracMonster")
-            let idHero = document.getElementById("hero"+idCheckHero).value
-            let idMonster = document.getElementById("monster"+idCheckMonster).value
+            let idHero = document.getElementById("hero" + idCheckHero).value
+            let idMonster = document.getElementById("monster" + idCheckMonster).value
             window.location.href = `fight?id_hero=${idHero}&id_monster=${idMonster}`
         })
     }
 
     //bouton lancement combat
-    function fight(){
+    function fight() {
         const f = document.getElementById("gofight")
         f.addEventListener("click", function (event) {
             let nbSelected
@@ -107,37 +107,67 @@
                 }
             })
 
-            if ((i ===1) && (y===1)) {
-                window.location.href = `fight?id_hero=${array_Hero[0]}&id_monster=${array_Monster[0]}`
+            if (((i === 1) && (y === 1)) || ((i === 3) && (y === 3))) {
+                if ((i === 1) && (y === 1)) {
+                    window.location.href = `fight?type_combat=1v1&id_hero=${array_Hero[0]}&id_monster=${array_Monster[0]}`
+                } else {
+                    window.location.href = `fight?type_combat=3v3&id_hero=${arrayToParameters(array_Hero)}&id_monster=${arrayToParameters(array_Monster)}`
+                }
             } else {
-                alert("Veuillez sélectionner un héros et un monstre")
+                alert("Veuillez sélectionner un héros et un monstre ou trois persos de chaque")
             }
         })
     }
 
     //bouton lancement tour par tour
-    function initFight(){
-        const initFight = document.getElementById("initFight");
-        initFight.addEventListener("click", function (event) {
+    function initFight() {
+        const f = document.getElementById("initFight");
+        f.addEventListener("click", function (event) {
+            let nbSelected;
             let selecHero = Array.from(document.getElementsByName("caracHero"));
-            let selection = selecHero.concat(Array.from(document.getElementsByName("caracMonster")));
+            let array_Hero = [];
             let i = 0;
-            let array_val = [];
-            selection.forEach(function (id) {
+            selecHero.forEach(function (id) {
                 if (id.checked) {
-                    array_val[i] = id.value;
+                    array_Hero[i] = id.value;
                     i++
                 }
             });
-            if (i !== 2) {
-                alert("Veuillez sélectionner deux champions")
+
+            let selecMonster = Array.from(document.getElementsByName("caracMonster"));
+            let array_Monster = [];
+            let y = 0;
+            selecMonster.forEach(function (id) {
+                if (id.checked) {
+                    array_Monster[y] = id.value;
+                    y++
+                }
+            });
+
+            if (((i === 1) && (y === 1)) || ((i === 3) && (y === 3))) {
+                ((i === 1) && (y === 1)) ?
+                    window.location.href = `initFight?id_hero=${array_Hero[0]}&id_monster=${array_Monster[0]}`
+                    :
+                    alert('Pas encore supporté. Blyat');
+                // console.log(arrayToParameters(array_Hero));
+                // window.location.href = `initFight?id_hero=${arrayToParameters(array_Hero)}&id_monster=${arrayToParameters(array_Monster)}`
             } else {
-                window.location.href = `initFight?id_hero=${array_val[0]}&id_monster=${array_val[1]}`
+                alert("Veuillez sélectionner un héros et un monstre ou trois persos de chaque")
             }
-        });
+        })
     }
 
-
+    function arrayToParameters(arr) {
+        let params = '';
+        arr.forEach(function (lm, idx) {
+            if (idx !== arr.length - 1) {
+                params += `${lm},`;
+            } else {
+                params += `${lm}`;
+            }
+        });
+        return params;
+    }
 
     window.onload = function selection() {
 
@@ -161,7 +191,7 @@
 
     <div class="row flex">
         {#BLOC HEROS#}
-        <div class="col" >
+        <div class="col">
             <h4 class="left-align green-text" style="font-weight: bold;"> Choisissez le(s) héros que vous envoyez au
                 combat</h4>
             <div class="card valign-wrapper">
@@ -179,17 +209,20 @@
                                     {#BLOC INFO PERSO#}
                                     <div class="card horizontal" style="width: 256px; margin-top:40px" onclick="alert('Nombre de combats: {{globalHero.getAllCaracHero(heros.id_hero).nbTotal}}\nNombre de victoires: {{globalHero.getAllCaracHero(heros.id_hero).nbWin}}\nNombre de défaites: {{globalHero.getAllCaracHero(heros.id_hero).nbLoose}}\nDegats infligés: {{globalHero.getAllCaracHero(heros.id_hero).dmg | number_format(2)}}\nDegats reçus: {{globalHero.getAllCaracHero(heros.id_hero).dmgTook | number_format(2)}}')">
                                         <div class="card-image center-block center">
-                                            <img style="width: 256px" src="{{ heros.path }}" 
+                                            <img style="width: 256px" src="{{ heros.path }}"
+
                                                  alt="Un héros">
                                         </div>
                                         <div class="card-stacked">
                                             <div class="card-content">
                                                 <h5 class="center"> {{ heros.firstname }} {{ heros.name }} </h5>
-                                                {{ globalHero.getAllCaracHero(heros.id_hero).race.description}}
+                                                {{ globalHero.getAllCaracHero(heros.id_hero).race.description }}
                                             </div>
                                             <div class="card-action">
                                                 <label>
-                                                    <input class="checkbox-green" type="checkbox" name="caracHero" id=hero{{numberHero}} data-name="{{ heros.firstname }} {{ heros.name }}"
+                                                    <input class="checkbox-green" type="checkbox" name="caracHero"
+                                                           id=hero{{ numberHero }}
+                                                           data-name="{{ heros.firstname }} {{ heros.name }}"
                                                            value={{ heros.id_hero }}>
                                                     <span>Envoyer
                                             ce héros au combat</span>
@@ -207,19 +240,23 @@
                                                     <div class="card-content">
                                                         Points de vie:
                                                         <div class="progress">
-                                                            <div class="green determinate" style="width: {{ globalHero.getAllCaracHero(heros.id_hero).race.hp}}%"></div>
+                                                            <div class="green determinate"
+                                                                 style="width: {{ globalHero.getAllCaracHero(heros.id_hero).race.hp }}%"></div>
                                                         </div>
                                                         Attaque
                                                         <div class="progress">
-                                                            <div class="green determinate" style="width: {{ globalHero.getAllCaracHero(heros.id_hero).race.attack}}%"></div>
+                                                            <div class="green determinate"
+                                                                 style="width: {{ globalHero.getAllCaracHero(heros.id_hero).race.attack }}%"></div>
                                                         </div>
                                                         Défense
                                                         <div class="progress">
-                                                            <div class="green determinate" style="width: {{ globalHero.getAllCaracHero(heros.id_hero).race.defense}}%"></div>
+                                                            <div class="green determinate"
+                                                                 style="width: {{ globalHero.getAllCaracHero(heros.id_hero).race.defense }}%"></div>
                                                         </div>
                                                         Agilité
                                                         <div class="progress">
-                                                            <div class="green determinate" style="width: {{ globalHero.getAllCaracHero(heros.id_hero).race.agility}}%"></div>
+                                                            <div class="green determinate"
+                                                                 style="width: {{ globalHero.getAllCaracHero(heros.id_hero).race.agility }}%"></div>
                                                         </div>
                                                         <div class="center">
                                                             Pourcentage de victoire:
@@ -261,7 +298,6 @@
                                                         </form>
 
 
-
                                                     </div>
 
                                                 </div>
@@ -272,8 +308,6 @@
                                 </div>
                                 {#BLOC REPETE HERO#}
                             {% endfor %}
-
-
 
 
                         </div>
@@ -318,17 +352,19 @@
                                 {#BLOC INFO PERSO#}
                                 <div class="card horizontal" style="width: 256px; margin-top:40px" onclick="alert('Nombre de combats: {{globalMonster.getAllCaracMonstre(monsters.id_monster).nbTotal}}\nNombre de victoires: {{globalMonster.getAllCaracMonstre(monsters.id_monster).nbWin}}\nNombre de défaites: {{globalMonster.getAllCaracMonstre(monsters.id_monster).nbLoose}}\nDegats infligés: {{globalMonster.getAllCaracMonstre(monsters.id_monster).dmg | number_format(2)}}\nDegats reçus: {{globalMonster.getAllCaracMonstre(monsters.id_monster).dmgTook | number_format(2)}}')">
                                     <div class="card-image center-block center">
-                                        <img style="width: 256px" src="{{ monsters.path }}" 
+                                        <img style="width: 256px" src="{{ monsters.path }}"
+
                                              alt="Un héros">
                                     </div>
                                     <div class="card-stacked">
                                         <div class="card-content">
                                             <h5 class="center"> {{ monsters.name }} </h5>
-                                            <p>{{ globalMonster.getAllCaracMonstre(monsters.id_monster).race.description}}</p>
+                                            <p>{{ globalMonster.getAllCaracMonstre(monsters.id_monster).race.description }}</p>
                                         </div>
                                         <div class="card-action">
                                             <label>
-                                                <input class="checkbox-green" type="checkbox" name="caracMonster" id=monster{{numberMonster}} data-name="{{ monsters.name }}"
+                                                <input class="checkbox-green" type="checkbox" name="caracMonster"
+                                                       id=monster{{ numberMonster }} data-name="{{ monsters.name }}"
                                                        value={{ monsters.id_monster }}>
                                                 <span>Envoyer
                                             ce monstre au combat</span>
@@ -346,23 +382,28 @@
                                                 <div class="card-content">
                                                     Points de vie
                                                     <div class="progress">
-                                                        <div class="red determinate" style="width: {{ globalMonster.getAllCaracMonstre(monsters.id_monster).race.hp}}%"></div>
+                                                        <div class="red determinate"
+                                                             style="width: {{ globalMonster.getAllCaracMonstre(monsters.id_monster).race.hp }}%"></div>
                                                     </div>
                                                     Attaque
                                                     <div class="progress">
-                                                        <div class="red determinate" style="width: {{ globalMonster.getAllCaracMonstre(monsters.id_monster).race.attack}}%"></div>
+                                                        <div class="red determinate"
+                                                             style="width: {{ globalMonster.getAllCaracMonstre(monsters.id_monster).race.attack }}%"></div>
                                                     </div>
                                                     Défense
                                                     <div class="progress">
-                                                        <div class="red determinate" style="width: {{ globalMonster.getAllCaracMonstre(monsters.id_monster).race.defense}}%"></div>
+                                                        <div class="red determinate"
+                                                             style="width: {{ globalMonster.getAllCaracMonstre(monsters.id_monster).race.defense }}%"></div>
                                                     </div>
                                                     Agilité
                                                     <div class="progress">
-                                                        <div class="red determinate" style="width: {{ globalMonster.getAllCaracMonstre(monsters.id_monster).race.agility}}%"></div>
+                                                        <div class="red determinate"
+                                                             style="width: {{ globalMonster.getAllCaracMonstre(monsters.id_monster).race.agility }}%"></div>
                                                     </div>
                                                     <div class="center">
                                                         Pourcentage de victoire:
-                                                        {{ globalMonster.getAllCaracMonstre(monsters.id_monster).pourcentage | number_format(2)}}%
+                                                        {{ globalMonster.getAllCaracMonstre(monsters.id_monster).pourcentage | number_format(2)}}
+                                                        %
                                                     </div>
                                                 </div>
                                             </div>
@@ -433,8 +474,6 @@
     {#FIN BLOC MONSTRES#}
 
 
-
-
     <style>
         .btnHover:hover {
             font-weight: bold;
@@ -442,18 +481,19 @@
         }
     </style>
 
-<div style="position: fixed; bottom: 0; left:0; z-index: 9999; width: 100%; margin: 0" class="row">
-    <button id="goRand" class="col waves-effect waves-light btn-large green btnHover"  style="width: 32%" value="{{ count | json_encode | raw }}">Lancer un combat avec des champions aléatoires
-    </button>
+    <div style="position: fixed; bottom: 0; left:0; z-index: 9999; width: 100%; margin: 0" class="row">
+        <button id="goRand" class="col waves-effect waves-light btn-large green btnHover" style="width: 32%"
+                value="{{ count | json_encode | raw }}">Lancer un combat avec des champions aléatoires
+        </button>
 
-    <button id="initFight" class="col waves-effect waves-light btn-large red btnHover" style="width: 32%"> Lancer le combat tour par tour
-    </button>
+        <button id="initFight" class="col waves-effect waves-light btn-large red btnHover" style="width: 32%"> Lancer le
+            combat tour par tour
+        </button>
 
-    {#<form style="display: inline-block; width: 100%">#}
-    <button id="gofight" class="col waves-effect waves-light btn-large red btnHover" style="width: 32%"> Lancer le combat automatique
-    </button>
-    {#</form>#}
-</div>
+        <button id="gofight" class="col waves-effect waves-light btn-large red btnHover" style="width: 32%"> Lancer le
+            combat automatique
+        </button>
+    </div>
 
 
 </div>

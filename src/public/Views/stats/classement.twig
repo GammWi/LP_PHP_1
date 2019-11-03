@@ -1,0 +1,10 @@
+{% extends '/layout/header.html.twig' %}
+
+{% block content %}
+<br><br><br>
+<h2>CLASSEMENT</h2>
+<h4></h4>
+{% for charac in characters %}
+    ID_charac: {{ charac.id_charac }} - Nombre de WIN: {{ charac.nbWin }}</br>
+{% endfor %}</br>
+{% endblock %}

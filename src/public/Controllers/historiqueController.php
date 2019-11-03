@@ -24,7 +24,7 @@ class historiqueController
 
     public function Index($request, $response)
     {
-        $listeFight = Fight::first()->leftJoin('statsfight', 'statsfight.id_fight', '=', 'fight.id_fight')->leftJoin('hero','hero.id_hero', '=', 'fight.id_hero')->leftJoin('monster','monster.id_monster', '=', 'fight.id_monster')
+        $listeFight = Fight::first()->leftJoin('statsfight', 'statsfight.id_fight', '=', 'fight.id_fight')->distinct()
             ->get();
 
         $hero = Hero::first();

@@ -18,11 +18,13 @@ class statsController
     }
 
     public function saveFight($id_hero, $id_monster, $fight){
+        $id_combat = Fight::count() + 1;
         Fight::create([
+            'id_fight' => $id_combat,
             'id_hero' => $id_hero,
             'id_monster' => $id_monster
         ]);
-        $id_combat = Fight::latest()->first()->id_fight;
+        
         $this->saveLogs($fight, $id_combat);
     }
 

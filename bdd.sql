@@ -282,7 +282,7 @@ ALTER TABLE `element`
 -- AUTO_INCREMENT pour la table `fight`
 --
 ALTER TABLE `fight`
-  MODIFY `id_fight` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_fight` bigint(20) UNSIGNED NOT NULL;
 
 --
 -- AUTO_INCREMENT pour la table `hero`

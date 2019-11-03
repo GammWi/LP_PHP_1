@@ -22,6 +22,12 @@ class historiqueController
         $this->container = $container;
     }
 
+    /**
+     * @param $request
+     * @param $response
+     * @return mixed
+     * methode qui permet d'afficher le classement
+     */
     public function Index($request, $response)
     {
         $listeFight = Fight::first()->leftJoin('statsfight', 'statsfight.id_fight', '=', 'fight.id_fight')->distinct()

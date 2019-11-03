@@ -16,7 +16,7 @@
                             <p class="red-text">{{ monstre.name }}</p>
                             <img style="width: 5%" src="{{ monstre.path }}"
                                  alt="Un monstre">
-                            <p class="green-text">En affligeant {{ fight.dmgInfliges }} degats et en subissant {{ fight.dmgRecus }} points de degats sur {{ globalHero.getAllCaracHero(hero.id_hero).race.hp}}</p>
+                            <p class="green-text">En infligeant {{ fight.dmgInfliges }} degats et en subissant {{ fight.dmgRecus }} points de degats sur {{ globalHero.getAllCaracHero(hero.id_hero).race.hp}}</p>
                         </div>
                     {% endif %}
                     {% if fight.id_character==monstre.id_character and fight.isWinner==1 %}
@@ -30,7 +30,7 @@
                                  alt="Un heros">
                             <p class="green-text">{{ hero.name }} {{ hero.firstname }}</p>
 
-                            <p class="red-text">En affligeant {{ fight.dmgInfliges }} degats et en subissant {{ fight.dmgRecus }}  points de degats sur {{ globalMonster.getAllCaracMonstre(monstre.id_monster).race.hp}}</p>
+                            <p class="red-text">En infligeant {{ fight.dmgInfliges }} degats et en subissant {{ fight.dmgRecus }}  points de degats sur {{ globalMonster.getAllCaracMonstre(monstre.id_monster).race.hp}}</p>
                         </div>
                     {% endif %}
                 {% endif %}

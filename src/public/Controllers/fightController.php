@@ -150,15 +150,24 @@ class fightController
 
         $hpLogBefore = $attaque['name'] . ': ' . $attaque['race']['hp'] . 'hp ||| ' . $victime['name'] . ': ' . $victime['race']['hp'] . 'hp';
 
+        /*
+         * Si l'attaquant a plus de deux fois l'agilité de la victime , il donne un coup critique soit 2 fois ses degats initiaux
+         */
         $crit = ($attaque['race']['agility'] >= 2 * $victime['race']['agility']);
         $dmg = ($crit) ? $attaque['race']['attack'] * 2 : $attaque['race']['attack'];
 
+        /*
+         * Si l'attaquant possède un avantage élémentaire alors il inflige plus de dégats
+         */
         $isStrongerElem = elementController::isStronger($attaque['char']['id_character_elem'], $victime['char']['id_character_elem']);
 
         $dmg = ($isStrongerElem) ? $dmg * 1.25 : $dmg;
 //        if (!$isNewAttaque) {
         $isBoostDef = isset($victime['boostDefense']) && $victime['boostDefense'];
 
+        /*
+         * On génère un nombre random entre 0 et 100 mpins la defense de la victime et on en déduis la réduction de degats en fonction
+         */
         $def = rand(0, 100 - $victime['race']['defense']);
 
         $dmgDef = 0;

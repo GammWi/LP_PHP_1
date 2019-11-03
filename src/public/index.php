@@ -89,12 +89,6 @@ $app->post('/startFight', "\\dawa\\controllers\\fightController:startFight")->se
 $app->post('/nextTour', "\\dawa\\controllers\\fightController:nextTour")->setName('nextTour');
 
 
-//ROUTE TEMPORAIRE CREATION DESIGN
-$app->get('/TEMPLATEselectChamp', function(Request $request, Response $response, $args) {
-   $this->view->render($response, 'TEMPLATE/TEMPLATEselectChamp.html.twig');
-});
-//ROUTE TEMPORAIRE CREATION DESIGN
-
 $app->group('', function(){
 
     $this->get('/reset', "\\dawa\\controllers\\userController:getResetPassword")->setName("auth.reset");

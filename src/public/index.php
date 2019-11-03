@@ -38,7 +38,8 @@ $container["view"] = function ($container){
     $uri = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER));
     $view->addExtension(new \Slim\Views\TwigExtension($router, $uri));
     $view->getEnvironment()->addGlobal('auth', new dawa\controllers\userController($container));
-    $view->getEnvironment()->addGlobal('heroo', new dawa\controllers\heroController($container));
+    $view->getEnvironment()->addGlobal('globalHero', new dawa\controllers\heroController($container));
+    $view->getEnvironment()->addGlobal('globalMonster', new dawa\controllers\monstreController($container));
     $view->getEnvironment()->addGlobal('flash', $container->flash);
     return $view;
 };
@@ -71,7 +72,7 @@ $app->get('/test', function(Request $request, Response $response, $args){
 
 $app->get('/selectChamp', "\\dawa\\controllers\\champSelectController:Index")->setName('home');
 
-$app->get('/touchezpas', "\\dawa\\controllers\\statsController:statsCharac")->setName('ui');
+$app->get('/classement', "\\dawa\\controllers\\classement:getClassement")->setName('classement');
 
 $app->get('/auth/signin', "\\dawa\\controllers\\userController:signIn")->setName('auth.signin');
 $app->post('/auth/signin', "\\dawa\\controllers\\userController:postSignIn");
@@ -87,12 +88,6 @@ $app->get('/initFight', "\\dawa\\controllers\\fightController:initFight")->setNa
 $app->post('/startFight', "\\dawa\\controllers\\fightController:startFight")->setName('initFight');
 $app->post('/nextTour', "\\dawa\\controllers\\fightController:nextTour")->setName('nextTour');
 
-
-//ROUTE TEMPORAIRE CREATION DESIGN
-$app->get('/TEMPLATEselectChamp', function(Request $request, Response $response, $args) {
-   $this->view->render($response, 'TEMPLATE/TEMPLATEselectChamp.html.twig');
-});
-//ROUTE TEMPORAIRE CREATION DESIGN
 
 $app->group('', function(){
 

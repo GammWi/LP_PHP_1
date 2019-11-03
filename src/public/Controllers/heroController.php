@@ -6,6 +6,8 @@ use dawa\models\Hero;
 use dawa\models\Images;
 use dawa\models\Pictures;
 use dawa\models\Race;
+use dawa\models\StatsCharac;
+use dawa\models\StatsFight;
 
 class heroController{
 
@@ -179,6 +181,7 @@ class heroController{
         $hero = Hero::where('id_hero', '=', $idHero)->get()->each->delete();
         $cha = Character::where('id_character','=', $hero[0]["id_character"])->get()->each->delete();
         $pic = Pictures::where('id_picture', "=", $cha[0]["picture"])->get()->each->delete();
+        $stats = StatsCharac::where('id_charac', $hero[0]["id_character"])->get()->each->delete();
 
         $cheminDest = __DIR__;
         $cheminDest = str_replace( "\\","/", $cheminDest);
@@ -195,8 +198,21 @@ class heroController{
         $charac = Character::where('id_character', $hero->id_character)->first();
         $elem_hero = Element::where('id_element', $charac->id_character_elem)->first();
         $race_hero = Race::where('id_race', $charac->id_character_race)->first();
+        $statsCombat = StatsCharac::where('id_charac', $hero->id_character)->first();
+        if($statsCombat['nbTotal'] != 0){
+            $pourcentageWin = ($statsCombat['nbWin']/$statsCombat['nbTotal']) * 100;
+        }else{
+            $pourcentageWin = 0;
+        }
+        
+        $nbWin = $statsCombat['nbWin'];
+        $nbLoose = $statsCombat['nbLoose'];
+        $nbTotal = $statsCombat['nbTotal'];
+        $dmgInfliges = StatsFight::where('id_character', $hero->id_character)->sum('dmgInfliges');
 
-        $liste = array('hero' => $hero, 'charac' => $charac, 'elem' => $elem_hero, 'race' => $race_hero);
+        $liste = array('hero' => $hero, 'charac' => $charac, 'elem' => $elem_hero, 
+        'race' => $race_hero, 'pourcentage' => $pourcentageWin, 'dmg' => $dmgInfliges, 'nbWin'=>$nbWin, 'nbLoose'=>$nbLoose,
+        'nbTotal' => $nbTotal);
         return $liste;
     }
 

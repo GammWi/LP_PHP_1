@@ -81,42 +81,7 @@ class statsController
                 'nbLoose' => 1,
                 'nbTotal' => 1
             ]);
-        }
-
-        
-        
-        
-    }
-
-
-
-    public function statsCharacAll(){
-        $lCharac = Character::all();
-        foreach($lCharac as $charac){
-            $nbWin = StatsFight::where([
-                ['id_character', '=', $charac->id_character],
-                ['isWinner', '=', 1]
-            ])->count();
-
-            $nbLose = StatsFight::where([
-                ['id_character', '=', $charac->id_character],
-                ['isWinner', '=', 0]
-
-            ])->count();
-            
-            $nbTotal = $nbWin + $nbLose;
-            var_dump($nbTotal);
-            StatsCharac::create([
-                'id_charac' => $charac->id_character,
-                'type' => '1vs1',
-                'nbWin' => $nbWin,
-                'nbLoose' => $nbLose,
-                'nbTotal' => $nbTotal
-            ]);
-    
-            
-        }
-        
+        }   
     }
 
 }

@@ -8,15 +8,18 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="{{ path_for('home') }}">Home <span class="sr-only">(current)</span></a>
                 </li>
+                <li>
+                    <a class="nav-link" href="{{ path_for('classement') }}">Classement</span></a>
+                </li>
                 {% if auth.check() %}
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ path_for('admin.panel') }}">Panel admin</span></a>
                     </li>
                     <li>
-                        <a class="nav-link" href="{{ path_for('admin.generate') }}">Generation</span></a>
+                        <a class="nav-link" href="{{ path_for('admin.generate') }}">Generation de 250 combats</span></a>
                     </li>
                 {% endif %}
 

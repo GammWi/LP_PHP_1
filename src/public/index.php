@@ -72,7 +72,7 @@ $app->get('/test', function(Request $request, Response $response, $args){
 
 $app->get('/selectChamp', "\\dawa\\controllers\\champSelectController:Index")->setName('home');
 
-$app->get('/classement', "\\dawa\\controllers\\classement:getClassement")->setName('ui');
+$app->get('/classement', "\\dawa\\controllers\\classement:getClassement")->setName('classement');
 
 $app->get('/auth/signin', "\\dawa\\controllers\\userController:signIn")->setName('auth.signin');
 $app->post('/auth/signin', "\\dawa\\controllers\\userController:postSignIn");

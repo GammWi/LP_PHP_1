@@ -179,7 +179,7 @@
                                     {#BLOC INFO PERSO#}
                                     <div class="card horizontal" style="width: 256px">
                                         <div class="card-image center-block center">
-                                            <img style="width: 256px" src="{{ heros.path }}"
+                                            <img style="width: 256px" src="{{ heros.path }}" onclick="alert('Nombre de combats: {{globalHero.getAllCaracHero(heros.id_hero).nbTotal}}\nNombre de victoires: {{globalHero.getAllCaracHero(heros.id_hero).nbWin}}\nNombre de défaites: {{globalHero.getAllCaracHero(heros.id_hero).nbLoose}}\nDegats infligés: {{globalHero.getAllCaracHero(heros.id_hero).dmg}}')"
                                                  alt="Un héros">
                                         </div>
                                         <div class="card-stacked">
@@ -220,6 +220,10 @@
                                                         Agilité
                                                         <div class="progress">
                                                             <div class="green determinate" style="width: {{ globalHero.getAllCaracHero(heros.id_hero).race.agility}}%"></div>
+                                                        </div>
+                                                        <div class="center">
+                                                            Pourcentage de victoire:
+                                                            {{ globalHero.getAllCaracHero(heros.id_hero).pourcentage}}%
                                                         </div>
                                                     </div>
                                                 </div>
@@ -314,7 +318,7 @@
                                 {#BLOC INFO PERSO#}
                                 <div class="card horizontal" style="width: 256px">
                                     <div class="card-image center-block center">
-                                        <img style="width: 256px" src="{{ monsters.path }}"
+                                        <img style="width: 256px" src="{{ monsters.path }}" onclick="alert('Nombre de combats: {{globalMonster.getAllCaracMonstre(monsters.id_monster).nbTotal}}\nNombre de victoires: {{globalMonster.getAllCaracMonstre(monsters.id_monster).nbWin}}\nNombre de défaites: {{globalMonster.getAllCaracMonstre(monsters.id_monster).nbLoose}}\nDegats infligés: {{globalMonster.getAllCaracMonstre(monsters.id_monster).dmg}}')"
                                              alt="Un héros">
                                     </div>
                                     <div class="card-stacked">
@@ -355,6 +359,10 @@
                                                     Agilité
                                                     <div class="progress">
                                                         <div class="red determinate" style="width: {{ globalMonster.getAllCaracMonstre(monsters.id_monster).race.agility}}%"></div>
+                                                    </div>
+                                                    <div class="center">
+                                                        Pourcentage de victoire:
+                                                        {{ globalMonster.getAllCaracMonstre(monsters.id_monster).pourcentage}}%
                                                     </div>
                                                 </div>
                                             </div>

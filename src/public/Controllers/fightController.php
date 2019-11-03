@@ -20,6 +20,9 @@ class fightController
         $this->container = $container;
     }
 
+    /*
+     * Gère le combat , et retourne tout ce qui est nécessaire a l'affichage
+     */
     public function fight($idHero, $idMonster, $groupFight = false)
     {
         $persos = $this->initPersosFromIDs($idHero, $idMonster, $groupFight);
@@ -28,6 +31,10 @@ class fightController
         $beforeLeHero = $persos['beforeLeHero'];
         $beforeLeMonster = $persos['beforeLeMonster'];
         $fin = false;
+
+        /*
+         * Si c'est un combat 3v3 on ajoute l'agilité de chaque membre de l'équipe et on le compare a celui de l'autre equipe
+         */
         if ($groupFight) {
             $totalAgiliteHero = 0;
             foreach ($leHero as $hero) {
@@ -41,18 +48,27 @@ class fightController
             $attaque = ($totalAgiliteHero > $totalAgiliteMonstre) ? $leHero : $leMonster;
             $victime = ($totalAgiliteHero > $totalAgiliteMonstre) ? $leMonster : $leHero;
 
+            /*
+             * Sinon on compare juste l'agilité des deux
+             */
         } else {
             $attaque = ($leHero['race']['agility'] > $leMonster['race']['agility']) ? $leHero : $leMonster;
             $victime = ($leHero['race']['agility'] > $leMonster['race']['agility']) ? $leMonster : $leHero;
         }
         $tours = [];
         $tour = 1;
+        /*
+         * Tant que personne n'est mort ou qu'il y a au moins un membre vivant dans l'équipe
+         */
         while (!$fin) {
             $resTour = $this->tour($attaque, $victime, $tour, '', $groupFight);
             $fin = $resTour['fin'];
             $attaque = $resTour['attaque'];
             $victime = $resTour['victime'];
 
+            /*
+             * On ajoute les logs du tour au log général
+             */
             $tours[] = [
                 "id" => $tour,
                 "log" => $resTour['log']
@@ -227,6 +243,9 @@ class fightController
         return $log;
     }
 
+    /*
+     * Initialise un combat et le lance, prend en compte le type de combat
+     */
     public function Index($request, $response)
     {
         $isGroupFight = isset($_GET['type_combat']) && $_GET['type_combat'] === '3v3';
@@ -252,6 +271,9 @@ class fightController
         return $this->container->view->render($response, 'fight/fight.html.twig', $fight);
     }
 
+    /*
+     * Permet de lancer un combat en fonction du type
+     */
     public function lancerCombat($idHero, $idMonster, $groupFight = false)
     {
         if ($groupFight) {
@@ -263,17 +285,24 @@ class fightController
             $fight = $this->fight($idHero, $idMonster);
             $stats = new StatsController($this->container);
             $stats->saveFight($idHero, $idMonster, $fight);
-
             return $fight;
         }
     }
 
-
+    /*
+     * Effectue un tour par défault sauf si une action est spécifiée (attaque/defense)
+     */
     public function tour($attaque, $victime, $tour, $action = '', $groupFight = false)
     {
         if (!$groupFight) {
+            /*
+             * Si les deux bélligérants sont en vie
+             */
             if ($attaque['race']['hp'] > 0 && $victime['race']['hp'] > 0) {
                 $fin = false;
+                /*
+                 * Et si il y a une action de spécifiée
+                 */
                 if (isset($action) && $action !== '') {
                     switch ($action) {
                         case 'attaquer':
@@ -285,9 +314,13 @@ class fightController
                         default:
                             break;
                     }
+                    /*
+                     * sinon par défault
+                     */
                 } else {
                     $logTour = $this->attaque($attaque, $victime, false);
                 }
+
                 $attaque = $logTour['attaque'];
                 $victime = $logTour['victime'];
                 $attaque['totalDmg'] += $logTour['dmgDealt'];
@@ -316,9 +349,15 @@ class fightController
                 $fin = true;
             }
         } else {
+            /*
+             * On vérifie que toutes les équipes ont au moins un membre en vie
+             */
             $attaqueAlive = ($attaque[0]['race']['hp'] > 0) || ($attaque[1]['race']['hp'] > 0) || ($attaque[2]['race']['hp'] > 0);
             $victimeAlive = ($victime[0]['race']['hp'] > 0) || ($victime[1]['race']['hp'] > 0) || ($victime[2]['race']['hp'] > 0);
 
+            /*
+             * Si oui
+             */
             if ($attaqueAlive && $victimeAlive) {
                 $fin = false;
                 $logTour = $this->attaque($attaque, $victime, false, true);
@@ -408,6 +447,9 @@ class fightController
         return $this->container->view->render($response, 'fight/fight.html.twig', $combat);
     }
 
+    /*
+     * Permet de gerer un tour en fonction d'un autre
+     */
     function nextTour($request, $response)
     {
         $combat = json_decode($_POST['combat'], true);
@@ -448,6 +490,9 @@ class fightController
         return $this->container->view->render($response, 'fight/fight.html.twig', $combat);
     }
 
+    /*
+     * Renvoi un tableau permettant de gerer le combat , contenant le(s) héro(s)/monstre(s) et toutes leurs caractéristiques
+     */
     private function initPersosFromIDs($idHero, $idMonster, $groupFight = false)
     {
         if (!$groupFight) {
